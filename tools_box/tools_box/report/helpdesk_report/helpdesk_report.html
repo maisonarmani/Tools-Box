@@ -1,0 +1,49 @@
+<div style="margin-bottom: 7px;" class="text-center">
+	{%= frappe.boot.letter_heads[filters.letter_head  || frappe.defaults.get_default("letter_head")] %}
+</div>
+<h2 class="text-center">Help Desk Report</h2>
+<h5 class="text-center">
+	{%= dateutil.str_to_user(filters.from) %}
+	{%= __("to") %}
+	{%= dateutil.str_to_user(filters.to) %}
+</h5>
+{% if (filters.request && filters.request!=""){ %}
+	<h5>Request Type : {%=filters.request %}</h5>
+{% } %}
+{% if (filters.status && filters.status!=""){ %}
+	<h5>Status : {%=filters.status %}</h5>
+{% } %}
+{% if (filters.raised && filters.raised!=""){ %}
+	<h5>Raised By : {%=filters.raised %}</h5>
+{% } %}
+<hr>
+<table class="table table-bordered">
+	<thead>
+		<tr>
+			<th style="width: 20%">Date</th>
+			<th style="width: 15%">Doc id</th>
+			<th style="width: 15%">Request Type</th>
+			<th style="width: 20%">Subject</th>
+			<th style="width: 10%">Raised By</th>
+			<th style="width: 10%">Status</th>
+			<th style="width: 10%">Assigned to</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for(var i=0,l=data.length; i<l; i++) { %}
+			<tr>
+				{% 
+				var row = data[i]; %}
+					<td>{%= dateutil.str_to_user(row["Date"]) %}</td>
+					<td >{%= row["Doc id"] %}</td>
+					<td >{%= row["Request Type"] %}</td>
+					<td >{%= row["Subject"] %}</td>
+					<td >{%= row["Raised By"] %}</td>
+					<td >{%= row["Status"] %}</td>
+					<td >{%= row["Assigned to"] %}</td>
+			</tr>
+		{% } %}
+	</tbody>
+</table>
+
+<p class="text-right text-muted">Printed On {%= dateutil.str_to_user(dateutil.get_datetime_as_string()) %}</p>

@@ -1,0 +1,34 @@
+// Copyright (c) 2016, Frappe Technologies Pvt. Ltd. and contributors
+// For license information, please see license.txt
+
+frappe.query_reports["Sales Rep Scorecard Report"] = {
+	"filters": [
+        {
+                        fieldname: "sales_rep",
+                        label: __("Sales Rep"),
+                        fieldtype: "Link",
+			options: "Sales Person",
+                },
+        {
+                        fieldname: "month",
+                        label: __("Month"),
+                        fieldtype: "Select",
+			options: [
+                                { "value": "January", "label": __("January") },
+                                { "value": "February", "label": __("February") },
+                                { "value": "March", "label": __("March") },
+                                { "value": "April", "label": __("April") },
+                                { "value": "May", "label": __("May") },
+                                { "value": "June", "label": __("June") },
+                                { "value": "July", "label": __("July") },
+                                { "value": "August", "label": __("August") },
+                                { "value": "Septmeber", "label": __("Septmeber") },
+                                { "value": "October", "label": __("October") },
+                                { "value": "November", "label": __("November") },
+                                { "value": "December", "label": __("December") },
+                        ],
+			default: "January",
+                },
+
+	]
+}

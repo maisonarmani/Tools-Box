@@ -1,0 +1,41 @@
+<div style="margin-bottom: 7px;" class="text-center">
+	{%= frappe.boot.letter_heads[filters.letter_head  || frappe.defaults.get_default("letter_head")] %}
+</div>
+<h2 class="text-center">Petty Cash Log Report</h2>
+<h5 class="text-center">
+	{%= dateutil.str_to_user(filters.from) %}
+	{%= __("to") %}
+	{%= dateutil.str_to_user(filters.to) %}
+</h5>
+<hr>
+<table class="table table-bordered">
+	<thead>
+		<tr>
+			<th style="width: 15%">Date</th>
+			<th style="width: 10%">Type</th>
+			<th style="width: 15%">Voucher #</th>
+			<th style="width: 15%">Opening</th>
+			<th style="width: 15%">Receipt</th>
+			<th style="width: 15%">Payment</th>
+			<th style="width: 15%">Audit</th>
+		</tr>
+
+	</thead>
+	<tbody>
+		{% for(var i=0,l=data.length; i<l; i++) { %}
+			<tr>
+				{% 
+				var row = data[i]; %}
+					<td>{%= dateutil.str_to_user(row["Date"]) %}</td>
+					<td >{%= row["Type"] %}</td>
+					<td >{%= row["Referece No"] %}</td>
+					<td >{%= format_currency(row["Opening"]) %}</td>
+					<td >{%= format_currency(row["Receipt"]) %}</td>
+					<td >{%= format_currency(row["Payment"]) %}</td>
+					<td></td>
+			</tr>
+		{% } %}
+	</tbody>
+</table>
+
+<p class="text-right text-muted">Printed On {%= dateutil.str_to_user(dateutil.get_datetime_as_string()) %}</p>

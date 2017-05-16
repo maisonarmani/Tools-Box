@@ -1,0 +1,43 @@
+<div style="margin-bottom: 7px;" class="text-center">
+	{%= frappe.boot.letter_heads[filters.letter_head  || frappe.defaults.get_default("letter_head")] %}
+</div>
+<h2 class="text-center">Fixed Asset Inspection Checklist Report</h2>
+<h5 class="text-center">
+	{%= dateutil.str_to_user(filters.from) %}
+	{%= __("to") %}
+	{%= dateutil.str_to_user(filters.to) %}
+</h5>
+<hr>
+{% if (filters.status && filters.status!=""){ %}
+	<h5>Status : {%=filters.status %}</h5>
+{% } %}
+{% if (filters.category && filters.category!=""){ %}
+	<h5>Fixed Asset Class : {%=filters.category %}</h5>
+{% } %}
+{% if (filters.asset && filters.asset!=""){ %}
+	<h5>Asset : {%=filters.asset %}</h5>
+{% } %}
+<table class="table table-bordered">
+	<thead>
+		<tr>
+			<th style="width: 20%">Fixed Asset Class</th>
+			<th style="width: 20%">Fixed Asset</th>
+			<th style="width: 15%">Status</th>
+			<th style="width: 30%">Remarks</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for(var i=0,l=data.length; i<l; i++) { %}
+			<tr>
+				{% 
+				var row = data[i]; %}
+					<td >{%= row["Fixed Asset Class"] %}</td>
+					<td >{%= row["Fixed Asset"] %}</td>
+					<td >{%= row["Status"] %}</td>
+					<td >{%= row["Remarks"] %}</td>
+			</tr>
+		{% } %}
+	</tbody>
+</table>
+
+<p class="text-right text-muted">Printed On {%= dateutil.str_to_user(dateutil.get_datetime_as_string()) %}</p>

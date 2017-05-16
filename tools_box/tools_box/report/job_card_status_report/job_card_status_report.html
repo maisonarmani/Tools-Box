@@ -1,0 +1,46 @@
+<div style="margin-bottom: 7px;" class="text-center">
+	{%= frappe.boot.letter_heads[filters.letter_head  || frappe.defaults.get_default("letter_head")] %}
+</div>
+<h2 class="text-center">Job Card Status Report</h2>
+<h5 class="text-center">
+	{%= dateutil.str_to_user(filters.from) %}
+	{%= __("to") %}
+	{%= dateutil.str_to_user(filters.to) %}
+</h5>
+{% if (filters.vendor && filters.vendor!=""){ %}
+	<h5>Vendor : {%=filters.vendor %}</h5>
+{% } %}
+{% if (filters.status && filters.status!=""){ %}
+	<h5>Job Status : {%=filters.status %}</h5>
+{% } %}
+<hr>
+<table class="table table-bordered">
+	<thead>
+		<tr>
+			<th style="width: 10%">Date</th>
+			<th style="width: 10%">Doc id</th>
+			<th style="width: 10%">Ticket No</th>
+			<th style="width: 30%">Job Description</th>
+			<th style="width: 15%">Vendor</th>
+			<th style="width: 10%">Job Status</th>
+			<th style="width: 15%">Total Job Cost</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for(var i=0,l=data.length; i<l; i++) { %}
+			<tr>
+				{% 
+				var row = data[i]; %}
+					<td>{%= dateutil.str_to_user(row["Date"]) %}</td>
+					<td >{%= row["Doc id"] %}</td>
+					<td >{%= row["Ticket No"] %}</td>
+					<td >{%= row["Job Description"] %}</td>
+					<td >{%= row["Vendor"] %}</td>
+					<td >{%= row["Job Status"] %}</td>
+					<td >{%= format_currency(row["Total Job Cost"]) %}</td>
+			</tr>
+		{% } %}
+	</tbody>
+</table>
+
+<p class="text-right text-muted">Printed On {%= dateutil.str_to_user(dateutil.get_datetime_as_string()) %}</p>

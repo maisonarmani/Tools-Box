@@ -1,0 +1,43 @@
+<div style="margin-bottom: 7px;" class="text-center">
+	{%= frappe.boot.letter_heads[filters.letter_head  || frappe.defaults.get_default("letter_head")] %}
+</div>
+<h2 class="text-center">Outlet Survey Report</h2>
+{% if (filters.sales_rep && filters.sales_rep!=""){ %}
+	<h5>Sales Rep : {%=filters.sales_rep %}</h5>
+{% } %}
+{% if (filters.route && filters.route!=""){ %}
+	<h5>Route : {%=filters.route %}</h5>
+{% } %}
+<h5 class="text-center">
+	{%= dateutil.str_to_user(filters.from_date) %}
+	{%= __("to") %}
+	{%= dateutil.str_to_user(filters.to_date) %}
+</h5>
+<hr>
+<table class="table table-bordered">
+	<thead>
+		<tr>
+			<th style="width: 10%" >Sr No.</th>
+			<th style="width: 20%" >Date</th>
+			<th style="width: 20%" >Survey ID</th>
+			<th style="width: 25%" >Outlet Name</th>
+			<th style="width: 25%" >Outlet Location</th>
+		</tr>
+
+	</thead>
+	<tbody>
+		{% for(var i=0,l=data.length; i<l; i++) { %}
+			<tr>
+				{% 
+				var row = data[i]; %}
+					<td>{%= i+1 %}</td>
+					<td>{%= dateutil.str_to_user(row["Date"]) %}</td>
+					<td >{%= row["Survey ID"] %}</td>
+					<td >{%= row["Outlet Name"] %}</td>
+					<td >{%= row["Outlet Location"] %}</td>
+			</tr>
+		{% } %}
+	</tbody>
+</table>
+
+<p class="text-right text-muted">Printed On {%= dateutil.str_to_user(dateutil.get_datetime_as_string()) %}</p>

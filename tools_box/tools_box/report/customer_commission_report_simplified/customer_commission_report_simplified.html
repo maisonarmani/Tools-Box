@@ -1,0 +1,48 @@
+<div style="margin-bottom: 7px;" class="text-center">
+	{%= frappe.boot.letter_heads[filters.letter_head  || frappe.defaults.get_default("letter_head")] %}
+</div>
+<h2 class="text-center">Customer Commission Report Simplified</h2>
+<h5 class="text-center">
+	{%= dateutil.str_to_user(filters.from_date) %}
+	{%= __("to") %}
+	{%= dateutil.str_to_user(filters.to_date) %}
+</h5>
+{% if (filters.warehouse && filters.warehouse!=""){ %}
+	<h5>Customer : {%=filters.customer %}</h5>
+{% } %}
+{% if (filters.item_group && filters.item_group!=""){ %}
+	<h5>Item Group : {%=filters.item_group %}</h5>
+{% } %}
+<hr>
+<table class="table table-bordered">
+	<thead>
+		<tr>
+			{%
+			for(var i=1, l=report.columns.length; i<l; i++) { %}
+				<th class="text-left">{%= report.columns[i].label %}</th>
+			{% } %}
+		</tr>
+
+	</thead>
+
+	<tbody>
+			{% for(var j=0, k=data.length; j<k; j++) {
+                var row = data[j]; %}
+            <tr >
+				{% for(var i=1, l=report.columns.length; i<l; i++) { %}
+                    {% var fieldname = report.columns[i].field; var alignment = fieldname == "Commission (%)" || fieldname == "Total Quantity"|| fieldname == "Total Amount"|| fieldname == "Commission"  ? "right" : "left"; %}
+					<td class="text-{%=alignment%}" id="field-{%=fieldname %}" >
+                        {%
+                            var dt = fieldname == "Total Amount" || fieldname == "Commission"  ? format_currency(row[fieldname]) : row[fieldname];
+                            dt = fieldname == "Total Quantity" ? format_number(row[fieldname]) : dt;
+                            dt = fieldname == "Commission (%)" &&  row[fieldname] >= 0 ? row[fieldname]+"%" : dt;
+                        %}
+                        {%=dt %}
+					</td>
+				{% } %}
+			</tr>
+		{% } %}
+	</tbody>
+</table>
+
+<p class="text-right text-muted">Printed On {%= dateutil.str_to_user(dateutil.get_datetime_as_string()) %}</p>

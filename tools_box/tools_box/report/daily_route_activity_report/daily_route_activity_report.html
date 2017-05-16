@@ -1,0 +1,41 @@
+{%= frappe.boot.letter_heads["Standard Letterhead"] %}
+{%
+	if (report.columns.length > 8) {
+		frappe.throw(__("Too many columns. Export the report and print it using a spreadsheet application."));
+	}
+%}
+
+<style>
+</style>
+
+<h2>{%= __(report.report_name) %}</h2>
+<hr>
+<table class="table table-bordered">
+	<thead>
+		<tr>
+			<th class="text-left">S/N</th>
+			{% for(var i=1, l=report.columns.length; i<l; i++) { %}
+				<th class="text-left">{%= report.columns[i].label %}</th>
+			{% } %}
+		</tr>
+	</thead>
+	<tbody>
+		{% for(var j=0, k=data.length; j<k; j++) { %}
+			{%
+				var row = data[j];
+				var row_class = data[j].parent_account ? "" : "financial-statements-important";
+				row_class += data[j].account_name ? "" : " financial-statements-blank-row";
+			%}
+			<tr class="{%= row_class %}">
+				<td class="text-left">{%= j+1 %}</td>
+				{% for(var i=1, l=report.columns.length; i<l; i++) { %}
+					<td class="text-left">
+						{% var fieldname = report.columns[i].field; %}
+							{%= row[fieldname] %}
+					</td>
+				{% } %}
+			</tr>
+		{% } %}
+	</tbody>
+</table>
+<p class="text-right text-muted">Printed On {%= dateutil.str_to_user(dateutil.get_datetime_as_string()) %}</p>

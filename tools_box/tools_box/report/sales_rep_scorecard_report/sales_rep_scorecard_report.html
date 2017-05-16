@@ -1,0 +1,44 @@
+<div style="margin-bottom: 7px;" class="text-center">
+	{%= frappe.boot.letter_heads[filters.letter_head  || frappe.defaults.get_default("letter_head")] %}
+</div><h2 class="text-center">Sales Rep Score Card Report</h2>
+<h5 class="text-center">
+	{%= dateutil.str_to_user(filters.from) %}
+	{%= __("to") %}
+	{%= dateutil.str_to_user(filters.to) %}
+</h5>
+{% if (filters.item && filters.item!=""){ %}
+	<h5>Item : {%=filters.item %}</h5>
+{% } %}
+{% if (filters.sales && filters.sales!=""){ %}
+	<h5>Sales Rep : {%=filters.sales %}</h5>
+{% } %}
+{% if (filters.territory && filters.territory!=""){ %}
+	<h5>Territory : {%=filters.territory %}</h5>
+{% } %}
+<hr>
+<table class="table table-bordered">
+	<thead>
+		<tr>
+			<th style="width: 20%">Item Code</th>
+			<th style="width: 50%">Item Name</th>
+			<th style="width: 10%">Qty</th>
+			<th style="width: 20%">Amount</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for(var i=0,l=data.length; i<l; i++) { %}
+			<tr>
+				{% 
+				var row = data[i]; %}
+					<td>{%= row["Item"] %}</td>
+					<td >{%= row["Item Name"] %}</td>
+					<td style="text-align: right">{%= row["Qty"] %}</td>
+					<td style="text-align: right">{%= format_currency(row["Amount"]) %}</td>
+
+			</tr>
+		{% } %}
+	</tbody>
+</table>
+
+<p class="text-right text-muted">Printed On {%= dateutil.str_to_user(dateutil.get_datetime_as_string()) %}</p>
+

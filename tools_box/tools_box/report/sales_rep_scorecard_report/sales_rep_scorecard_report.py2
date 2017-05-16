@@ -1,0 +1,28 @@
+# Copyright (c) 2013, Frappe Technologies Pvt. Ltd. and contributors
+# For license information, please see license.txt
+
+from __future__ import unicode_literals
+import frappe
+
+def execute(filters=None):
+	if not filters: filters ={}
+	columns = ["Item:Link/Item:300","Total Qty:Float:100","Amount (N):Currency:100","Target Qty:Float:100","Variance (Qty):Float:100","Sales Rep:Link/Sales Person:200"]
+	conditions = ""
+	if filters.get("month"):
+		conditions += " AND MONTHNAME(si.posting_date) = %(month)s AND mdp.month = %(month)s"
+	if filters.get("sales_rep"):
+		conditions += " AND st.sales_person = %(sales_rep)s"
+	data = frappe.db.sql("""SELECT CONCAT(sii.item_name,' (',sii.item_code,')'),
+		SUM(sii.qty),SUM(sii.amount), 
+		FORMAT((srit.target_qty*mdp.percentage_allocation/100),2), 
+		FORMAT((SUM(sii.qty)-srit.target_qty*mdp.percentage_allocation/100),2), 
+		st.sales_person 
+		FROM `tabSales Invoice` si 
+		LEFT JOIN `tabSales Invoice Item` sii ON (si.name = sii.parent) 
+		LEFT JOIN `tabSales Team` st ON (si.customer = st.parent) 
+		LEFT JOIN `tabSales Rep Item Target` srit ON (srit.item = sii.item_code AND st.sales_person = srit.parent) 
+		LEFT JOIN `tabSales Person` sp ON (sp.name = st.sales_person) 
+		LEFT JOIN `tabMonthly Distribution Percentage` mdp ON (mdp.parent = sp.item_target_distribution)
+		WHERE 1=1 AND (srit.target_qty*mdp.percentage_allocation/100) > 0 {0} 
+		GROUP BY sii.item_name,st.sales_person""".format(conditions),filters)
+	return columns, data

@@ -1,0 +1,57 @@
+<div style="margin-bottom: 7px;" class="text-center">
+	{%= frappe.boot.letter_heads[filters.letter_head  || frappe.defaults.get_default("letter_head")] %}
+</div>
+<h2 class="text-center">Store Bin Cards Report</h2>
+<h5 class="text-center">
+	{%= dateutil.str_to_user(filters.from) %}
+	{%= __("to") %}
+	{%= dateutil.str_to_user(filters.to) %}
+</h5>
+{% if (filters.item && filters.item!=""){ %}
+	<h5>Item : {%=filters.item %}</h5>
+{% } %}
+{% if (filters.ref_no && filters.ref_no!=""){ %}
+	<h5>Ref No : {%=filters.ref_no %}</h5>
+{% } %}
+<hr>
+<table class="table table-bordered">
+	<thead>
+		<tr>
+			<th style="width: 15%" rowspan="2">Date</th>
+			<th style="width: 17%" rowspan="2">Item Name</th>
+			<th style="width: 15%" colspan="2">Receipt</th>
+			<th style="width: 15%" colspan="2">Issues</th>
+			<th style="width: 8%">Balance</th>
+			<th style="width: 30%" colspan="2">Stock Verification</th>
+		</tr>
+		<tr>
+			<th>Ref No</th>
+			<th>Qty</th>
+			<th>Ref No</th>
+			<th>Qty</th>
+			<th>Qty</th>
+			<th>Date</th>
+			<th>Qty</th>
+		</tr>
+
+	</thead>
+	<tbody>
+		{% for(var i=0,l=data.length; i<l; i++) { %}
+			<tr>
+				{% 
+				var row = data[i]; %}
+					<td>{%= dateutil.str_to_user(row["Date"]) %}</td>
+					<td >{%= row["Item Name"] %}</td>
+					<td style="text-align: right">{%= row["Receipt Ref No"] %}</td>
+					<td >{%= row["Receipt Qty"] %}</td>
+					<td style="text-align: right">{%= row["Issues Ref No"] %}</td>
+					<td >{%= row["Issues Qty"] %}</td>
+					<td style="text-align: right">{%= row["Balance Qty"] %}</td>
+					<td></td>
+					<td></td>
+			</tr>
+		{% } %}
+	</tbody>
+</table>
+
+<p class="text-right text-muted">Printed On {%= dateutil.str_to_user(dateutil.get_datetime_as_string()) %}</p>

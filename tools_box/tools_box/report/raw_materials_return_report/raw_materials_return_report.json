@@ -1,0 +1,18 @@
+{
+ "add_total_row": 0, 
+ "apply_user_permissions": 1, 
+ "creation": "2016-10-05 19:39:12.863419", 
+ "disabled": 0, 
+ "docstatus": 0, 
+ "doctype": "Report", 
+ "idx": 0, 
+ "is_standard": "Yes", 
+ "modified": "2016-10-05 19:39:12.863419", 
+ "modified_by": "Administrator", 
+ "module": "Tools Box",
+ "name": "Raw Materials Return Report", 
+ "owner": "Administrator", 
+ "ref_doctype": "Raw Materials Return Form", 
+ "report_name": "Raw Materials Return Report", 
+ "report_type": "Script Report"
+}

@@ -1,0 +1,94 @@
+{%= frappe.boot.letter_heads["Standard Letterhead"] %}
+{%
+	if (report.columns.length > 8) {
+		frappe.throw(__("Too many columns. Export the report and print it using a spreadsheet application."));
+	}
+%}
+
+<style>
+</style>
+
+<h1>{%= __(report.report_name) %}</h1>
+{% if (filters.from_date && filters.to_date) { %}
+<h4>For the Period {%= dateutil.str_to_user(filters.from_date) %} to {%= dateutil.str_to_user(filters.to_date) %}</h4>
+{% } %}
+<hr>
+<table class="table">
+	<thead>
+		<tr>
+			{% for(var i=1, l=report.columns.length; i<l; i++) { %}
+				<th class="text-left">{%= report.columns[i].label %}</th>
+			{% } %}
+			<th class="text-left">Commission</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% 
+			var old_item = ''; 
+			var grand_total_qty = 0;
+			var grand_total_amount = 0;
+			var grand_total_commission = 0;
+		%}
+		{% for(var j=0, k=data.length; j<k; j++) { %}
+			{%
+				var row = data[j];
+				var row_class = data[j].parent_account ? "" : "financial-statements-important";
+				row_class += data[j].account_name ? "" : " financial-statements-blank-row";
+			%}
+			{% if ( old_item !== row['Item'] ) { %}
+			{% if (j>0) { %}
+                        <tr><td colspan="4"></td><td><b>{%= total_qty %}</b></td><td><b>{%= format_currency(total_amount, row.currency) %}</b></td><td><b>{%= format_currency(total_commission, row.currency) %}</b></td></tr>
+				{%
+                                grand_total_qty = grand_total_qty + total_qty;
+                                grand_total_amount = grand_total_amount + total_amount;
+				grand_total_commission = grand_total_commission + total_commission;
+				%}
+			{% } %}
+                        {%
+                                var total_qty = 0;
+                                var total_amount = 0;
+				var total_commission = 0;
+                        %}
+			<tr><td colspan="7"><h4>{%= row['Item'] %}</h4></td></tr>
+			{% } %}
+			<tr class="{%= row_class %}">
+				{% for(var i=1, l=report.columns.length; i<l; i++) { %}
+					<td class="text-left">
+						{% var fieldname = report.columns[i].field; %}
+							{% if ( i == 6 ) { %}
+								{%= format_currency(row[fieldname], row.currency) %}
+							{% } else if ( i == 2 ) { %}
+								{%= dateutil.str_to_user(row[fieldname]) %}
+							{% } else { %}
+                                                                {%= row[fieldname] %}
+							{% } %}
+					</td>
+				{% } %}
+				<td class="text-left"></td>
+			</tr>
+			{% 
+				var old_item = row['Item']; 
+				total_qty = total_qty + row['Qty'];
+				total_amount = total_amount + row['Amount'];
+				if (total_qty >= 100)
+				{
+				total_commission = total_amount*filters.commission_rate/100;
+				}
+				else
+				{
+				total_commission = 0;
+				}
+			%}
+		{% } %}
+                        <tr><td colspan="4"></td><td><b>{%= total_qty %}</b></td><td><b>{%= format_currency(total_amount, row.currency) %}</b></td><td><b>{%= format_currency(total_commission, row.currency) %}</b></td></tr>
+			<tr><td colspan="7">&nbsp;</td></tr>
+                                {%
+                                grand_total_qty = grand_total_qty + total_qty;
+                                grand_total_amount = grand_total_amount + total_amount;
+				grand_total_commission = grand_total_commission + total_commission;
+                                %}
+                        <tr><td colspan="4"><b>Grand Total</b></td><td><b>{%= grand_total_qty %}</b></td><td><b>{%= format_currency(grand_total_amount, row.currency) %}</b></td><td><b>{%= format_currency(grand_total_commission, row.currency) %}</b></td></tr>
+
+	</tbody>
+</table>
+<p class="text-right text-muted">Printed On {%= dateutil.str_to_user(dateutil.get_datetime_as_string()) %}</p>

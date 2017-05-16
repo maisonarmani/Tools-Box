@@ -1,0 +1,18 @@
+{
+ "creation": "2016-11-12 16:20:12.408448", 
+ "custom_format": 0, 
+ "disabled": 0, 
+ "doc_type": "Daily Generator Activity Log", 
+ "docstatus": 0, 
+ "doctype": "Print Format", 
+ "font": "Default", 
+ "format_data": "[{\"fieldname\": \"print_heading_template\", \"fieldtype\": \"HTML\", \"options\": \"<h1>Daily Generator Activity Log</h1><h3>{{doc.name}}</h3><hr><br>\"}, {\"fieldtype\": \"Section Break\"}, {\"fieldtype\": \"Column Break\"}, {\"print_hide\": 0, \"fieldname\": \"date\"}, {\"print_hide\": 0, \"fieldname\": \"generator\"}, {\"print_hide\": 0, \"fieldname\": \"start\"}, {\"print_hide\": 0, \"fieldname\": \"stop\"}, {\"print_hide\": 0, \"fieldname\": \"total_time\"}]", 
+ "idx": 0, 
+ "modified": "2016-11-12 16:22:56.405829", 
+ "modified_by": "Administrator", 
+ "name": "Daily Generator Activity Log", 
+ "owner": "Administrator", 
+ "print_format_builder": 0, 
+ "print_format_type": "Server", 
+ "standard": "Yes"
+}

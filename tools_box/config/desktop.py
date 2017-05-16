@@ -10,5 +10,19 @@ def get_data():
 			"icon": "octicon octicon-rocket",
 			"type": "module",
 			"label": _("Tools Box")
+		},
+		{
+			"module_name": "Safety and Compliance",
+			"color": "#1b623f",
+			"icon": "octicon octicon-hubot",
+			"type": "module",
+			"label": _("Safety and Compliance")
+		},
+		{
+			"module_name": "Logistics",
+			"color": "#e7c016",
+			"icon": "octicon octicon-dashboard",
+			"type": "module",
+			"label": _("Logistics")
 		}
 	]

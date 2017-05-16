@@ -1,0 +1,18 @@
+{
+ "creation": "2016-11-12 16:17:05.749799", 
+ "custom_format": 0, 
+ "disabled": 0, 
+ "doc_type": "Payment Voucher Form", 
+ "docstatus": 0, 
+ "doctype": "Print Format", 
+ "font": "Default", 
+ "format_data": "[{\"fieldname\": \"print_heading_template\", \"fieldtype\": \"HTML\", \"options\": \"<h1>Payment Voucher Form</h1><h3>{{doc.name}}</h3><hr><p><br></p>\"}, {\"fieldtype\": \"Section Break\"}, {\"fieldtype\": \"Column Break\"}, {\"print_hide\": 0, \"fieldname\": \"date\"}, {\"print_hide\": 0, \"fieldname\": \"supplier\"}, {\"print_hide\": 0, \"fieldname\": \"payment_for\"}, {\"print_hide\": 0, \"fieldname\": \"ref_doc\"}, {\"print_hide\": 0, \"fieldname\": \"mode_of_payment\"}, {\"print_hide\": 0, \"fieldname\": \"bank_name\"}, {\"print_hide\": 0, \"fieldname\": \"ref_no\"}, {\"fieldtype\": \"Section Break\"}, {\"fieldtype\": \"Column Break\"}, {\"print_hide\": 0, \"fieldname\": \"cost_center\"}, {\"print_hide\": 0, \"fieldname\": \"expense_account\"}, {\"print_hide\": 0, \"fieldname\": \"prepared_by\"}, {\"print_hide\": 0, \"fieldname\": \"approved_by\"}]", 
+ "idx": 0, 
+ "modified": "2016-11-12 16:18:39.615823", 
+ "modified_by": "Administrator", 
+ "name": "Payment Voucher Form", 
+ "owner": "Administrator", 
+ "print_format_builder": 0, 
+ "print_format_type": "Server", 
+ "standard": "Yes"
+}

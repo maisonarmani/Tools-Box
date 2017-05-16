@@ -1,0 +1,49 @@
+<div style="margin-bottom: 7px;" class="text-center">
+	{%= frappe.boot.letter_heads[filters.letter_head  || frappe.defaults.get_default("letter_head")] %}
+</div>
+<h2 class="text-center">Purchase Order Summary</h2>
+<h5 class="text-center">
+	{%= dateutil.str_to_user(filters.from) %}
+	{%= __("to") %}
+	{%= dateutil.str_to_user(filters.to) %}
+</h5>
+{% if (filters.item && filters.item!=""){ %}
+	<h5>Item : {%=filters.item %}</h5>
+{% } %}
+{% if (filters.supplier && filters.supplier!=""){ %}
+	<h5>Supplier : {%=filters.supplier %}</h5>
+{% } %}
+{% if (filters.created && filters.created!=""){ %}
+	<h5>Created By : {%=filters.created %}</h5>
+{% } %}
+<hr>
+<table class="table table-bordered">
+	<thead>
+		<tr>
+			<th style="width: 15%">Date</th>
+			<th style="width: 10%">Status</th>
+			<th style="width: 15%">Purchase Order</th>
+			<th style="width: 15%">Supplier</th>
+			<th style="width: 15%">Item</th>
+			<th style="width: 15%">Ordered Qty</th>
+			<th style="width: 15%">Amount</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for(var i=0,l=data.length; i<l; i++) { %}
+			<tr>
+				{% 
+				var row = data[i]; %}
+					<td>{%= dateutil.str_to_user(row["Date"]) %}</td>
+					<td >{%= row["Status"] %}</td>
+					<td >{%= row["Purchase Order"] %}</td>
+					<td >{%= row["Supplier"] %}</td>
+					<td >{%= row["Item Name"] %}</td>
+					<td style="text-align: right">{%= row["Ordered Qty"] %}</td>
+					<td style="text-align: right">{%= format_currency(row["Amount"]) %}</td>
+			</tr>
+		{% } %}
+	</tbody>
+</table>
+
+<p class="text-right text-muted">Printed On {%= dateutil.str_to_user(dateutil.get_datetime_as_string()) %}</p>

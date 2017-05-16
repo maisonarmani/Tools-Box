@@ -1,0 +1,67 @@
+{%= frappe.boot.letter_heads["Standard Letterhead"] %}
+{%
+	if (report.columns.length > 10) {
+		frappe.throw(__("Too many columns. Export the report and print it using a spreadsheet application."));
+	}
+%}
+
+<style>
+</style>
+
+<h1>{%= __(report.report_name) %}</h1>
+{% if (filters.from_date) { %}
+<p><b>From Date:</b> {%= filters.from_date %}</p>
+{% } %}
+{% if (filters.to_date) { %}
+<p><b>To Date:</b> {%= filters.to_date %}</p>
+{% } %}
+{% if (filters.approver) { %}
+<p><b>Approver:</b> {%= filters.approver %}</p>
+{% } %}
+{% if (filters.expense_type) { %}
+<p><b>Expense Claim Type:</b> {%= filters.expense_type %}</p>
+{% } %}
+<hr>
+<table class="table">
+	<thead>
+		<tr>
+			{% 
+			var total_amount = 0;
+			for(var i=1, l=report.columns.length; i<l; i++) { %}
+				<th class="text-left">{%= report.columns[i].label %}</th>
+			{% } %}
+		</tr>
+	</thead>
+	<tbody>
+		{% for(var j=0, k=data.length; j<k; j++) { %}
+			{%
+				var row = data[j];
+				var row_class = data[j].parent_account ? "" : "financial-statements-important";
+				row_class += data[j].account_name ? "" : " financial-statements-blank-row";
+			%}
+			<tr class="{%= row_class %}">
+				{% for(var i=1, l=report.columns.length; i<l; i++) { %}
+					<td class="text-left">
+						{% var fieldname = report.columns[i].field; %}
+							{% if (i == 5 ) { %}
+								{%= format_currency(row[fieldname]) %}
+							{% } else { %}
+ 								{%= row[fieldname] %}
+							{% } %}
+					</td>
+				{% } %}
+			</tr>
+		{% 
+			total_amount = total_amount + parseFloat(row['Amount']);
+		} 
+		%}
+
+			<tr>
+				<th colspan="3">&nbsp;</th>
+				<th>Total</th>
+				<th>{%= format_currency(total_amount) %}</th>
+                                <th>&nbsp;</th>
+			</tr>
+	</tbody>
+</table>
+<p class="text-right text-muted">Printed On {%= dateutil.str_to_user(dateutil.get_datetime_as_string()) %}</p>

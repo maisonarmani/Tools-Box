@@ -1,0 +1,18 @@
+{
+ "add_total_row": 1, 
+ "apply_user_permissions": 1, 
+ "creation": "2016-11-11 14:57:09.900561", 
+ "disabled": 0, 
+ "docstatus": 0, 
+ "doctype": "Report", 
+ "idx": 0, 
+ "is_standard": "Yes", 
+ "modified": "2016-11-11 14:57:09.900561", 
+ "modified_by": "Administrator", 
+ "module": "Tools Box",
+ "name": "Payment Voucher Report", 
+ "owner": "Administrator", 
+ "ref_doctype": "Payment Voucher Form", 
+ "report_name": "Payment Voucher Report", 
+ "report_type": "Script Report"
+}

@@ -1,0 +1,51 @@
+<div style="margin-bottom: 7px;" class="text-center">
+	{%= frappe.boot.letter_heads[filters.letter_head  || frappe.defaults.get_default("letter_head")] %}
+</div>
+<h2 class="text-center">Payment Voucher Report</h2>
+<h5 class="text-center">
+	{%= dateutil.str_to_user(filters.from) %}
+	{%= __("to") %}
+	{%= dateutil.str_to_user(filters.to) %}
+</h5>
+<hr>
+{% if (filters.supplier && filters.supplier!=""){ %}
+	<h5>Supplier : {%=filters.supplier %}</h5>
+{% } %}
+{% if (filters.mop && filters.mop!=""){ %}
+	<h5>Mode Of Payment : {%=filters.mop %}</h5>
+{% } %}
+{% if (filters.bank && filters.bank!=""){ %}
+	<h5>Bank Name : {%=filters.bank %}</h5>
+{% } %}
+<table class="table table-bordered">
+	<thead>
+		<tr>
+			<th style="width: 15%">Date</th>
+			<th style="width: 15%">Payment Voucher</th>
+			<th style="width: 15%">Supplier</th>
+			<th style="width: 10%">Ref Doc</th>
+			<th style="width: 15%">Amount</th>
+			<th style="width: 10%">Mode of Payment</th>
+			<th style="width: 10%">Bank Name</th>
+			<th style="width: 10%">Ref No</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for(var i=0,l=data.length; i<l; i++) { %}
+			<tr>
+				{% 
+				var row = data[i]; %}
+					<td>{%= dateutil.str_to_user(row["Date"]) %}</td>
+					<td >{%= row["Payment Voucher Form"] %}</td>
+					<td >{%= row["Supplier"] %}</td>
+					<td >{%= row["Ref Doc"] %}</td>
+					<td >{%= format_currency(row["Amount"]) %}</td>
+					<td >{%= row["Mode of Payment"] %}</td>
+					<td >{%= row["Bank Name"] %}</td>
+					<td >{%= row["Ref No"] %}</td>
+			</tr>
+		{% } %}
+	</tbody>
+</table>
+
+<p class="text-right text-muted">Printed On {%= dateutil.str_to_user(dateutil.get_datetime_as_string()) %}</p>
