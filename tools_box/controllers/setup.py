@@ -107,7 +107,10 @@ def get_production_section():
 
 
 def get_maintenance_section():
-    pass
+    return __default_item([{}])
+
+def get_hr_section():
+    return __default_item([{}])
 
 
 def get_support_section():
