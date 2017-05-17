@@ -60,6 +60,13 @@ def get_account_section():
         "icon": "icon-sitemap",
         "link": "List/Petty Cash Log",
         "description": _("Petty Cash Log"),
+    },{
+        "type": "doctype",
+        "label": _("Petty Voucher Form"),
+        "name": "Petty Voucher Form",
+        "icon": "icon-sitemap",
+        "link": "List/Petty Voucher Form",
+        "description": _("Petty Voucher Form"),
     }])
 
 
@@ -106,11 +113,37 @@ def get_production_section():
     }])
 
 
+def get_maintenance_section():
+    return __default_item([
+        {
+            "type": "doctype",
+            "label": _("Computing Asset Inspection Checklist"),
+            "name": "Computing Asset Inspection Checklist",
+            "icon": "icon-sitemap",
+            "link": "List/Computing Asset Inspection Checklist",
+            "description": _("Computing Asset Inspection Checklist"),
+        },
+        {
+            "type": "doctype",
+            "label": _("Fixed Asset Inspection Checklist"),
+            "name": "Fixed Asset Inspection Checklist",
+            "icon": "icon-sitemap",
+            "link": "List/Fixed Asset Inspection Checklist",
+            "description": _("Fixed Asset Inspection Checklist"),
+        },
+        {
+            "type": "doctype",
+            "label": _("Generator Fuel Consumption Log"),
+            "name": "Generator Fuel Consumption Log",
+            "icon": "icon-sitemap",
+            "link": "List/Generator Fuel Consumption Log",
+            "description": _("Generator Fuel Consumption Log"),
+        }
+    ])
+
 def get_purchasing_section():
     return __default_item([{}])
 
-def get_maintenance_section():
-    return __default_item([{}])
 
 def get_hr_section():
     return __default_item([{}])
