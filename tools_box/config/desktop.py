@@ -5,13 +5,6 @@ from frappe import _
 def get_data():
 	return [
 		{
-			"module_name": "Tools Box",
-			"color": "#b85423",
-			"icon": "octicon octicon-rocket",
-			"type": "module",
-			"label": _("Tools Box")
-		},
-		{
 			"module_name": "Safety and Compliance",
 			"color": "#1b623f",
 			"icon": "octicon octicon-hubot",
