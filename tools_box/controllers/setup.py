@@ -106,6 +106,9 @@ def get_production_section():
     }])
 
 
+def get_purchasing_section():
+    return __default_item([{}])
+
 def get_maintenance_section():
     return __default_item([{}])
 
@@ -376,7 +379,6 @@ def get_extra_purchase_reports():
 
 def get_extra_stock_reports():
     return __default_rep_items([
-
         {
             "type": "report",
             "is_query_report": True,
