@@ -4,11 +4,8 @@
 const CMODULE = "graceco_tools.safety_and_compliance";
 frappe.ui.form.on('Head Count', {
 	refresh: function(frm) {
-		cur_frm.cscript.get_previous_count_date();
+//		cur_frm.cscript.get_previous_count_date();
 	},
-	current_count_date: function(){
-		cur_frm.cscript.get_previous_count_date();
-	}
 });
 
 //
