@@ -26,7 +26,7 @@ frappe.ui.form.on('Head Count Detail', {
 		console.log("Called before removing a grid item");
 	},
 	count:function(frm){
-		cur_frm.cscript.compute_to	tal();
+		cur_frm.cscript.compute_total();
 	},
 	staff:function(frm){
 		frm.add_fetch("staff","employee_name","staff_name");

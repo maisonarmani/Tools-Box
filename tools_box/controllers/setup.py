@@ -116,7 +116,7 @@ def get_production_section():
 def get_maintenance_section():
     return __default_item([
         {
-            "type": "doctype",
+            "type": "doctype" ,
             "label": _("Computing Asset Inspection Checklist"),
             "name": "Computing Asset Inspection Checklist",
             "icon": "icon-sitemap",
