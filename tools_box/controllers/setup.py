@@ -138,6 +138,14 @@ def get_maintenance_section():
             "icon": "icon-sitemap",
             "link": "List/Generator Fuel Consumption Log",
             "description": _("Generator Fuel Consumption Log"),
+        },
+        {
+            "type": "doctype",
+            "label": _("Daily Generator Activity Log"),
+            "name": "Daily Generator Activity Log",
+            "icon": "icon-sitemap",
+            "link": "List/Daily Generator Activity Log",
+            "description": _("Daily Generator Activity Log"),
         }
     ])
 
