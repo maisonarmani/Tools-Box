@@ -7,12 +7,32 @@
  "doctype": "Report", 
  "idx": 0, 
  "is_standard": "Yes", 
- "modified": "2016-10-25 11:43:17.942883", 
+ "modified": "2017-05-22 17:58:07.820148", 
  "modified_by": "Administrator", 
- "module": "Tools Box",
+ "module": "Tools Box", 
  "name": "Overdue Sales Invoice", 
  "owner": "Administrator", 
  "ref_doctype": "Sales Invoice", 
  "report_name": "Overdue Sales Invoice", 
- "report_type": "Script Report"
+ "report_type": "Script Report", 
+ "roles": [
+  {
+   "role": "Accounts Manager"
+  }, 
+  {
+   "role": "Accounts User"
+  }, 
+  {
+   "role": "Customer"
+  }, 
+  {
+   "role": "Material Master Manager"
+  }, 
+  {
+   "role": "Directors"
+  }, 
+  {
+   "role": "Sales Manager"
+  }
+ ]
 }

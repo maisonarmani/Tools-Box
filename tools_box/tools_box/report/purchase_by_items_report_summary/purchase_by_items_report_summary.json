@@ -7,12 +7,32 @@
  "doctype": "Report", 
  "idx": 0, 
  "is_standard": "Yes", 
- "modified": "2016-10-24 16:59:48.205214", 
+ "modified": "2017-05-22 17:56:57.347665", 
  "modified_by": "Administrator", 
- "module": "Tools Box",
+ "module": "Tools Box", 
  "name": "Purchase by items Report Summary", 
  "owner": "Administrator", 
  "ref_doctype": "Purchase Invoice", 
  "report_name": "Purchase by items Report Summary", 
- "report_type": "Script Report"
+ "report_type": "Script Report", 
+ "roles": [
+  {
+   "role": "Directors"
+  }, 
+  {
+   "role": "Accounts User"
+  }, 
+  {
+   "role": "Purchase User"
+  }, 
+  {
+   "role": "Supplier"
+  }, 
+  {
+   "role": "Accounts Manager"
+  }, 
+  {
+   "role": "Auditor"
+  }
+ ]
 }

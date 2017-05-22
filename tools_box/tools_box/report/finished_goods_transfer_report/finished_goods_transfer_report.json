@@ -7,12 +7,23 @@
  "doctype": "Report", 
  "idx": 0, 
  "is_standard": "Yes", 
- "modified": "2016-10-05 19:38:44.517413", 
+ "modified": "2017-05-22 17:51:56.933644", 
  "modified_by": "Administrator", 
- "module": "Tools Box",
+ "module": "Tools Box", 
  "name": "Finished Goods Transfer Report", 
  "owner": "Administrator", 
  "ref_doctype": "Finished Goods Transfer Form", 
  "report_name": "Finished Goods Transfer Report", 
- "report_type": "Script Report"
+ "report_type": "Script Report", 
+ "roles": [
+  {
+   "role": "Auditor"
+  }, 
+  {
+   "role": "System Manager"
+  }, 
+  {
+   "role": "Stock User"
+  }
+ ]
 }

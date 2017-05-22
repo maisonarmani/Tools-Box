@@ -7,12 +7,32 @@
  "doctype": "Report", 
  "idx": 0, 
  "is_standard": "Yes", 
- "modified": "2016-10-05 18:36:14.771180", 
+ "modified": "2017-05-22 17:51:45.617332", 
  "modified_by": "Administrator", 
- "module": "Tools Box",
+ "module": "Tools Box", 
  "name": "Material Receipt List Report", 
  "owner": "Administrator", 
  "ref_doctype": "Purchase Receipt", 
  "report_name": "Material Receipt List Report", 
- "report_type": "Script Report"
+ "report_type": "Script Report", 
+ "roles": [
+  {
+   "role": "Quality Manager"
+  }, 
+  {
+   "role": "Material Manager"
+  }, 
+  {
+   "role": "Material User"
+  }, 
+  {
+   "role": "Purchase User"
+  }, 
+  {
+   "role": "Accounts User"
+  }, 
+  {
+   "role": "Supplier"
+  }
+ ]
 }

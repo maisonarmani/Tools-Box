@@ -7,12 +7,26 @@
  "doctype": "Report", 
  "idx": 0, 
  "is_standard": "Yes", 
- "modified": "2016-11-10 17:08:06.338931", 
+ "modified": "2017-05-22 17:51:13.716259", 
  "modified_by": "Administrator", 
- "module": "Tools Box",
+ "module": "Tools Box", 
  "name": "Fixed Asset Register Report", 
  "owner": "Administrator", 
  "ref_doctype": "Asset", 
  "report_name": "Fixed Asset Register Report", 
- "report_type": "Script Report"
+ "report_type": "Script Report", 
+ "roles": [
+  {
+   "role": "Accounts User"
+  }, 
+  {
+   "role": "Maintenance Manager"
+  }, 
+  {
+   "role": "Maintenance User"
+  }, 
+  {
+   "role": "Accounts Manager"
+  }
+ ]
 }

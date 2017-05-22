@@ -7,12 +7,50 @@
  "doctype": "Report", 
  "idx": 0, 
  "is_standard": "Yes", 
- "modified": "2016-11-02 16:46:49.157917", 
+ "modified": "2017-05-22 17:58:16.039308", 
  "modified_by": "Administrator", 
- "module": "Tools Box",
+ "module": "Tools Box", 
  "name": "Raw material re-order Report", 
  "owner": "Administrator", 
  "ref_doctype": "Item", 
  "report_name": "Raw material re-order Report", 
- "report_type": "Script Report"
+ "report_type": "Script Report", 
+ "roles": [
+  {
+   "role": "Material Master Manager"
+  }, 
+  {
+   "role": "Material Manager"
+  }, 
+  {
+   "role": "Material User"
+  }, 
+  {
+   "role": "Sales User"
+  }, 
+  {
+   "role": "Purchase User"
+  }, 
+  {
+   "role": "Maintenance User"
+  }, 
+  {
+   "role": "Accounts User"
+  }, 
+  {
+   "role": "Manufacturing User"
+  }, 
+  {
+   "role": "Helpdesk User"
+  }, 
+  {
+   "role": "Purchase Manager"
+  }, 
+  {
+   "role": "Maintenance Manager"
+  }, 
+  {
+   "role": "Accounts Manager"
+  }
+ ]
 }

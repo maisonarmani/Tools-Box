@@ -7,12 +7,17 @@
  "doctype": "Report", 
  "idx": 0, 
  "is_standard": "Yes", 
- "modified": "2016-11-11 14:59:53.042488", 
+ "modified": "2017-05-22 17:49:25.849719", 
  "modified_by": "Administrator", 
- "module": "Tools Box",
+ "module": "Tools Box", 
  "name": "Daily Generator Activity Log Report", 
  "owner": "Administrator", 
  "ref_doctype": "Daily Generator Activity Log", 
  "report_name": "Daily Generator Activity Log Report", 
- "report_type": "Script Report"
+ "report_type": "Script Report", 
+ "roles": [
+  {
+   "role": "All"
+  }
+ ]
 }

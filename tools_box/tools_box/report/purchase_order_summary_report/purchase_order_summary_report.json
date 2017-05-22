@@ -7,12 +7,38 @@
  "doctype": "Report", 
  "idx": 0, 
  "is_standard": "Yes", 
- "modified": "2016-10-05 18:36:25.230623", 
+ "modified": "2017-05-22 17:51:51.553977", 
  "modified_by": "Administrator", 
- "module": "Tools Box",
+ "module": "Tools Box", 
  "name": "Purchase Order Summary Report", 
  "owner": "Administrator", 
  "ref_doctype": "Purchase Order", 
  "report_name": "Purchase Order Summary Report", 
- "report_type": "Script Report"
+ "report_type": "Script Report", 
+ "roles": [
+  {
+   "role": "Material User"
+  }, 
+  {
+   "role": "Purchase Manager"
+  }, 
+  {
+   "role": "Purchase User"
+  }, 
+  {
+   "role": "Supplier"
+  }, 
+  {
+   "role": "Quality Manager"
+  }, 
+  {
+   "role": "Directors"
+  }, 
+  {
+   "role": "Accounts User"
+  }, 
+  {
+   "role": "Logistics Manager"
+  }
+ ]
 }

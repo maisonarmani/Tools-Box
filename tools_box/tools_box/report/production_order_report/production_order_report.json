@@ -7,12 +7,23 @@
  "doctype": "Report", 
  "idx": 0, 
  "is_standard": "Yes", 
- "modified": "2016-10-06 14:49:09.142947", 
+ "modified": "2017-05-22 17:56:23.181602", 
  "modified_by": "Administrator", 
- "module": "Tools Box",
+ "module": "Tools Box", 
  "name": "Production Order Report", 
  "owner": "Administrator", 
  "ref_doctype": "Weekly Production Plan", 
  "report_name": "Production Order Report", 
- "report_type": "Script Report"
+ "report_type": "Script Report", 
+ "roles": [
+  {
+   "role": "Stock User"
+  }, 
+  {
+   "role": "Material Master Manager"
+  }, 
+  {
+   "role": "System Manager"
+  }
+ ]
 }

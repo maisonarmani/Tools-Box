@@ -8,12 +8,20 @@
  "idx": 0, 
  "is_standard": "Yes", 
  "letter_head": "Standard Letterhead", 
- "modified": "2017-03-02 16:22:58.122067", 
+ "modified": "2017-05-22 17:49:17.021766", 
  "modified_by": "Administrator", 
- "module": "Tools Box",
+ "module": "Tools Box", 
  "name": "Stock Count Report", 
  "owner": "Administrator", 
  "ref_doctype": "Stock Ledger Entry", 
  "report_name": "Stock Count Report", 
- "report_type": "Script Report"
+ "report_type": "Script Report", 
+ "roles": [
+  {
+   "role": "Accounts Manager"
+  }, 
+  {
+   "role": "Material User"
+  }
+ ]
 }

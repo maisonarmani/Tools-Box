@@ -7,12 +7,32 @@
  "doctype": "Report", 
  "idx": 0, 
  "is_standard": "Yes", 
- "modified": "2016-06-24 18:33:08.013082", 
+ "modified": "2017-05-22 17:50:22.589861", 
  "modified_by": "Administrator", 
- "module": "Tools Box",
+ "module": "Tools Box", 
  "name": "Sales by Product Report", 
  "owner": "Administrator", 
  "ref_doctype": "Sales Invoice", 
  "report_name": "Sales by Product Report", 
- "report_type": "Script Report"
+ "report_type": "Script Report", 
+ "roles": [
+  {
+   "role": "Accounts Manager"
+  }, 
+  {
+   "role": "Accounts User"
+  }, 
+  {
+   "role": "Customer"
+  }, 
+  {
+   "role": "Material Master Manager"
+  }, 
+  {
+   "role": "Directors"
+  }, 
+  {
+   "role": "Sales Manager"
+  }
+ ]
 }

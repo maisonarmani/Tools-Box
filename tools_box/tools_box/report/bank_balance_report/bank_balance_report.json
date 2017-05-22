@@ -7,12 +7,29 @@
  "doctype": "Report", 
  "idx": 0, 
  "is_standard": "Yes", 
- "modified": "2016-11-11 14:57:40.176860", 
+ "modified": "2017-05-22 17:50:01.924434", 
  "modified_by": "Administrator", 
- "module": "Tools Box",
+ "module": "Tools Box", 
  "name": "Bank Balance Report", 
  "owner": "Administrator", 
  "ref_doctype": "Journal Entry", 
  "report_name": "Bank Balance Report", 
- "report_type": "Script Report"
+ "report_type": "Script Report", 
+ "roles": [
+  {
+   "role": "Accounts User"
+  }, 
+  {
+   "role": "Accounts Manager"
+  }, 
+  {
+   "role": "Auditor"
+  }, 
+  {
+   "role": "Finance Manager"
+  }, 
+  {
+   "role": "Directors"
+  }
+ ]
 }

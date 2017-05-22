@@ -7,12 +7,20 @@
  "doctype": "Report", 
  "idx": 0, 
  "is_standard": "Yes", 
- "modified": "2016-12-26 16:42:37.727985", 
+ "modified": "2017-05-22 17:49:21.268569", 
  "modified_by": "Administrator", 
- "module": "Tools Box",
+ "module": "Tools Box", 
  "name": "Payment Entry Report", 
  "owner": "Administrator", 
  "ref_doctype": "Payment Entry", 
  "report_name": "Payment Entry Report", 
- "report_type": "Script Report"
+ "report_type": "Script Report", 
+ "roles": [
+  {
+   "role": "Accounts User"
+  }, 
+  {
+   "role": "Accounts Manager"
+  }
+ ]
 }

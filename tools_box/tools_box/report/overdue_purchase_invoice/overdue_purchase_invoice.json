@@ -7,12 +7,32 @@
  "doctype": "Report", 
  "idx": 0, 
  "is_standard": "Yes", 
- "modified": "2016-10-25 11:43:25.379263", 
+ "modified": "2017-05-22 17:57:05.451004", 
  "modified_by": "Administrator", 
- "module": "Tools Box",
+ "module": "Tools Box", 
  "name": "Overdue Purchase Invoice", 
  "owner": "Administrator", 
  "ref_doctype": "Sales Invoice", 
  "report_name": "Overdue Purchase Invoice", 
- "report_type": "Script Report"
+ "report_type": "Script Report", 
+ "roles": [
+  {
+   "role": "Accounts Manager"
+  }, 
+  {
+   "role": "Accounts User"
+  }, 
+  {
+   "role": "Customer"
+  }, 
+  {
+   "role": "Material Master Manager"
+  }, 
+  {
+   "role": "Directors"
+  }, 
+  {
+   "role": "Sales Manager"
+  }
+ ]
 }
