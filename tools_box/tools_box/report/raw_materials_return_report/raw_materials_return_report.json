@@ -7,12 +7,23 @@
  "doctype": "Report", 
  "idx": 0, 
  "is_standard": "Yes", 
- "modified": "2016-10-05 19:39:12.863419", 
+ "modified": "2017-05-22 18:08:07.706995", 
  "modified_by": "Administrator", 
- "module": "Tools Box",
+ "module": "Tools Box", 
  "name": "Raw Materials Return Report", 
  "owner": "Administrator", 
  "ref_doctype": "Raw Materials Return Form", 
  "report_name": "Raw Materials Return Report", 
- "report_type": "Script Report"
+ "report_type": "Script Report", 
+ "roles": [
+  {
+   "role": "Auditor"
+  }, 
+  {
+   "role": "Stock User"
+  }, 
+  {
+   "role": "System Manager"
+  }
+ ]
 }

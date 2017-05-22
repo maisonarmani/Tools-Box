@@ -7,12 +7,20 @@
  "doctype": "Report", 
  "idx": 0, 
  "is_standard": "Yes", 
- "modified": "2016-10-27 13:07:04.811308", 
+ "modified": "2017-05-22 18:08:14.706025", 
  "modified_by": "Administrator", 
- "module": "Tools Box",
+ "module": "Tools Box", 
  "name": "Call Log Report", 
  "owner": "Administrator", 
  "ref_doctype": "Call Log", 
  "report_name": "Call Log Report", 
- "report_type": "Script Report"
+ "report_type": "Script Report", 
+ "roles": [
+  {
+   "role": "Sales Manager"
+  }, 
+  {
+   "role": "Sales Master Manager"
+  }
+ ]
 }
