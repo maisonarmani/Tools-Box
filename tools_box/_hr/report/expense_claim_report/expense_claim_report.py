@@ -20,7 +20,7 @@ def execute(filters=None):
         conditions += " AND d.expense_type = %(expense_type)s"
     if filters.get("include_authorized"):
         comment_by = ",  c.comment_by"
-        columns += [ "Authorized:Link/User:200"];
+        columns += [ "Authorized:Link/User:200"]
         include_auth = "LEFT OUTER JOIN tabComment c ON (p.name = c.comment_docname) and c.comment = 'Authorized'"
 
     data = frappe.db.sql(

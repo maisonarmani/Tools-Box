@@ -6,6 +6,9 @@
 %}
 
 <style>
+    img{
+        display: none;
+    }
 </style>
 
 <h1>{%= __(report.report_name) %}</h1>
@@ -25,7 +28,7 @@
 <table class="table">
 	<thead>
 		<tr>
-			{% 
+			{%
 			var total_amount = 0;
 			for(var i=1, l=report.columns.length; i<l; i++) { %}
 				<th class="text-left">{%= report.columns[i].label %}</th>
@@ -51,16 +54,16 @@
 					</td>
 				{% } %}
 			</tr>
-		{% 
+		{%
 			total_amount = total_amount + parseFloat(row['Amount']);
-		} 
+		}
 		%}
 
 			<tr>
 				<th colspan="3">&nbsp;</th>
 				<th>Total</th>
 				<th>{%= format_currency(total_amount) %}</th>
-                                <th>&nbsp;</th>
+                <th>&nbsp;</th>
 			</tr>
 	</tbody>
 </table>

@@ -9,6 +9,16 @@ cur_frm.set_query("approver", function () {
     };
 });
 frappe.ui.form.on('Job Card', {
+
+    asset_category:function(){
+         cur_frm.set_query("asset", function () {
+            return {
+                "filters": {
+                    "asset_category":doc.asset_category
+                }
+            };
+        });
+    },
     refresh: function (frm) {
         if (cur_frm.doc.status == 'Approved') {
             cur_frm.add_custom_button('Make Purchase Order', function () {
@@ -16,26 +26,6 @@ frappe.ui.form.on('Job Card', {
                     method: "graceco_tools.graceco_tools.doctype.job_card.job_card.make_purchase_order",
                     frm: cur_frm
                 });
-                /*                var po = frappe.model.make_new_doc_and_get_name('Purchase Order');
-                 po = locals['Purchase Order'][po];
-                 po.supplier = cur_frm.doc.vendor;
-                 po.buying_price_list = 'Standard Buying';
-                 var material = cur_frm.doc.job_card_material_detail || [];
-                 for(var i = 0; i < material.length; i++){
-                 var d1 = frappe.model.add_child(po, 'Purchase Order Item', 'items');
-                 d1.item_code = material[i].item_code;
-                 d1.item_name = material[i].item_name;
-                 d1.qty = material[i].no_of_units;
-                 d1.uom = material[i].uom;
-                 d1.stock_uom = material[i].uom;
-                 d1.description = material[i].item_description;
-                 d1.rate = material[i].unit_cost;
-                 d1.schedule_date = cur_frm.doc.proposed_completion_date;
-                 }
-                 frappe.route_options = {"supplier":cur_frm.doc.vendor,"buying_price_list":'Standard Buying',"transaction_date":cur_frm.doc.job_card_date};
-                 frappe.set_route("Form",'Purchase Order', po.name);
-                 //loaddoc('Purchase Order', po.name);
-                 */
             });
         }
 
