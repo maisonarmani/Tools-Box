@@ -7,12 +7,13 @@
  "doctype": "Report", 
  "idx": 0, 
  "is_standard": "Yes", 
- "modified": "2016-12-17 11:46:12.099300", 
+ "json": "{\"add_total_row\": 0, \"sort_by\": \"Expense Claim.modified\", \"sort_order\": \"desc\", \"sort_by_next\": null, \"filters\": [[\"Expense Claim\", \"docstatus\", \"!=\", \"2\"], [\"Expense Claim\", \"approval_status\", \"!=\", \"Rejected\"]], \"sort_order_next\": \"desc\", \"columns\": [[\"name\", \"Expense Claim\"], [\"approval_status\", \"Expense Claim\"], [\"total_claimed_amount\", \"Expense Claim\"], [\"posting_date\", \"Expense Claim\"], [\"employee\", \"Expense Claim\"], [\"employee_name\", \"Expense Claim\"], [\"company\", \"Expense Claim\"]]}", 
+ "modified": "2017-05-20 17:48:57.243630", 
  "modified_by": "Administrator", 
- "module": "Tools Box",
+ "module": "Tools Box", 
  "name": "Expense Claim Report", 
  "owner": "Administrator", 
  "ref_doctype": "Expense Claim", 
  "report_name": "Expense Claim Report", 
- "report_type": "Script Report"
+ "report_type": "Report Builder"
 }
