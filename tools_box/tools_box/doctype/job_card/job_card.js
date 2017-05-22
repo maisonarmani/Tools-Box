@@ -9,12 +9,11 @@ cur_frm.set_query("approver", function () {
     };
 });
 frappe.ui.form.on('Job Card', {
-
     asset_category:function(){
          cur_frm.set_query("asset", function () {
             return {
                 "filters": {
-                    "asset_category":doc.asset_category
+                    "asset_category":cur_frm.doc.asset_category
                 }
             };
         });
@@ -23,7 +22,7 @@ frappe.ui.form.on('Job Card', {
         if (cur_frm.doc.status == 'Approved') {
             cur_frm.add_custom_button('Make Purchase Order', function () {
                 frappe.model.open_mapped_doc({
-                    method: "graceco_tools.graceco_tools.doctype.job_card.job_card.make_purchase_order",
+                    method: "tools_box.tools_box.doctype.job_card.job_card.make_purchase_order",
                     frm: cur_frm
                 });
             });
@@ -51,7 +50,7 @@ frappe.ui.form.on('Job Card', {
         var job_card = frappe.model.get_doc(cdt, cdn);
         if (job_card.ticket_number) {
             frappe.call({
-                method: "graceco_tools.graceco_tools.doctype.job_card.job_card.get_requested_by",
+                method: "tools_box.tools_box.doctype.job_card.job_card.get_requested_by",
                 args: {
                     ticket_number: job_card.ticket_number
                 },
@@ -61,7 +60,7 @@ frappe.ui.form.on('Job Card', {
                 }
             });
             frappe.call({
-                method: "graceco_tools.graceco_tools.doctype.job_card.job_card.get_employee_name",
+                method: "tools_box.tools_box.doctype.job_card.job_card.get_employee_name",
                 args: {
                     ticket_number: job_card.ticket_number
                 },
