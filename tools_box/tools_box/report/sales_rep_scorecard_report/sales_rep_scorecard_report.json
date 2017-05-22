@@ -7,12 +7,32 @@
  "doctype": "Report", 
  "idx": 0, 
  "is_standard": "Yes", 
- "modified": "2016-11-10 17:22:07.520625", 
+ "modified": "2017-05-22 17:51:07.609039", 
  "modified_by": "Administrator", 
- "module": "Tools Box",
+ "module": "Tools Box", 
  "name": "Sales Rep Scorecard Report", 
  "owner": "Administrator", 
  "ref_doctype": "Sales Invoice", 
  "report_name": "Sales Rep Scorecard Report", 
- "report_type": "Script Report"
+ "report_type": "Script Report", 
+ "roles": [
+  {
+   "role": "Accounts Manager"
+  }, 
+  {
+   "role": "Accounts User"
+  }, 
+  {
+   "role": "Customer"
+  }, 
+  {
+   "role": "Material Master Manager"
+  }, 
+  {
+   "role": "Directors"
+  }, 
+  {
+   "role": "Sales Manager"
+  }
+ ]
 }

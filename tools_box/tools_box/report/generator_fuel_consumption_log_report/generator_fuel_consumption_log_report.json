@@ -7,12 +7,17 @@
  "doctype": "Report", 
  "idx": 0, 
  "is_standard": "Yes", 
- "modified": "2016-11-11 14:59:07.609306", 
+ "modified": "2017-05-22 17:49:32.138287", 
  "modified_by": "Administrator", 
- "module": "Tools Box",
+ "module": "Tools Box", 
  "name": "Generator Fuel Consumption Log Report", 
  "owner": "Administrator", 
  "ref_doctype": "Generator Fuel Consumption Log", 
  "report_name": "Generator Fuel Consumption Log Report", 
- "report_type": "Script Report"
+ "report_type": "Script Report", 
+ "roles": [
+  {
+   "role": "All"
+  }
+ ]
 }

@@ -7,12 +7,26 @@
  "doctype": "Report", 
  "idx": 0, 
  "is_standard": "Yes", 
- "modified": "2016-11-11 14:57:09.900561", 
+ "modified": "2017-05-22 17:50:59.703789", 
  "modified_by": "Administrator", 
- "module": "Tools Box",
+ "module": "Tools Box", 
  "name": "Payment Voucher Report", 
  "owner": "Administrator", 
  "ref_doctype": "Payment Voucher Form", 
  "report_name": "Payment Voucher Report", 
- "report_type": "Script Report"
+ "report_type": "Script Report", 
+ "roles": [
+  {
+   "role": "Directors"
+  }, 
+  {
+   "role": "Accounts User"
+  }, 
+  {
+   "role": "Expense Approver"
+  }, 
+  {
+   "role": "Accounts Manager"
+  }
+ ]
 }

@@ -7,12 +7,32 @@
  "doctype": "Report", 
  "idx": 0, 
  "is_standard": "Yes", 
- "modified": "2016-10-04 17:46:12.786059", 
+ "modified": "2017-05-22 17:50:46.938899", 
  "modified_by": "Administrator", 
- "module": "Tools Box",
+ "module": "Tools Box", 
  "name": "Product Delivery & Distribution Schedule Report", 
  "owner": "Administrator", 
  "ref_doctype": "Sales Order", 
  "report_name": "Product Delivery & Distribution Schedule Report", 
- "report_type": "Script Report"
+ "report_type": "Script Report", 
+ "roles": [
+  {
+   "role": "Sales User"
+  }, 
+  {
+   "role": "Sales Manager"
+  }, 
+  {
+   "role": "Accounts User"
+  }, 
+  {
+   "role": "Customer"
+  }, 
+  {
+   "role": "Sales Master Manager"
+  }, 
+  {
+   "role": "Accounts Manager"
+  }
+ ]
 }

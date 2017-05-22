@@ -7,14 +7,22 @@
  "doctype": "Report", 
  "idx": 0, 
  "is_standard": "Yes", 
- "json": "{\"add_total_row\": 0, \"sort_by\": \"Accident.modified\", \"sort_order\": \"desc\", \"sort_by_next\": null, \"filters\": [], \"sort_order_next\": \"desc\", \"columns\": [[\"name\", \"Accident\"], [\"employee\", \"Accident\"], [\"employee_name\", \"Accident\"]]}",
- "letter_head": "Standard Letterhead",
- "modified": "2017-02-13 23:05:18.327235",
+ "json": "{\"add_total_row\": 0, \"sort_by\": \"Accident.modified\", \"sort_order\": \"desc\", \"sort_by_next\": null, \"filters\": [], \"sort_order_next\": \"desc\", \"columns\": [[\"name\", \"Accident\"], [\"employee\", \"Accident\"], [\"employee_name\", \"Accident\"]]}", 
+ "letter_head": "Standard Letterhead", 
+ "modified": "2017-05-22 22:55:34.534680", 
  "modified_by": "Administrator", 
  "module": "Safety and Compliance", 
  "name": "Accident Report", 
  "owner": "Administrator", 
  "ref_doctype": "Accident", 
  "report_name": "Accident Report", 
- "report_type": "Report Builder"
+ "report_type": "Report Builder", 
+ "roles": [
+  {
+   "role": "Safety And Compliance Manager"
+  }, 
+  {
+   "role": "Safety and Compliance Officer"
+  }
+ ]
 }

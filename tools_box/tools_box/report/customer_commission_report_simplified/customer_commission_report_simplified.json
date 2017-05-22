@@ -8,12 +8,32 @@
  "idx": 0, 
  "is_standard": "Yes", 
  "letter_head": "Standard Letterhead", 
- "modified": "2017-03-24 10:55:13.252121", 
+ "modified": "2017-05-22 17:49:07.022236", 
  "modified_by": "Administrator", 
- "module": "Tools Box",
+ "module": "Tools Box", 
  "name": "Customer Commission Report Simplified", 
  "owner": "Administrator", 
  "ref_doctype": "Sales Invoice", 
  "report_name": "Customer Commission Report Simplified", 
- "report_type": "Script Report"
+ "report_type": "Script Report", 
+ "roles": [
+  {
+   "role": "Accounts Manager"
+  }, 
+  {
+   "role": "Accounts User"
+  }, 
+  {
+   "role": "Customer"
+  }, 
+  {
+   "role": "Material Master Manager"
+  }, 
+  {
+   "role": "Directors"
+  }, 
+  {
+   "role": "Sales Manager"
+  }
+ ]
 }

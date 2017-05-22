@@ -8,12 +8,20 @@
  "idx": 0, 
  "is_standard": "Yes", 
  "letter_head": "Standard Letterhead", 
- "modified": "2017-02-13 23:14:12.736944", 
+ "modified": "2017-05-22 22:52:38.811708", 
  "modified_by": "Administrator", 
  "module": "Safety and Compliance", 
  "name": "Head Count Report", 
  "owner": "Administrator", 
  "ref_doctype": "Head Count", 
  "report_name": "Head Count Report", 
- "report_type": "Query Report"
+ "report_type": "Query Report", 
+ "roles": [
+  {
+   "role": "Safety And Compliance Manager"
+  }, 
+  {
+   "role": "Safety and Compliance Officer"
+  }
+ ]
 }

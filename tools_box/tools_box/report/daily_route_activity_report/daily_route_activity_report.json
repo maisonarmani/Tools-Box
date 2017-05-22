@@ -7,12 +7,18 @@
  "doctype": "Report", 
  "idx": 0, 
  "is_standard": "Yes", 
- "modified": "2016-06-22 03:35:35.618344", 
+ "letter_head": "Standard Letterhead", 
+ "modified": "2017-05-22 17:48:17.721364", 
  "modified_by": "Administrator", 
- "module": "Tools Box",
+ "module": "Tools Box", 
  "name": "Daily Route Activity Report", 
  "owner": "Administrator", 
  "ref_doctype": "Daily Route Activity", 
  "report_name": "Daily Route Activity Report", 
- "report_type": "Script Report"
+ "report_type": "Script Report", 
+ "roles": [
+  {
+   "role": "Sales User"
+  }
+ ]
 }

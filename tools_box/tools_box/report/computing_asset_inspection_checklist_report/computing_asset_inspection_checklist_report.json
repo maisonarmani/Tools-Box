@@ -7,12 +7,20 @@
  "doctype": "Report", 
  "idx": 0, 
  "is_standard": "Yes", 
- "modified": "2016-11-11 14:58:12.625581", 
+ "modified": "2017-05-22 17:49:55.430785", 
  "modified_by": "Administrator", 
- "module": "Tools Box",
+ "module": "Tools Box", 
  "name": "Computing Asset Inspection Checklist Report", 
  "owner": "Administrator", 
  "ref_doctype": "Computing Asset Inspection Checklist", 
  "report_name": "Computing Asset Inspection Checklist Report", 
- "report_type": "Script Report"
+ "report_type": "Script Report", 
+ "roles": [
+  {
+   "role": "All"
+  }, 
+  {
+   "role": "Admin Manager"
+  }
+ ]
 }

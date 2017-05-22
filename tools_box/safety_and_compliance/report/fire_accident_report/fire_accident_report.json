@@ -8,12 +8,20 @@
  "idx": 0, 
  "is_standard": "Yes", 
  "letter_head": "Standard Letterhead", 
- "modified": "2017-02-13 22:58:35.373100", 
+ "modified": "2017-05-22 22:53:32.467111", 
  "modified_by": "Administrator", 
  "module": "Safety and Compliance", 
  "name": "Fire Accident Report", 
  "owner": "Administrator", 
  "ref_doctype": "Accident", 
  "report_name": "Fire Accident Report", 
- "report_type": "Script Report"
+ "report_type": "Script Report", 
+ "roles": [
+  {
+   "role": "Safety And Compliance Manager"
+  }, 
+  {
+   "role": "Safety and Compliance Officer"
+  }
+ ]
 }

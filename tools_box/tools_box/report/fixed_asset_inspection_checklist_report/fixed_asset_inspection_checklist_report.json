@@ -7,12 +7,23 @@
  "doctype": "Report", 
  "idx": 0, 
  "is_standard": "Yes", 
- "modified": "2016-11-11 14:58:34.222859", 
+ "modified": "2017-05-22 17:49:37.512866", 
  "modified_by": "Administrator", 
- "module": "Tools Box",
+ "module": "Tools Box", 
  "name": "Fixed Asset Inspection Checklist Report", 
  "owner": "Administrator", 
  "ref_doctype": "Fixed Asset Inspection Checklist", 
  "report_name": "Fixed Asset Inspection Checklist Report", 
- "report_type": "Script Report"
+ "report_type": "Script Report", 
+ "roles": [
+  {
+   "role": "Maintenance Manager"
+  }, 
+  {
+   "role": "Auditor"
+  }, 
+  {
+   "role": "All"
+  }
+ ]
 }

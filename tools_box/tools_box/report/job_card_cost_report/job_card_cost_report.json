@@ -7,12 +7,29 @@
  "doctype": "Report", 
  "idx": 0, 
  "is_standard": "Yes", 
- "modified": "2016-11-04 13:08:02.616316", 
+ "modified": "2017-05-22 17:51:25.766314", 
  "modified_by": "Administrator", 
- "module": "Tools Box",
+ "module": "Tools Box", 
  "name": "Job Card Cost Report", 
  "owner": "Administrator", 
  "ref_doctype": "Job Card", 
  "report_name": "Job Card Cost Report", 
- "report_type": "Script Report"
+ "report_type": "Script Report", 
+ "roles": [
+  {
+   "role": "Helpdesk User"
+  }, 
+  {
+   "role": "Purchase User"
+  }, 
+  {
+   "role": "Helpdesk Admin"
+  }, 
+  {
+   "role": "Job Card User"
+  }, 
+  {
+   "role": "Expense Approver"
+  }
+ ]
 }
