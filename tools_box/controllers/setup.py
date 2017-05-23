@@ -110,6 +110,13 @@ def get_production_section():
         "icon": "icon-sitemap",
         "link": "List/Weekly Production Plan",
         "description": _("Weekly Production Plan"),
+    },{
+        "type": "doctype",
+        "label": _("Daily Production Order"),
+        "name": "Daily Production Order",
+        "icon": "icon-sitemap",
+        "link": "List/Daily Production Order",
+        "description": _("Daily Production Order"),
     }])
 
 
