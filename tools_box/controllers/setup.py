@@ -35,21 +35,28 @@ def get_selling_section():
         "icon": "icon-sitemap",
         "link": "List/Outlet Survey",
         "description": _("Outlet Survey."),
-    }, {
+    },{
+        "type": "doctype",
+        "label": _("Authority to Load"),
+        "name": "Authority to Load",
+        "icon": "icon-sitemap",
+        "link": "List/Authority to Load",
+        "description": _("Authority to Load"),
+    },{
         "type": "doctype",
         "label": _("Performance Assessment Form"),
         "name": "Performance Assessment Form",
         "icon": "icon-sitemap",
         "link": "List/Performance Assessment Form",
         "description": _("Performance Assessment Form."),
-    }, {
+    },{
         "type": "doctype",
         "label": _("Daily Route Activity"),
         "name": "Daily Route Activity",
         "icon": "icon-sitemap",
         "link": "List/Daily Route Activity",
         "description": _("Daily Route Activity."),
-    }, ])
+    }])
 
 
 def get_account_section():
@@ -78,6 +85,13 @@ def get_stock_section():
         "icon": "icon-sitemap",
         "link": "List/Quality Control Material Acceptance Form",
         "description": _("Quality Control Material Acceptance Form"),
+    },{
+        "type": "doctype",
+        "label": _("Store Bin Card"),
+        "name": "Store Bin Card",
+        "icon": "icon-sitemap",
+        "link": "List/Store Bin Card",
+        "description": _("Store Bin Card"),
     }, ])
 
 
