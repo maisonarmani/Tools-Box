@@ -110,6 +110,13 @@ def get_production_section():
         "icon": "icon-sitemap",
         "link": "List/Weekly Production Plan",
         "description": _("Weekly Production Plan"),
+    },{
+        "type": "doctype",
+        "label": _("Daily Production Order"),
+        "name": "Daily Production Order",
+        "icon": "icon-sitemap",
+        "link": "List/Daily Production Order",
+        "description": _("Daily Production Order"),
     }])
 
 
@@ -203,15 +210,15 @@ def get_extra_hr_reports():
         },
         {
             "type": "report",
-            "is_query_report": False,
             "name": "Employee Status Summary",
-            "doctype": "Employee"
+            "doctype": "Employee",
+            "is_query_report": True,
         },
         {
             "type": "report",
-            "is_query_report": False,
             "name": "Employee Report Summary",
-            "doctype": "Employee"
+            "doctype": "Employee",
+            "is_query_report": True,
         },
         {
             "type": "report",
