@@ -8,12 +8,35 @@
  "idx": 0, 
  "is_standard": "Yes", 
  "letter_head": "Standard Letterhead", 
- "modified": "2017-03-23 14:16:34.280124", 
+ "modified": "2017-05-22 23:20:52.896477", 
  "modified_by": "Administrator", 
- "module": "_HR",
+ "module": "_HR", 
  "name": "Employee Status Summary", 
  "owner": "Administrator", 
  "ref_doctype": "Employee", 
  "report_name": "Employee Status Summary", 
- "report_type": "Script Report"
+ "report_type": "Script Report", 
+ "roles": [
+  {
+   "role": "Employee"
+  }, 
+  {
+   "role": "HR User"
+  }, 
+  {
+   "role": "HR Manager"
+  }, 
+  {
+   "role": "Helpdesk User"
+  }, 
+  {
+   "role": "Helpdesk Admin"
+  }, 
+  {
+   "role": "Safety And Compliance Manager"
+  }, 
+  {
+   "role": "Safety and Compliance Officer"
+  }
+ ]
 }

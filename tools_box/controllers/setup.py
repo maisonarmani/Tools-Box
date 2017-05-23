@@ -203,15 +203,15 @@ def get_extra_hr_reports():
         },
         {
             "type": "report",
-            "is_query_report": False,
             "name": "Employee Status Summary",
-            "doctype": "Employee"
+            "doctype": "Employee",
+            "is_query_report": True,
         },
         {
             "type": "report",
-            "is_query_report": False,
             "name": "Employee Report Summary",
-            "doctype": "Employee"
+            "doctype": "Employee",
+            "is_query_report": True,
         },
         {
             "type": "report",

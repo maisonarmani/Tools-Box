@@ -8,12 +8,35 @@
  "idx": 0, 
  "is_standard": "Yes", 
  "json": "{\"add_total_row\": 0, \"sort_by\": \"Expense Claim.modified\", \"sort_order\": \"desc\", \"sort_by_next\": null, \"filters\": [[\"Expense Claim\", \"docstatus\", \"!=\", \"2\"], [\"Expense Claim\", \"approval_status\", \"!=\", \"Rejected\"]], \"sort_order_next\": \"desc\", \"columns\": [[\"name\", \"Expense Claim\"], [\"approval_status\", \"Expense Claim\"], [\"total_claimed_amount\", \"Expense Claim\"], [\"posting_date\", \"Expense Claim\"], [\"employee\", \"Expense Claim\"], [\"employee_name\", \"Expense Claim\"], [\"company\", \"Expense Claim\"]]}", 
- "modified": "2017-05-22 08:04:38.526948", 
+ "modified": "2017-05-22 23:20:44.016724", 
  "modified_by": "Administrator", 
  "module": "_HR", 
  "name": "Expense Claim Report", 
  "owner": "Administrator", 
  "ref_doctype": "Expense Claim", 
  "report_name": "Expense Claim Report", 
- "report_type": "Script Report"
+ "report_type": "Script Report", 
+ "roles": [
+  {
+   "role": "Employee"
+  }, 
+  {
+   "role": "Expense Approver"
+  }, 
+  {
+   "role": "HR User"
+  }, 
+  {
+   "role": "Accounts User"
+  }, 
+  {
+   "role": "Expense Authorizer"
+  }, 
+  {
+   "role": "Auditor"
+  }, 
+  {
+   "role": "System Manager"
+  }
+ ]
 }
