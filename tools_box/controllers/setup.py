@@ -60,7 +60,7 @@ def get_account_section():
         "icon": "icon-sitemap",
         "link": "List/Petty Cash Log",
         "description": _("Petty Cash Log"),
-    },{
+    }, {
         "type": "doctype",
         "label": _("Petty Voucher Form"),
         "name": "Petty Voucher Form",
@@ -72,13 +72,6 @@ def get_account_section():
 
 def get_stock_section():
     return __default_item([{
-        "type": "doctype",
-        "label": _("Finish Goods Transfer Form"),
-        "name": "Finish Goods Transfer Form",
-        "icon": "icon-sitemap",
-        "link": "List/Finish Goods Transfer Form",
-        "description": _("Finish Goods Transfer Form"),
-    }, {
         "type": "doctype",
         "label": _("Quality Control Material Acceptance Form"),
         "name": "Quality Control Material Acceptance Form",
@@ -110,20 +103,36 @@ def get_production_section():
         "icon": "icon-sitemap",
         "link": "List/Weekly Production Plan",
         "description": _("Weekly Production Plan"),
-    },{
+    }, {
         "type": "doctype",
         "label": _("Daily Production Order"),
         "name": "Daily Production Order",
         "icon": "icon-sitemap",
         "link": "List/Daily Production Order",
         "description": _("Daily Production Order"),
-    }])
+    }, {
+        "type": "doctype",
+        "label": _("Raw Materials Return Form"),
+        "name": "Raw Materials Return Form",
+        "icon": "icon-sitemap",
+        "link": "List/Raw Materials Return Form",
+        "description": _("Raw Materials Return Form"),
+    },
+        {
+            "type": "doctype",
+            "label": _("Finished Goods Transfer Form"),
+            "name": "Finished Goods Transfer Form",
+            "icon": "icon-sitemap",
+            "link": "List/Finished Goods Transfer Form",
+            "description": _("Finished Goods Transfer Form"),
+        }
+    ])
 
 
 def get_maintenance_section():
     return __default_item([
         {
-            "type": "doctype" ,
+            "type": "doctype",
             "label": _("Computing Asset Inspection Checklist"),
             "name": "Computing Asset Inspection Checklist",
             "icon": "icon-sitemap",
@@ -155,6 +164,7 @@ def get_maintenance_section():
             "description": _("Daily Generator Activity Log"),
         }
     ])
+
 
 def get_purchasing_section():
     return __default_item([{}])
@@ -245,22 +255,40 @@ def get_extra_production_reports():
         "name": "Finished Goods Transfer Report",
         "doctype": "Finished Goods Transfer Form",
         "is_query_report": True,
-    }, {
-        "type": "report",
-        "name": "Production Order Report",
-        "doctype": "Weekly Production Order Form",
-        "is_query_report": True,
-    }, {
-        "type": "report",
-        "name": "Production Yield Variance Report",
-        "doctype": "Production Yield Control Form",
-        "is_query_report": True,
-    }, {
-        "type": "report",
-        "name": "Raw Materials Return Report",
-        "doctype": "Raw Materials Return Form",
-        "is_query_report": True,
-    }
+    },
+        {
+            "type": "report",
+            "is_query_report": True,
+            "name": "Raw material re-order Report",
+            "doctype": "Item",
+        },
+        {
+            "type": "report",
+            "is_query_report": True,
+            "name": "Raw Materials Return Report",
+            "doctype": "Raw Materials Return Form",
+        },
+        {
+            "type": "report",
+            "is_query_report": True,
+            "name": "Finished Goods Transfer Report",
+            "doctype": "Finished Goods Transfer Form",
+        }, {
+            "type": "report",
+            "name": "Production Order Report",
+            "doctype": "Weekly Production Order Form",
+            "is_query_report": True,
+        }, {
+            "type": "report",
+            "name": "Production Yield Variance Report",
+            "doctype": "Production Yield Control Form",
+            "is_query_report": True,
+        }, {
+            "type": "report",
+            "name": "Raw Materials Return Report",
+            "doctype": "Raw Materials Return Form",
+            "is_query_report": True,
+        }
     ])
 
 
@@ -444,18 +472,6 @@ def get_extra_stock_reports():
             "is_query_report": True,
             "name": "Stock Ledger Simplified",
             "doctype": "Stock Ledger Entry",
-        },
-        {
-            "type": "report",
-            "is_query_report": True,
-            "name": "Raw material re-order Report",
-            "doctype": "Item",
-        },
-        {
-            "type": "report",
-            "is_query_report": True,
-            "name": "Raw Materials Return Report",
-            "doctype": "Raw Materials Return Form",
         },
         {
             "type": "report",

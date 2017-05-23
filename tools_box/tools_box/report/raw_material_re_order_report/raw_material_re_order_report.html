@@ -1,0 +1,36 @@
+<div style="margin-bottom: 7px;" class="text-center">
+	{%= frappe.boot.letter_heads[filters.letter_head  || frappe.defaults.get_default("letter_head")] %}
+</div>
+<h2 class="text-center">Raw Material Re Order Report</h2>
+<h5 class="text-center">
+	<h5>Warehouse : {%=filters.warehouse %}</h5>
+</h5>
+<hr>
+<table class="table table-bordered">
+	<thead>
+		<tr>
+			<th style="width: 20%">Item Code</th>
+			<th style="width: 35%">Item Name</th>
+			<th style="width: 15%">Current Level</th>
+			<th style="width: 10%">Re-order Level</th>
+			<th style="width: 10%">Re-order Qty</th>
+			<th style="width: 10%">Lead Time</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for(var i=0,l=data.length; i<l; i++) { %}
+			<tr>
+				{%
+				var row = data[i]; %}
+					<td>{%= row["Item Code"] %}</td>
+					<td >{%= row["Item Name"] %}</td>
+					<td >{%= row["Current Level"] %}</td>
+					<td >{%= row["Re-order Level"] %}</td>
+					<td >{%= row["Re-order Qty"] %}</td>
+					<td >{%= row["Lead Time"] %}</td>
+			</tr>
+		{% } %}
+	</tbody>
+</table>
+
+<p class="text-right text-muted">Printed On {%= dateutil.str_to_user(dateutil.get_datetime_as_string()) %}</p>
