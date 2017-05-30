@@ -28,7 +28,7 @@ frappe.ui.form.on("Fire Extinguisher Inspection",{
 
 cur_frm.cscript.test_mapping = function() {
 	frappe.model.open_mapped_doc({
-		method: "graceco_tools.safety_and_compliance.api.map_test",
+		method: "tools_box.safety_and_compliance.api.map_test",
 		frm: cur_frm
 	})
 };

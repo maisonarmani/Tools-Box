@@ -7,12 +7,23 @@
  "doctype": "Report", 
  "idx": 0, 
  "is_standard": "Yes", 
- "modified": "2016-07-25 16:48:22.788756", 
+ "modified": "2017-05-24 09:01:16.337416", 
  "modified_by": "Administrator", 
  "module": "Logistics", 
  "name": "Goods Tracking Report", 
  "owner": "Administrator", 
- "ref_doctype": "Vehicle Schedule", 
+ "ref_doctype": "Vehicle Schedule Log", 
  "report_name": "Goods Tracking Report", 
- "report_type": "Script Report"
+ "report_type": "Script Report", 
+ "roles": [
+  {
+   "role": "Directors"
+  }, 
+  {
+   "role": "Logistics User"
+  }, 
+  {
+   "role": "Logistics Manager"
+  }
+ ]
 }

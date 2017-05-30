@@ -30,7 +30,7 @@ frappe.ui.form.on('Health Survey', {
 
 cur_frm.cscript.employee_id = function(doc){
 	frappe.call({
-		method:'graceco_tools.safety_and_compliance.api.get_employee',
+		method:'tools_box.safety_and_compliance.api.get_employee',
 		args:{
 			employee_id:doc.employee_id,
 			fields:'date_of_joining as doj'

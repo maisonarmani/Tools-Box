@@ -5,7 +5,7 @@ cur_frm.add_fetch('item_code', 'item_name', 'item_name');
 cur_frm.add_fetch('item_code', 'description', 'item_description');
 cur_frm.set_query("approver", function () {
     return {
-        query: "erpnext.hr.doctype.expense_claim.expense_claim.get_expense_approver"
+        query: "tools_box.tools_box.doctype.job_card.job_card.get_job_card_approver"
     };
 });
 frappe.ui.form.on('Job Card', {
@@ -90,35 +90,6 @@ frappe.ui.form.on('Job Card', {
 });
 
 frappe.ui.form.on('Job Card Material Detail', {
-    /*
-     item_code: function(frm, cdt, cdn) {
-     var job_card_material_detail = frappe.model.get_doc(cdt, cdn);
-     if (job_card_material_detail.item_code) {
-     frappe.call({
-     method: "erpnext.support.doctype.job_card.job_card.get_item_name",
-     args: {
-     item_code: job_card_material_detail.item_code
-     },
-     callback: function(r) {
-
-     frappe.model.set_value(cdt, cdn, "item_name", r.message);
-     }
-     });
-
-     frappe.call({
-     method: "erpnext.support.doctype.job_card.job_card.get_item_description",
-     args: {
-     item_code: job_card_material_detail.item_code
-     },
-     callback: function(r) {
-
-     frappe.model.set_value(cdt, cdn, "item_description", r.message);
-     }
-     });
-
-     }
-     },
-     */
     no_of_units: function (frm, cdt, cdn) {
         frappe.model.set_value(cdt, cdn, "total", frappe.model.get_value(cdt, cdn, "no_of_units") * frappe.model.get_value(cdt, cdn, "unit_cost"));
     },

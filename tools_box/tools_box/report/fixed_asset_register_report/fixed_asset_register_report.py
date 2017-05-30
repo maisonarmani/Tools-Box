@@ -21,6 +21,6 @@ def execute(filters=None):
         columns += ["Custodian - Employee ::200","Custodian - Department:Link/Department:150"]
 
     data = frappe.db.sql("""select tA.item_code,tA.name,tA.asset_category,tA.warehouse,tA.purchase_date,
-        tA.value_after_depreciation, tA.custodian_employee_name, tA.custodian_department from tabAsset tA 
+        tA.value_after_depreciation from tabAsset tA 
         where tA.docstatus=1 {}""".format(where), as_list=1)
     return columns, data
