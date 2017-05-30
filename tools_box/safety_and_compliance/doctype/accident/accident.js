@@ -14,7 +14,7 @@ var take = function(obj,param){
 frappe.ui.form.on("Accident",{
 	employee:function(frm,cdt,cdn){
 		frappe.call({
-			method:'graceco_tools.safety_and_compliance.api.get_employee_experience',
+			method:'tools_box.safety_and_compliance.api.get_employee_experience',
 			args:{
 				employee_id:frm.doc.employee
 			},

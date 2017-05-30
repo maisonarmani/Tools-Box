@@ -147,6 +147,14 @@ def get_maintenance_section():
     return __default_item([
         {
             "type": "doctype",
+            "label": _("Equipment Maintenance Log"),
+            "name": "Equipment Maintenance Log",
+            "icon": "icon-sitemap",
+            "link": "List/Equipment Maintenance Log",
+            "description": _("Equipment Maintenance Log"),
+        },
+        {
+            "type": "doctype",
             "label": _("Computing Asset Inspection Checklist"),
             "name": "Computing Asset Inspection Checklist",
             "icon": "icon-sitemap",
