@@ -20,20 +20,22 @@ frappe.ui.form.on('Authority to Load', {
 
 
 cur_frm.cscript.sales_order_btn = function() {
-	cur_frm.add_custom_button(__('Sales Order'),
-		function () {
-			erpnext.utils.map_current_doc({
-				method: "erpnext.selling.doctype.sales_order.sales_order.make_authority_to_load",
-				source_doctype: "Sales Order",
-				get_query_filters: {
-					docstatus: 1,
-					status: ["!=", "Closed"],
-					per_billed: ["<", 99.99],
-					customer: cur_frm.doc.customer || undefined,
-					company: cur_frm.doc.company,
-					atl: 0
-				}
-			})
-		}, __("Get items from")
-	);
+	this.frm.add_custom_button(__('Sales Order'),
+	function() {
+		erpnext.utils.map_current_doc({
+			method: "erpnext.selling.doctype.sales_order.sales_order.make_delivery_note",
+			source_doctype: "Sales Order",
+			target: me.frm,
+			setters: {
+				customer: me.frm.doc.customer || undefined,
+			},
+			get_query_filters: {
+				docstatus: 1,
+				status: ["!=", "Closed"],
+				per_delivered: ["<", 99.99],
+				company: me.frm.doc.company,
+				project: me.frm.doc.project || undefined,
+			}
+		})
+	}, __("Get items from"));
 };

@@ -1,0 +1,22 @@
+{
+ "align_labels_left": 0, 
+ "creation": "2017-05-22 23:22:05.894993", 
+ "custom_format": 0, 
+ "disabled": 0, 
+ "doc_type": "Quality Control Material Acceptance Form", 
+ "docstatus": 0, 
+ "doctype": "Print Format", 
+ "font": "Default", 
+ "format_data": "[{\"fieldname\": \"print_heading_template\", \"fieldtype\": \"Custom HTML\", \"options\": \"<h1>QUALITY CONTROL MATERIALS ACCEPTANCE &amp; REJECTION FORM</h1>\\n<h2>{{doc.name}}</h2>\\n\\n<hr>\"}, {\"fieldtype\": \"Section Break\", \"label\": \"\"}, {\"fieldtype\": \"Column Break\"}, {\"print_hide\": 0, \"fieldname\": \"supplier\", \"label\": \"Supplier\"}, {\"print_hide\": 0, \"fieldname\": \"quality_inspection\", \"label\": \"Quality Inspection\"}, {\"fieldtype\": \"Column Break\"}, {\"print_hide\": 0, \"fieldname\": \"supplier_invoice\", \"label\": \"Supplier Invoice No\"}, {\"print_hide\": 0, \"fieldname\": \"supplier_waybill\", \"label\": \"Supplier Waybill No\"}, {\"print_hide\": 0, \"fieldname\": \"purchase_order\", \"label\": \"Purchase Order No\"}, {\"print_hide\": 0, \"fieldname\": \"date\", \"label\": \"Date\"}, {\"fieldtype\": \"Section Break\", \"label\": \"\"}, {\"fieldtype\": \"Column Break\"}, {\"visible_columns\": [{\"print_hide\": 0, \"fieldname\": \"description\", \"print_width\": \"\"}, {\"print_hide\": 0, \"fieldname\": \"pack_size\", \"print_width\": \"\"}, {\"print_hide\": 0, \"fieldname\": \"qty_supply\", \"print_width\": \"\"}, {\"print_hide\": 0, \"fieldname\": \"qty_receive\", \"print_width\": \"\"}, {\"print_hide\": 0, \"fieldname\": \"qty_reject\", \"print_width\": \"\"}, {\"print_hide\": 0, \"fieldname\": \"remarks\", \"print_width\": \"\"}], \"print_hide\": 0, \"fieldname\": \"items\", \"label\": \"Items\"}, {\"fieldtype\": \"Section Break\", \"label\": \"\"}, {\"fieldtype\": \"Column Break\"}, {\"print_hide\": 0, \"label\": \"Custom HTML\", \"fieldname\": \"_custom_html\", \"options\": \"<b>Supplier Rep:<br></b>Name:<br>Signature:<br><br><br>Date:<br>\", \"fieldtype\": \"HTML\"}, {\"fieldtype\": \"Column Break\"}, {\"print_hide\": 0, \"label\": \"Custom HTML\", \"fieldname\": \"_custom_html\", \"options\": \"<u><b>FOR QUALITY ASSURANCE<br></b></u>QC Comment:<br><br><br>NAME:<br>DESIGNATION:<br>SIGNATURE &amp; DATE:<br><br>\", \"fieldtype\": \"HTML\"}]", 
+ "idx": 0, 
+ "line_breaks": 0, 
+ "modified": "2017-05-23 10:30:16.793759", 
+ "modified_by": "Administrator", 
+ "module": "_Stock", 
+ "name": "Quality Control Material Acceptance Form", 
+ "owner": "Administrator", 
+ "print_format_builder": 1, 
+ "print_format_type": "Server", 
+ "show_section_headings": 0, 
+ "standard": "Yes"
+}

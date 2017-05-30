@@ -69,11 +69,11 @@ def get_account_section():
         "description": _("Petty Cash Log"),
     }, {
         "type": "doctype",
-        "label": _("Petty Voucher Form"),
-        "name": "Petty Voucher Form",
+        "label": _("Payment Voucher Form"),
+        "name": "Payment Voucher Form",
         "icon": "icon-sitemap",
-        "link": "List/Petty Voucher Form",
-        "description": _("Petty Voucher Form"),
+        "link": "List/Payment Voucher Form",
+        "description": _("Payment Voucher Form"),
     }])
 
 
@@ -404,6 +404,12 @@ def get_extra_selling_reports():
             "name": "Sales Rep Scorecard Report",
             "route": "query-report/Sales Rep Scorecard Report",
             "doctype": "Sales Invoice",
+        },
+        {
+            "type": "report",
+            "name": "Outlet Survey Report",
+            "route": "query-report/Outlet Survey Report",
+            "doctype": "Outlet Survey",
         },
         {
             "type": "report",

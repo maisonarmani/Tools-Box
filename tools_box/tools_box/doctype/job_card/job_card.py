@@ -36,6 +36,16 @@ class JobCard(Document):
 		#		frappe.throw('Job completion date is not set.')
 
 @frappe.whitelist()
+def get_job_card_approver(doctype, txt, searchfield, start, page_len, filters):
+	return frappe.db.sql("""
+		select u.name, concat(u.first_name, ' ', u.last_name)
+		from tabUser u, `tabHas Role` r
+		where u.name = r.parent and r.role = 'Directors' 
+		and u.enabled = 1 and u.name like %s
+	""", ("%" + txt + "%"))
+
+
+@frappe.whitelist()
 def get_requested_by(ticket_number):
 	ticket = frappe.get_doc("Helpdesk Ticket", ticket_number)
 	employee = frappe.get_doc("Employee", ticket.raised_by)
