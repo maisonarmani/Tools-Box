@@ -74,6 +74,13 @@ def get_account_section():
         "icon": "icon-sitemap",
         "link": "List/Payment Voucher Form",
         "description": _("Payment Voucher Form"),
+    },{
+        "type": "doctype",
+        "label": _("Asset Transfer Form"),
+        "name": "Asset Transfer Form",
+        "icon": "icon-sitemap",
+        "link": "List/Asset Transfer Form",
+        "description": _("Asset Transfer Form"),
     }])
 
 
@@ -324,9 +331,9 @@ def get_extra_maintenance_reports():
         },
         {
             "type": "report",
-            "name": "Generator Fuel Consumption Report",
-            "doctype": "Generator Fuel Consumption",
-            "is_query_report": True,
+            "name": "Generator Fuel Consumption Log Report",
+            "doctype": "Generator Fuel Consumption Log",
+            "is_query_report": False,
         },
         {
             "type": "report",
