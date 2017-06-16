@@ -2,6 +2,85 @@
  {
   "docstatus": 0, 
   "doctype": "Workflow", 
+  "document_type": "Job Card", 
+  "is_active": 1, 
+  "modified": "2017-06-10 13:47:44.936515", 
+  "name": "Job Card WorkFlow 2", 
+  "override_status": 0, 
+  "states": [
+   {
+    "allow_edit": "Job Card User", 
+    "doc_status": "0", 
+    "message": null, 
+    "state": "Draft", 
+    "update_field": "status", 
+    "update_value": "Draft"
+   }, 
+   {
+    "allow_edit": "Directors", 
+    "doc_status": "0", 
+    "message": null, 
+    "state": "Approved", 
+    "update_field": "status", 
+    "update_value": "Approved"
+   }, 
+   {
+    "allow_edit": "Directors", 
+    "doc_status": "0", 
+    "message": null, 
+    "state": "Rejected", 
+    "update_field": "status", 
+    "update_value": "Rejected"
+   }, 
+   {
+    "allow_edit": "Auditor", 
+    "doc_status": "0", 
+    "message": null, 
+    "state": "IAD Cleared", 
+    "update_field": "status", 
+    "update_value": "IAD Cleared"
+   }, 
+   {
+    "allow_edit": "Helpdesk Admin", 
+    "doc_status": "1", 
+    "message": null, 
+    "state": "Completed", 
+    "update_field": "status", 
+    "update_value": "Completed"
+   }
+  ], 
+  "transitions": [
+   {
+    "action": "Approve", 
+    "allowed": "Directors", 
+    "next_state": "Approved", 
+    "state": "Draft"
+   }, 
+   {
+    "action": "Reject", 
+    "allowed": "Directors", 
+    "next_state": "Rejected", 
+    "state": "Draft"
+   }, 
+   {
+    "action": "IAD Cleared", 
+    "allowed": "Auditor", 
+    "next_state": "IAD Cleared", 
+    "state": "Approved"
+   }, 
+   {
+    "action": "Complete", 
+    "allowed": "Helpdesk Admin", 
+    "next_state": "Completed", 
+    "state": "IAD Cleared"
+   }
+  ], 
+  "workflow_name": "Job Card WorkFlow 2", 
+  "workflow_state_field": "workflow_state"
+ }, 
+ {
+  "docstatus": 0, 
+  "doctype": "Workflow", 
   "document_type": "Purchase Order", 
   "is_active": 1, 
   "modified": "2017-05-01 09:32:50.625628", 
@@ -294,7 +373,7 @@
   "docstatus": 0, 
   "doctype": "Workflow", 
   "document_type": "Job Card", 
-  "is_active": 1, 
+  "is_active": 0, 
   "modified": "2017-03-31 10:43:28.499286", 
   "name": "Job Card WorkFlow", 
   "override_status": 0, 

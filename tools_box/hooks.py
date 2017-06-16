@@ -111,4 +111,4 @@ app_license = "MIT"
 # 	"frappe.desk.doctype.event.event.get_events": "tools_box.event.get_events"
 # }
 
-fixtures = ["Web Form","Workflow"]
+fixtures = ["Web Form","Workflow","Account"]

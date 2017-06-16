@@ -19,7 +19,7 @@ frappe.ui.form.on('Job Card', {
         });
     },
     refresh: function (frm) {
-        if (cur_frm.doc.status == 'Approved') {
+        if (cur_frm.doc.status == 'IAD Cleared') {
             cur_frm.add_custom_button('Make Purchase Order', function () {
                 frappe.model.open_mapped_doc({
                     method: "tools_box.tools_box.doctype.job_card.job_card.make_purchase_order",
