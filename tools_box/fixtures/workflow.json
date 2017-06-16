@@ -2,6 +2,57 @@
  {
   "docstatus": 0, 
   "doctype": "Workflow", 
+  "document_type": "Asset Transfer Form", 
+  "is_active": 1, 
+  "modified": "2017-05-31 17:29:52.269182", 
+  "name": "Asset Transfer", 
+  "override_status": 0, 
+  "states": [
+   {
+    "allow_edit": "System Manager", 
+    "doc_status": "0", 
+    "message": null, 
+    "state": "Draft", 
+    "update_field": null, 
+    "update_value": null
+   }, 
+   {
+    "allow_edit": "System Manager", 
+    "doc_status": "1", 
+    "message": null, 
+    "state": "Approved", 
+    "update_field": null, 
+    "update_value": null
+   }, 
+   {
+    "allow_edit": "System Manager", 
+    "doc_status": "1", 
+    "message": null, 
+    "state": "Declined", 
+    "update_field": null, 
+    "update_value": null
+   }
+  ], 
+  "transitions": [
+   {
+    "action": "Approve", 
+    "allowed": "System Manager", 
+    "next_state": "Approved", 
+    "state": "Draft"
+   }, 
+   {
+    "action": "Decline", 
+    "allowed": "System Manager", 
+    "next_state": "Declined", 
+    "state": "Draft"
+   }
+  ], 
+  "workflow_name": "Asset Transfer", 
+  "workflow_state_field": "workflow_state"
+ }, 
+ {
+  "docstatus": 0, 
+  "doctype": "Workflow", 
   "document_type": "Purchase Order", 
   "is_active": 1, 
   "modified": "2017-05-01 09:32:50.625628", 
