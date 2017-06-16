@@ -56,6 +56,20 @@ def get_selling_section():
         "icon": "icon-sitemap",
         "link": "List/Daily Route Activity",
         "description": _("Daily Route Activity."),
+    },{
+        "type": "doctype",
+        "label": _("Sales Weekly Report Form"),
+        "name": "Sales Weekly Report Form",
+        "icon": "icon-sitemap",
+        "link": "List/Sales Weekly Report Form",
+        "description": _("Sales Weekly Report Form."),
+    },{
+            "type": "doctype",
+            "label": _("Sales Weekly Report Form Setup"),
+            "name": "Sales Weekly Report Form Config",
+            "icon": "icon-sitemap",
+            "link": "List/Sales Weekly Report Form Config",
+            "description": _("Sales Weekly Report Form Config."),
     }])
 
 
@@ -200,7 +214,21 @@ def get_purchasing_section():
 
 
 def get_hr_section():
-    return __default_item([{}])
+    return __default_item([{
+        "type": "doctype",
+        "label": _("Staff Requisition Form"),
+        "name": "Staff Requisition Form",
+        "icon": "icon-sitemap",
+        "link": "List/Staff Requisition Form",
+        "description": _("Staff Requisition Form"),
+    },{
+        "type": "doctype",
+        "label": _("Staff Replacement Request Form"),
+        "name": "Staff Replacement Request Form",
+        "icon": "icon-sitemap",
+        "link": "List/Staff Replacement Request Form",
+        "description": _("Staff Replacement Request Form"),
+    }])
 
 
 def get_support_section():
