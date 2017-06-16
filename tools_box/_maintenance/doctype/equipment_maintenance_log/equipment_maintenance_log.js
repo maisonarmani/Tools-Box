@@ -3,15 +3,32 @@
 
 frappe.ui.form.on('Equipment Maintenance Log', {
     onload: function (frm) {
-        console.log("Loading...")
+        console.log("Loading...");
     },
     refresh: function (frm) {
-        frm.fields_dict.items.grid.get_field('spare_parts_used').get_query = function (doc, cdt, cdn) {
-            return {
-                filters: {
-                    item_group: "Spares Parts",
-                }
-            };
-        };
-    }
+        var item_grouper =  function(p){ return { filters:{ item_group : p } } };
+        frm.fields_dict.equipment.get_query = item_grouper("Fixed Assets");
+        frm.fields_dict.items.grid.get_field('spare_parts_used').get_query = item_grouper("Spares Parts");
+    },
+});
+
+cur_frm.cscript.set_bd_time = function(doc,docname){
+    var end_time = frappe.model.get_value(doc,docname,"start_time");
+    var start_time = frappe.model.get_value(doc,docname,"end_time");
+    frappe.model.set_value(doc,docname,"bd_time",moment(start_time).diff(end_time,"days"));
+};
+
+
+frappe.ui.form.on("Equipment Maintenance Log Item",{
+    equipment_maintenance_log_item_add:function(){
+        console.log("adding")
+    },
+    start_time:function(frm,doc,docname){
+        var end_time = frappe.model.get_value(doc,docname,"end_time");
+        if(end_time != "") frm.cscript.set_bd_time(doc,docname);
+    },
+    end_time:function(frm,doc,docname){
+        var start_time = frappe.model.get_value(doc,docname,"start_time");
+        if(start_time != "") frm.cscript.set_bd_time(doc,docname);
+    },
 });

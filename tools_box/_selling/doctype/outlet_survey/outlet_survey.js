@@ -5,4 +5,6 @@ frappe.ui.form.on('Outlet Survey', {
 	refresh: function(frm) {
 
 	}
+
+
 });

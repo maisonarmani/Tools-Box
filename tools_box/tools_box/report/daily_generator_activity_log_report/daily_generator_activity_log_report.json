@@ -1,5 +1,5 @@
 {
- "add_total_row": 0, 
+ "add_total_row": 1, 
  "apply_user_permissions": 1, 
  "creation": "2016-11-11 14:59:53.042488", 
  "disabled": 0, 
@@ -7,7 +7,7 @@
  "doctype": "Report", 
  "idx": 0, 
  "is_standard": "Yes", 
- "modified": "2017-05-22 17:49:25.849719", 
+ "modified": "2017-05-31 13:50:24.760332", 
  "modified_by": "Administrator", 
  "module": "Tools Box", 
  "name": "Daily Generator Activity Log Report", 

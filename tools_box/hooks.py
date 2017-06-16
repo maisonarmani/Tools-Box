@@ -70,13 +70,16 @@ app_license = "MIT"
 # ---------------
 # Hook on document methods and events
 
-# doc_events = {
+doc_events = {
 # 	"*": {
 # 		"on_update": "method",
 # 		"on_cancel": "method",
 # 		"on_trash": "method"
 #	}
-# }
+ 	"Sales Order": {
+ 		"validate": "tools_box.controllers.sentinel.validate_states",
+	}
+}
 
 # Scheduled Tasks
 # ---------------
@@ -111,4 +114,4 @@ app_license = "MIT"
 # 	"frappe.desk.doctype.event.event.get_events": "tools_box.event.get_events"
 # }
 
-fixtures = ["Web Form","Workflow","Account"]
+fixtures = ["Web Form","Workflow","Custom Field"]
