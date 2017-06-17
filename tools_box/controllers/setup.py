@@ -58,18 +58,18 @@ def get_selling_section():
         "description": _("Daily Route Activity."),
     },{
         "type": "doctype",
-        "label": _("Sales Weekly Report Form"),
-        "name": "Sales Weekly Report Form",
+        "label": _("Sales Weekly Report"),
+        "name": "Sales Weekly Report",
         "icon": "icon-sitemap",
-        "link": "List/Sales Weekly Report Form",
-        "description": _("Sales Weekly Report Form."),
+        "link": "List/Sales Weekly Report",
+        "description": _("Sales Weekly Report."),
     },{
             "type": "doctype",
-            "label": _("Sales Weekly Report Form Setup"),
-            "name": "Sales Weekly Report Form Config",
+            "label": _("Sales Weekly Report Setup"),
+            "name": "Sales Weekly Report Config",
             "icon": "icon-sitemap",
-            "link": "List/Sales Weekly Report Form Config",
-            "description": _("Sales Weekly Report Form Config."),
+            "link": "List/Sales Weekly Report Config",
+            "description": _("Sales Weekly Report Config."),
     }])
 
 
