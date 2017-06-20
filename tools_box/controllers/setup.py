@@ -64,12 +64,12 @@ def get_selling_section():
         "link": "List/Sales Weekly Report",
         "description": _("Sales Weekly Report."),
     },{
-            "type": "doctype",
-            "label": _("Sales Weekly Report Setup"),
-            "name": "Sales Weekly Report Config",
-            "icon": "icon-sitemap",
-            "link": "List/Sales Weekly Report Config",
-            "description": _("Sales Weekly Report Config."),
+        "type": "doctype",
+        "label": _("Sales Weekly Report Setup"),
+        "name": "Sales Weekly Report Config",
+        "icon": "icon-sitemap",
+        "link": "List/Sales Weekly Report Config",
+        "description": _("Sales Weekly Report Config."),
     }])
 
 
@@ -456,7 +456,7 @@ def get_extra_selling_reports():
             "type": "report",
             "is_query_report": True,
             "name": "Sales By Product Report",
-            "doctype": "Sales Order"
+            "doctype": "Sales Invoice"
         },
         {
             "type": "report",
