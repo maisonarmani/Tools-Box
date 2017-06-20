@@ -3,14 +3,20 @@
 
 frappe.ui.form.on('Staff Requisition Form', {
     onload: function (frm) {
-        frm.fields_dict.supervisor.get_query = function () {
+        frm.set_query("supervisors", function () {
             return {
                 filters: {
                     'designation' :["like" ,'%Manager%'],
                     'status': 'active'
                 }
             }
-        }
+        });
+
+        frm.set_query("directors", function () {
+            return {
+                query: "tools_box._hr.doctype.staff_requisition_form.staff_requisition_form.get_approvers"
+            };
+        });
     },
 	refresh: function(frm) {
 
