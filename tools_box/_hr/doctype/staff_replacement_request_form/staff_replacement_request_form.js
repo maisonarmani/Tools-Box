@@ -2,6 +2,13 @@
 // For license information, please see license.txt
 
 frappe.ui.form.on('Staff Replacement Request Form', {
+	setup:function(frm){
+        frm.set_query("approver", function () {
+            return {
+                query: "tools_box._hr.doctype.staff_requisition_form.staff_requisition_form.get_approvers"
+            };
+        });
+	},
 	refresh: function(frm) {
 
 	}
