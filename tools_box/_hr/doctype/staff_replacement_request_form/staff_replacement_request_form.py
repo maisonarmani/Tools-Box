@@ -9,7 +9,7 @@ from frappe.model.document import Document
 class StaffReplacementRequestForm(Document):
 	def validate(self):
 		status = str(self.status)
-		if status in ["Approved","Rejected"]:
+		if status is not "Open":
 			if [self.modified_by] not in self.get_approvers():
 				frappe.throw("Only specified approver can approve or reject this document")
 			self.docstatus = 1
