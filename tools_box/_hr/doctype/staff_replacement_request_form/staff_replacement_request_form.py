@@ -18,7 +18,3 @@ class StaffReplacementRequestForm(Document):
 		return frappe.db.sql("""
 					select u.name from tabUser u, `tabHas Role` r where (u.name = r.parent) and r.role = 'Directors' and 
 					u.enabled = 1""", as_list=1)
-	def get_approvers(self):
-		return frappe.db.sql("""
-				select u.name from tabUser u, `tabHas Role` r where (u.name = r.parent) and r.role = 'Directors' and 
-				u.enabled = 1""", as_list=1)
