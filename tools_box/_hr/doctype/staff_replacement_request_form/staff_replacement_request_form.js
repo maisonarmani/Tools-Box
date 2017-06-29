@@ -5,7 +5,7 @@ frappe.ui.form.on('Staff Replacement Request Form', {
 	setup:function(frm){
         frm.set_query("approver", function () {
             return {
-                query: "tools_box._hr.doctype.staff_requisition_form.staff_requisition_form.get_approvers"
+                query: "tools_box._hr.doctype.staff_replacement_request_form.staff_replacement_request_form.get_approvers"
             };
         });
 	},
