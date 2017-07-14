@@ -38,6 +38,12 @@ def get_data():
             "items": [
                 {
                     "type": "report",
+                    "name": "Vehicle Log Report",
+                    "route": "query-report/Vehicle Log Report",
+                    "doctype": "Vehicle Log",
+                },
+                {
+                    "type": "report",
                     "name": "Vehicle Allocation Schedule Report",
                     "route": "query-report/Vehicle Allocation Schedule Report",
                     "doctype": "Vehicle Schedule Log",
