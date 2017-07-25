@@ -12,8 +12,9 @@ def execute(filters=None):
                         "Asset Name::200",
                         "Asset Category:Link/Asset Category:200",
                         "Warehouse:Link/Warehouse:200",
-                        "Purchase Date:Date:200",
-                        "Book Value:Currency:200"], []
+                        "Purchase Date:Date:150",
+                        "Book Value:Currency:150",
+			"Purchase Amount:Currency:150"], []
     where = ""
     if filters.get("asset_category"):
         where = """ and tA.asset_category = "{}" """.format(filters.get("asset_category"))
@@ -21,6 +22,6 @@ def execute(filters=None):
         columns += ["Custodian - Employee ::200","Custodian - Department:Link/Department:150"]
 
     data = frappe.db.sql("""select tA.item_code,tA.name,tA.asset_category,tA.warehouse,tA.purchase_date,
-        tA.value_after_depreciation from tabAsset tA 
+        tA.value_after_depreciation,tA.gross_purchase_amount from tabAsset tA 
         where tA.docstatus=1 {}""".format(where), as_list=1)
     return columns, data
