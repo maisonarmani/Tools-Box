@@ -71,15 +71,17 @@ app_license = "MIT"
 # Hook on document methods and events
 
 doc_events = {
-# 	"*": {
-# 		"on_update": "method",
-# 		"on_cancel": "method",
+
+    "*": {
+        "before_save": [
+            "tools_box.controllers.sentinel.validate_status",
+        ]
+#		"after_save": "method",
+#		"on_cancel": "method",
 # 		"on_trash": "method"
-#	}
- 	"Sales Order": {
- 		"validate": "tools_box.controllers.sentinel.validate_states",
-	}
+	},
 }
+
 
 # Scheduled Tasks
 # ---------------
