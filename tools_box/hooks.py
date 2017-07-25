@@ -73,7 +73,7 @@ app_license = "MIT"
 doc_events = {
 
     "*": {
-        "before_save": [
+        "after_save": [
             "tools_box.controllers.sentinel.validate_status",
         ]
 #		"after_save": "method",
