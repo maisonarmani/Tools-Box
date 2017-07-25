@@ -114,4 +114,3 @@ doc_events = {
 # 	"frappe.desk.doctype.event.event.get_events": "tools_box.event.get_events"
 # }
 
-fixtures = ["Account"]
