@@ -21,6 +21,8 @@ frappe.ui.form.on('Sales Weekly Report', {
                 }
             }
         }
+
+        //
     },
     refresh: function (frm) {
         //.........
@@ -90,12 +92,20 @@ cur_frm.cscript = {
     calculate_visted_active: function (frm) {
         var visited = 0;
         var active = 0;
+        var new_outlet_visited = 0;
+
         cur_frm.fields_dict.outlets.grid.grid_rows.forEach(function (v, i) {
             if (v.doc.customer != "") visited++;
             if (v.doc.status == "Active") active++;
         });
-        frappe.model.set_value(cur_frm.doctype, cur_frm.docname, "visited", visited)
-        frappe.model.set_value(cur_frm.doctype, cur_frm.docname, "active_outlets", active)
+        cur_frm.fields_dict.outlet.grid.grid_rows.forEach(function (v, i) {
+            console.log(v.doc.outlet_type);
+            if (v.doc.outlet_type != "" && v.doc.outlet_type != undefined ) new_outlet_visited++
+        });
+
+        frappe.model.set_value(cur_frm.doctype, cur_frm.docname, "visited", visited);
+        frappe.model.set_value(cur_frm.doctype, cur_frm.docname, "active_outlets", active);
+        frappe.model.set_value(cur_frm.doctype, cur_frm.docname, "new_outlets_visited", new_outlet_visited);
     },
     get_visited: function () {
         frappe.call({
@@ -145,4 +155,14 @@ frappe.ui.form.on('Sales Weekly Report Outlets', {
     status: function () {
         cur_frm.cscript.calculate_visted_active()
     }
+});
+
+
+frappe.ui.form.on('Outlet Details', {
+    "outlet_add": function () {
+        cur_frm.cscript.calculate_visted_active()
+    },
+    "outlet_remove": function () {
+        cur_frm.cscript.calculate_visted_active()
+    },
 });

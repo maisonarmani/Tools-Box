@@ -27,7 +27,7 @@ frappe.query_reports["Fire Accident Report"] = {
 			"default":'', 
 			"options": [
 				{ "value": "", "label": __("Nature of Accident") },
-				{ "value": "mMjor", "label": __("Major") },
+				{ "value": "Major", "label": __("Major") },
 				{ "value": "Minor", "label": __("Minor") },
 				{ "value": "Fatal", "label": __("Fatal") },
 				{ "value": "Property Damaged", "label": __("Property Damaged") },
