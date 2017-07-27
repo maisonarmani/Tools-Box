@@ -4,15 +4,8 @@
 frappe.query_reports["Stock Count Report"] = {
 	"filters": [
 		{
-			"fieldname":"from_date",
-			"label": __("From Date"),
-			"fieldtype": "Date",
-			"default": sys_defaults.year_start_date,
-			"reqd": 1
-		},
-		{
-			"fieldname":"to_date",
-			"label": __("To Date"),
+			"fieldname":"as_at_date",
+			"label": __("As at Date"),
 			"fieldtype": "Date",	
 			"default": frappe.datetime.get_today(),
 			"reqd": 1

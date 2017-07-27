@@ -71,7 +71,6 @@ app_license = "MIT"
 # Hook on document methods and events
 
 doc_events = {
-
     "*": {
         "after_save": [
             "tools_box.controllers.sentinel.validate_status",
