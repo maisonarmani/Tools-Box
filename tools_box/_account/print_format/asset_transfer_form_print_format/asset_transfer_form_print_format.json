@@ -1,0 +1,21 @@
+{
+ "align_labels_left": 1, 
+ "creation": "2017-07-14 16:55:56.546255", 
+ "custom_format": 0, 
+ "disabled": 0, 
+ "doc_type": "Asset Transfer Form", 
+ "docstatus": 0, 
+ "doctype": "Print Format", 
+ "font": "Default", 
+ "idx": 0, 
+ "line_breaks": 1, 
+ "modified": "2017-07-14 16:57:20.808003", 
+ "modified_by": "Administrator", 
+ "module": "_Account", 
+ "name": "Asset Transfer Form Print Format", 
+ "owner": "Administrator", 
+ "print_format_builder": 1, 
+ "print_format_type": "Server", 
+ "show_section_headings": 1, 
+ "standard": "Yes"
+}
