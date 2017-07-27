@@ -17,10 +17,10 @@ def execute(filters=None):
 
     data, conditions = [], ""
 
-    if (filters.get("from_date") and filters.get("from_date")):
-        conditions += " AND sle.posting_date <= '{to_date}'"
+    if (filters.get("as_at_date")):
+        conditions += " AND sle.posting_date <= DATE_ADD('{as_at_date}', INTERVAL 1 DAY)"
     else:
-        frappe.throw(frappe._("From date and to date are required fields"))
+        frappe.throw(frappe._("As at date is a required field"))
 
     if filters.get("item_code"):
         conditions += " AND sle.item_code = \"{item_code}\""
@@ -31,9 +31,10 @@ def execute(filters=None):
 
     ''' go thru all items in warehouse
     then go to the stock ledger entry and see what is left of that '''
-    query = '''SELECT sle.item_code ,item.item_name, item.item_group,sle.warehouse,  sle.posting_date, sle.qty_after_transaction
-    					FROM `tabStock Ledger Entry` sle LEFT OUTER JOIN `tabItem` item ON (item.item_code = sle.item_code)
-    					WHERE sle.voucher_type = "Stock Entry" AND sle.docstatus < 2 {conds} ORDER BY sle.item_code ,sle.posting_date ,sle.posting_time
+    query = '''SELECT sle.item_code ,item.item_name, item.item_group,sle.warehouse,  sle.posting_date, sle.
+            qty_after_transaction FROM `tabStock Ledger Entry` sle LEFT OUTER JOIN `tabItem` item ON 
+            (item.item_code = sle.item_code) WHERE sle.voucher_type = "Stock Entry" AND sle.docstatus < 2 {conds} 
+            ORDER BY sle.item_code ,sle.posting_date ,sle.posting_time
     			'''
     data = frappe.db.sql(query.format(conds=conditions).format(**filters))
     data_redefined, c = [], 1
