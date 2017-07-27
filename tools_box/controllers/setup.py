@@ -442,6 +442,12 @@ def get_extra_selling_reports():
         },
         {
             "type": "report",
+            "name": "Sales Weekly Report",
+            "route": "query-report/Sales Weekly Report",
+            "doctype": "Sales Weekly Report",
+        },
+        {
+            "type": "report",
             "name": "Outlet Survey Report",
             "route": "query-report/Outlet Survey Report",
             "doctype": "Outlet Survey",

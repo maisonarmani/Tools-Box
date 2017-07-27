@@ -7,7 +7,7 @@
  "doctype": "Report", 
  "idx": 1, 
  "is_standard": "Yes", 
- "modified": "2017-05-23 06:40:35.884458", 
+ "modified": "2017-07-26 15:35:11.035181", 
  "modified_by": "Administrator", 
  "module": "Tools Box", 
  "name": "Raw material re-order Report", 
@@ -51,6 +51,9 @@
   }, 
   {
    "role": "Accounts Manager"
+  }, 
+  {
+   "role": "Fleet Manager"
   }
  ]
 }
