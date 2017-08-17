@@ -8,7 +8,7 @@
  "idx": 0, 
  "is_standard": "Yes", 
  "letter_head": "Standard Letterhead", 
- "modified": "2017-07-14 10:11:40.763522", 
+ "modified": "2017-07-27 15:56:57.481940", 
  "modified_by": "Administrator", 
  "module": "Logistics", 
  "name": "Vehicle Log Report", 
@@ -25,6 +25,9 @@
   }, 
   {
    "role": "Logistics User"
+  }, 
+  {
+   "role": "Directors"
   }
  ]
 }

@@ -12,6 +12,7 @@ def execute(filters={}):
 		"Employee:Data:150",
 		"Fuel Qty:Float:100",
 		"Fuel Price:Currency:100",
+		"Total:Currency:100",
 	]
 	conditions = ""
 	if filters.get("from_date"):
@@ -19,10 +20,11 @@ def execute(filters={}):
 	if filters.get("to_date"):
 		conditions += " AND vl.date <= %(to_date)s"
 	if filters.get("vehicle"):
-		conditions += " AND vl.vehicle = %(vehicle)s"
+		conditions += " AND vl.license_plate = %(vehicle)s"
 	if filters.get("driver"):
 		conditions += " AND vl.employee = %(employee)s"
 	data = frappe.db.sql("select vl.name , vl.date, vl.license_plate, CONCAT(vl.model,'-' ,vl.make) car, "
-						 "emp.employee_name, vl.fuel_qty, vl.price  from `tabVehicle Log` vl LEFT OUTER JOIN `tabEmployee` "
-						 "emp ON(emp.name=vl.employee) where  (1=1) {0}".format(conditions), filters)
+						 "emp.employee_name, vl.fuel_qty, vl.price , (vl.fuel_qty * vl.price) total from "
+						 "`tabVehicle Log` vl LEFT OUTER JOIN `tabEmployee` emp ON(emp.name=vl.employee) where "
+						 " (1=1) {0}".format(conditions), filters)
 	return columns, data

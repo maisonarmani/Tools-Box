@@ -14,13 +14,13 @@ frappe.query_reports["Vehicle Log Report"] = {
             fieldtype: "Date",
         },
         {
-            fieldname: "Employee",
+            fieldname: "employee",
             label: __("Employee"),
             fieldtype: "Link",
             options: "Employee",
         },
         {
-            fieldname: "Vehicle",
+            fieldname: "vehicle",
             label: __("Vehicle"),
             fieldtype: "Link",
             options: "Vehicle",
