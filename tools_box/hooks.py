@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from . import __version__ as app_version
-
+from frappe import _
 app_name = "tools_box"
 app_title = "Tools Box"
 app_publisher = "masonarmani38@gmail.com"
@@ -40,7 +40,7 @@ app_license = "MIT"
 # ----------
 
 # automatically create page for each record of this doctype
-# website_generators = ["Web Page"]
+# website_generators = ["Meeting", "File"]
 
 # Installation
 # ------------
@@ -58,9 +58,15 @@ app_license = "MIT"
 # -----------
 # Permissions evaluated in scripted ways
 
-# permission_query_conditions = {
-# 	"Event": "frappe.desk.doctype.event.event.get_permission_query_conditions",
-# }
+permission_query_conditions = {
+# 	"File": "tools_box._selling.doctype.client.client.get_permission_query_conditions_for_file",
+}
+
+standard_portal_menu_items = [
+#	{"title": _("Meetings"), "route": "/meetings", "reference_doctype": "Meeting"},
+#	{"title": _("Document Manager"), "route": "/documents", "reference_doctype": "File"}
+]
+
 #
 # has_permission = {
 # 	"Event": "frappe.desk.doctype.event.event.has_permission",

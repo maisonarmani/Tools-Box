@@ -14,6 +14,11 @@ def get_data():
                 },
                 {
                     "type": "doctype",
+                    "name": "Fire Accident Form",
+                    "description": _("Fire Accident Form")
+                },
+                {
+                    "type": "doctype",
                     "name": "Health Survey",
                     "description": _("Health Survey")
                 },
@@ -21,6 +26,11 @@ def get_data():
                     "type": "doctype",
                     "name": "Head Count",
                     "description": _("Head Count")
+                },
+                {
+                    "type": "doctype",
+                    "name": "Contractor Permit to Work",
+                    "description": _("Contractor Permit to Work")
                 },
                 {
                     "type": "doctype",

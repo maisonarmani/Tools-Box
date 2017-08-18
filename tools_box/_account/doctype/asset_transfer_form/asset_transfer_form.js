@@ -3,7 +3,12 @@
 
 frappe.ui.form.on('Asset Transfer Form', {
 	onload: function (frm) {
-        console.log("Loading...")
+         frm.set_query("approved_by", function () {
+            return {
+                query: "tools_box._hr.doctype.staff_requisition_form.staff_requisition_form.get_approvers"
+            };
+        });
+
     },
     refresh: function (frm) {
         var item_grouper =  function(p){ return { filters:{ item_group : p } } };
