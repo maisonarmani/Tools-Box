@@ -11,7 +11,20 @@ var take = function(obj,param){
 	}
 };
 
+var get_employees = function () {
+    return {
+        query: "tools_box.controllers.api.get_active_employees"
+    };
+}
 frappe.ui.form.on("Accident",{
+	refresh: function(frm) {},
+	onload:function(frm,cdt,cdn){
+		frm.set_query("employee", get_employees);
+		// set prepared by and prepared date
+		if(frm.doc.prepared_by == "" || frm.doc.prepared_by == undefined) frappe.model.set_value(cdt,cdn,'prepared_by',
+			[frappe.boot.user.first_name,frappe.boot.user.last_name].join(" "));
+		if(frm.doc.prepared_date == "" || frm.doc.prepared_date == undefined) frappe.model.set_value(cdt,cdn,'prepared_date',frappe.datetime.now_datetime().split(" ")[0]);
+	},
 	employee:function(frm,cdt,cdn){
 		frappe.call({
 			method:'tools_box.safety_and_compliance.api.get_employee_experience',
@@ -47,13 +60,6 @@ frappe.ui.form.on("Accident",{
 			}
 		})
 	},
-	refresh: function(frm) {},
-	onload:function(frm,cdt,cdn){
-		// set prepared by and prepared date
-		if(frm.doc.prepared_by == "" || frm.doc.prepared_by == undefined) frappe.model.set_value(cdt,cdn,'prepared_by',
-			[frappe.boot.user.first_name,frappe.boot.user.last_name].join(" "));
-		if(frm.doc.prepared_date == "" || frm.doc.prepared_date == undefined) frappe.model.set_value(cdt,cdn,'prepared_date',frappe.datetime.now_datetime().split(" ")[0]);
-	}
 
 });
 

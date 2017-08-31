@@ -1,9 +1,16 @@
 // Copyright (c) 2016, Frappe Technologies Pvt. Ltd. and contributors
 // For license information, please see license.txt
+var get_employees = function () {
+    return {
+        query: "tools_box.controllers.api.get_active_employees"
+    };
+}
+
 cur_frm.add_fetch("assigned_to", "employee_name", "assigned_to_name");//,"employee_name")
 frappe.ui.form.on('Helpdesk Ticket', {
-    onload:function(){
-        console.log("Loading...");
+    onload: function (frm) {
+        frm.set_query("raised_by", get_employees);
+        frm.set_query("assigned_to", get_employees);
     },
     refresh: function (frm) {
         cur_frm.add_custom_button('Make Job Card', function () {
@@ -36,11 +43,11 @@ frappe.ui.form.on('Helpdesk Ticket', {
         }
     },
 
-    asset_category:function(){
-         cur_frm.set_query("asset", function () {
+    asset_category: function () {
+        cur_frm.set_query("asset", function () {
             return {
                 "filters": {
-                    "asset_category":cur_frm.doc.asset_category
+                    "asset_category": cur_frm.doc.asset_category
                 }
             };
         });

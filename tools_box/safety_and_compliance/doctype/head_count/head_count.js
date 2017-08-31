@@ -1,8 +1,12 @@
-// Copyright (c) 2016, bobzz.zone@gmail.com and contributors
+// Copyright (c) 2016, masonarmani38@gmail.com and contributors
 // For license information, please see license.txt
 
 const CMODULE = "tools_box.safety_and_compliance";
+
 frappe.ui.form.on('Head Count', {
+	onload:function(frm){
+
+	},
 	refresh: function(frm) {
 //		cur_frm.cscript.get_previous_count_date();
 	},
