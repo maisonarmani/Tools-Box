@@ -7,7 +7,7 @@ frappe.ui.form.on('Contractor Permit to Work', {
             return {
                 query: "tools_box.safety_and_compliance.doctype.contractor_permit_to_work.contractor_permit_to_work.get_approvers",
                 filters: {
-                    'role': 'Directors'
+                    'roles': "('Production Manager', 'Manufacturing Manager','Helpdesk Admin')"
                 }
             };
         });
