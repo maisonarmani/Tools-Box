@@ -4,21 +4,15 @@
 cur_frm.add_fetch('employee_id', 'department', 'employee_department');
 cur_frm.add_fetch('employee_id', 'employee_name', 'employee_name');
 
-// Set query filter for employee id
-cur_frm.set_query("employee_id",function g(){
-	return {
-		filter:{status:'Active'}
-	}
-});
-
-// Realtime operations
-frappe.realtime.on("health_survey_amended",function(data){
-	console.log(data);
-});
+var get_employees = function () {
+    return {
+        query: "tools_box.controllers.api.get_active_employees"
+    };
+}
 
 frappe.ui.form.on('Health Survey', {
 	onload:function(frm,cdt,cdn){
-        // set prepared by and prepared date
+		frm.set_query("employee_id", get_employees);
 	},
 	refresh: function(frm,cdt,cdn) {
 		console.log(frm);
