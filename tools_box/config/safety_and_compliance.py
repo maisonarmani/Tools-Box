@@ -29,8 +29,13 @@ def get_data():
                 },
                 {
                     "type": "doctype",
-                    "name": "Contractor Permit to Work",
-                    "description": _("Contractor Permit to Work")
+                    "name": "Contractor Work Permit",
+                    "description": _("Contractor Work Permit")
+                },
+                {
+                    "type": "doctype",
+                    "name": "Contractor Work Permit Application",
+                    "description": _("Contractor Work Permit Application")
                 },
                 {
                     "type": "doctype",
