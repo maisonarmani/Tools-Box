@@ -16,7 +16,7 @@ def execute(filters=None):
 		item_group = """ and ii.item_group = "{}" """.format(filters.get("item_group"))
 	if filters.get("shift") != "All":
 		shift = """ and f.shift="{}" """.format(filters.get("shift"))
-	data = frappe.db.sql("""select f.date,f.shift,"i.item_code",i.item_name,i.uom,i.qty
+	data = frappe.db.sql("""select f.date,f.shift,i.item_code,i.item_name,i.uom,i.qty
 		from `tabFinished Goods Transfer Item` i join `tabFinished Goods Transfer Form` f on i.parent=f.name 
 		join `tabItem` ii on ii.name = i.item_code
 		where f.docstatus =1 and (f.date between "{}" and "{}") {} {} {}

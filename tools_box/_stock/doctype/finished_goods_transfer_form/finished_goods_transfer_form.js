@@ -34,9 +34,9 @@ frappe.ui.form.on('Finished Goods Transfer Form', {
 				production_order:frm.doc.weekly_production_order_form
 			},
 			callback:function(ret){
-				console.log(ret)
 				if (ret != {}){
 					var message = ret.message;
+					frm.doc.items = []; // clear older data
 					message.forEach(function(val){
 						var d = frappe.model.add_child(cur_frm.doc, "Raw Materials Return Item", "items");
 						take.apply(d,[val,[

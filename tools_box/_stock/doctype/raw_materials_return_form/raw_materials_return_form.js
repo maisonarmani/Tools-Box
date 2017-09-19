@@ -36,6 +36,7 @@ frappe.ui.form.on('Raw Materials Return Form', {
 			callback:function(ret){
 				if (ret != {}){
 					var message = ret.message;
+					frm.doc.items = []; // clear older data
 					message.forEach(function(val){
 						var d = frappe.model.add_child(cur_frm.doc, "Raw Materials Return Item", "items");
 						take.apply(d,[val,[

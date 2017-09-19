@@ -133,20 +133,6 @@ def get_production_section():
         "description": _("Production Yield Control Form"),
     }, {
         "type": "doctype",
-        "label": _("Weekly Production Plan"),
-        "name": "Weekly Production Plan",
-        "icon": "icon-sitemap",
-        "link": "List/Weekly Production Plan",
-        "description": _("Weekly Production Plan"),
-    }, {
-        "type": "doctype",
-        "label": _("Daily Production Order"),
-        "name": "Daily Production Order",
-        "icon": "icon-sitemap",
-        "link": "List/Daily Production Order",
-        "description": _("Daily Production Order"),
-    }, {
-        "type": "doctype",
         "label": _("Raw Materials Return Form"),
         "name": "Raw Materials Return Form",
         "icon": "icon-sitemap",
