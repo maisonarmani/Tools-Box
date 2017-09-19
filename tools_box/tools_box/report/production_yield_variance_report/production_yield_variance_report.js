@@ -18,14 +18,6 @@ frappe.query_reports["Production Yield Variance Report"] = {
 			"reqd":1
 		},
 		{
-			"fieldname":"shift",
-			"label": __("Shift"),
-			"fieldtype": "Select",
-			"options": "All\nMorning\nAfternoon\nNight",
-			"default":"All",
-			"reqd":1
-		},
-		{
 			"fieldname":"item",
 			"label": __("Item"),
 			"fieldtype": "Link",

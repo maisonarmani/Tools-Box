@@ -35,35 +35,35 @@ def get_selling_section():
         "icon": "icon-sitemap",
         "link": "List/Outlet Survey",
         "description": _("Outlet Survey."),
-    },{
+    }, {
         "type": "doctype",
         "label": _("Authority to Load"),
         "name": "Authority to Load",
         "icon": "icon-sitemap",
         "link": "List/Authority to Load",
         "description": _("Authority to Load"),
-    },{
+    }, {
         "type": "doctype",
         "label": _("Performance Assessment Form"),
         "name": "Performance Assessment Form",
         "icon": "icon-sitemap",
         "link": "List/Performance Assessment Form",
         "description": _("Performance Assessment Form."),
-    },{
+    }, {
         "type": "doctype",
         "label": _("Daily Route Activity"),
         "name": "Daily Route Activity",
         "icon": "icon-sitemap",
         "link": "List/Daily Route Activity",
         "description": _("Daily Route Activity."),
-    },{
+    }, {
         "type": "doctype",
         "label": _("Sales Weekly Report"),
         "name": "Sales Weekly Report",
         "icon": "icon-sitemap",
         "link": "List/Sales Weekly Report",
         "description": _("Sales Weekly Report."),
-    },{
+    }, {
         "type": "doctype",
         "label": _("Sales Weekly Report Setup"),
         "name": "Sales Weekly Report Config",
@@ -88,7 +88,7 @@ def get_account_section():
         "icon": "icon-sitemap",
         "link": "List/Payment Voucher Form",
         "description": _("Payment Voucher Form"),
-    },{
+    }, {
         "type": "doctype",
         "label": _("Asset Transfer Form"),
         "name": "Asset Transfer Form",
@@ -106,7 +106,7 @@ def get_stock_section():
         "icon": "icon-sitemap",
         "link": "List/Quality Control Material Acceptance Form",
         "description": _("Quality Control Material Acceptance Form"),
-    },{
+    }, {
         "type": "doctype",
         "label": _("Store Bin Card"),
         "name": "Store Bin Card",
@@ -221,7 +221,7 @@ def get_hr_section():
         "icon": "icon-sitemap",
         "link": "List/Staff Requisition Form",
         "description": _("Staff Requisition Form"),
-    },{
+    }, {
         "type": "doctype",
         "label": _("Staff Replacement Request Form"),
         "name": "Staff Replacement Request Form",
@@ -307,12 +307,13 @@ def get_extra_hr_reports():
 
 
 def get_extra_production_reports():
-    return __default_rep_items([{
-        "type": "report",
-        "name": "Finished Goods Transfer Report",
-        "doctype": "Finished Goods Transfer Form",
-        "is_query_report": True,
-    },
+    return __default_rep_items([
+        {
+            "type": "report",
+            "name": "Finished Goods Transfer Report",
+            "doctype": "Finished Goods Transfer Form",
+            "is_query_report": True,
+        },
         {
             "type": "report",
             "is_query_report": True,
@@ -324,18 +325,7 @@ def get_extra_production_reports():
             "is_query_report": True,
             "name": "Raw Materials Return Report",
             "doctype": "Raw Materials Return Form",
-        },
-        {
-            "type": "report",
-            "is_query_report": True,
-            "name": "Finished Goods Transfer Report",
-            "doctype": "Finished Goods Transfer Form",
-        }, {
-            "type": "report",
-            "name": "Production Order Report",
-            "doctype": "Weekly Production Order Form",
-            "is_query_report": True,
-        }, {
+        },  {
             "type": "report",
             "name": "Production Yield Variance Report",
             "doctype": "Production Yield Control Form",
@@ -373,6 +363,12 @@ def get_extra_maintenance_reports():
             "type": "report",
             "name": "Computing Asset Inspection Checklist Report",
             "doctype": "Computing Asset Inspection Checklist",
+            "is_query_report": True,
+        },
+        {
+            "type": "report",
+            "name": "Equipment Maintenance Log Report",
+            "doctype": "Equipment Maintenance Log Report",
             "is_query_report": True,
         }
     ])

@@ -18,23 +18,12 @@ frappe.query_reports["Equipment Maintenance Log Report"] = {
 			"reqd":1,
 			"default":dateutil.year_end()
 		},
-		/**
 		{
-			"fieldname": "nature_of_accident",
-			"label": __("Nature of Accident"),
+			"fieldname": "status",
+			"label": __("Status"),
 			"fieldtype": "Select",
 			"default":'',
-			"options": [{ "value": "", "label": __("Nature of Accident") }]
+			"options": ["Pending","Completed"]
 		},
-		{
-			"fieldname":"fire_extinguisher",
-			"label": __("Fire Extinguisher"),
-			"fieldtype": "Link",
-			"width": "80",
-			"reqd":0,
-			"options": "Fire Extinguisher",
-			"filters": {}
-		},
-		 **/
 	]
 }
