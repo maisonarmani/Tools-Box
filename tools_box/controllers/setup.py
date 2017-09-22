@@ -307,7 +307,7 @@ def get_extra_production_reports():
         },  {
             "type": "report",
             "name": "Production Yield Variance Report",
-            "doctype": "Production Yield Control Form",
+            "doctype": "Production Order",
             "is_query_report": True,
         }, {
             "type": "report",
