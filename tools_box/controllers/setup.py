@@ -309,11 +309,6 @@ def get_extra_production_reports():
             "name": "Production Yield Variance Report",
             "doctype": "Production Order",
             "is_query_report": True,
-        }, {
-            "type": "report",
-            "name": "Raw Materials Return Report",
-            "doctype": "Raw Materials Return Form",
-            "is_query_report": True,
         }
     ])
 
