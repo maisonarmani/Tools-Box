@@ -3,6 +3,7 @@
 
 cur_frm.add_fetch('employee_id', 'department', 'employee_department');
 cur_frm.add_fetch('employee_id', 'employee_name', 'employee_name');
+cur_frm.add_fetch("employee_id", "current_address","background_information");
 
 var get_employees = function () {
     return {

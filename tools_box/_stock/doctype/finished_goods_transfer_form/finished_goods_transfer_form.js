@@ -16,7 +16,7 @@ frappe.ui.form.on('Finished Goods Transfer Form', {
 		frm.set_query('weekly_production_order_form', function(){
 			return {
 				filters:{
-					docstatus:1
+					status:"Completed",
 				}
 			}
 		})
@@ -25,6 +25,7 @@ frappe.ui.form.on('Finished Goods Transfer Form', {
 		cur_frm.add_fetch("item_code","stock_uom","uom");
 		cur_frm.add_fetch("item_code","item_name","item_name");
 		cur_frm.add_fetch("item_code","description","description");
+		cur_frm.add_fetch("weekly_production_order_form","planned_start_date","date");
 
 	},
 	weekly_production_order_form: function(frm){
@@ -42,10 +43,10 @@ frappe.ui.form.on('Finished Goods Transfer Form', {
 						take.apply(d,[val,[
 							'item_code','qty','uom','item_name'
 						]]);
+						d.qty=0;
 						d.remark = "Excess from manufacturing "+ d.item_name;
 						d.description = d.item_name;
 					});
-
 					refresh_field('items');
 				}
 			}

@@ -124,14 +124,7 @@ def get_production_section():
         "icon": "icon-sitemap",
         "link": "List/Production Unit",
         "description": _("Production Unit"),
-    }, {
-        "type": "doctype",
-        "label": _("Production Yield Control Form"),
-        "name": "Production Yield Control Form",
-        "icon": "icon-sitemap",
-        "link": "List/Production Yield Control Form",
-        "description": _("Production Yield Control Form"),
-    }, {
+    },  {
         "type": "doctype",
         "label": _("Raw Materials Return Form"),
         "name": "Raw Materials Return Form",

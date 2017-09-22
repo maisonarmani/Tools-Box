@@ -17,7 +17,6 @@ var get_employees = function () {
     };
 }
 frappe.ui.form.on("Accident",{
-	refresh: function(frm) {},
 	onload:function(frm,cdt,cdn){
 		frm.set_query("employee", get_employees);
 		// set prepared by and prepared date

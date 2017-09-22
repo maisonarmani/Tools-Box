@@ -12,10 +12,25 @@ class ProductionYieldControlForm(Document):
 
 @frappe.whitelist(False)
 def get_yield(production_order=None):
+	# get all production order for an item or items in a particular item group
+	# run them tru what is support to be produced and what has been produced for each production order
+	# go to stock entry and get the item that was actually manufactured
+	# check the stock entry item where def target warehouse != ""
+	# and the item is the item to be produced
+
 	if production_order != None:
 		prod = frappe.get_list(doctype="Production Order", filters={
-			"name": production_order,
+			"name": production_order,"docstatus":1
 		}, fields=['production_item as item_code','qty as expected_output'])
+
+		stock_record = frappe.db.sql(
+			"select sED.item_code , sED.qty, sE.production_order,  from `tabStock Entry` sE, `tabStock Entry Detail` sED on (sE.name = sED.parent) where "
+			"sE.purpose = 'Manufacture' and sE.production_order = '{prod_o}' and (sE.target_warehouse = sED.target_warehouse)".format(prod_o=production_order))
+
+		prod = frappe.get_list(doctype="Stock Entry Item", filters={
+			"parent": production_order, "docstatus": 1
+		}, fields=['production_item as item_code', 'qty as expected_output'])
+
 
 		for itm in prod:
 			item = frappe.get_list(doctype="Item", filters={

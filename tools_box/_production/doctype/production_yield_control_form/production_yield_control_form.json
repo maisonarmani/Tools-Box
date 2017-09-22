@@ -40,10 +40,10 @@
    "read_only": 0, 
    "remember_last_selected_value": 0, 
    "report_hide": 0, 
-   "reqd": 0, 
+   "reqd": 1, 
    "search_index": 0, 
    "set_only_once": 0, 
-   "unique": 0
+   "unique": 1
   }, 
   {
    "allow_bulk_edit": 0, 
@@ -207,7 +207,7 @@
  "issingle": 0, 
  "istable": 0, 
  "max_attachments": 0, 
- "modified": "2017-09-19 00:53:04.785213", 
+ "modified": "2017-09-21 12:22:14.664133", 
  "modified_by": "Administrator", 
  "module": "_Production", 
  "name": "Production Yield Control Form", 

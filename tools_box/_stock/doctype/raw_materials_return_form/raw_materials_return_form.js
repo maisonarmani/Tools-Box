@@ -16,7 +16,7 @@ frappe.ui.form.on('Raw Materials Return Form', {
 		frm.set_query('production_order', function(){
 			return {
 				filters:{
-					docstatus:1
+					status:"Completed",
 				}
 			}
 		})
@@ -25,7 +25,7 @@ frappe.ui.form.on('Raw Materials Return Form', {
 		cur_frm.add_fetch("item_code","stock_uom","uom");
 		cur_frm.add_fetch("item_code","item_name","item_name");
 		cur_frm.add_fetch("item_code","description","description");
-
+		cur_frm.add_fetch("production_order","planned_start_date","date");
 	},
 	production_order: function(frm){
 		frappe.call({
@@ -42,7 +42,9 @@ frappe.ui.form.on('Raw Materials Return Form', {
 						take.apply(d,[val,[
 							'item_name','uom','item_code','qty'
 						]]);
+						d.qty=0
 						d.remark = "Returning "+ d.item_name + " after production"
+						d.description = "Returning "+ d.item_name + " after production"
 					});
 
 					refresh_field('items');
