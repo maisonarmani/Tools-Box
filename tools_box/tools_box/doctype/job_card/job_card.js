@@ -1,5 +1,10 @@
 // Copyright (c) 2016, Frappe Technologies Pvt. Ltd. and contributors
 // For license information, please see license.txt
+function get_employees() {
+    return {
+        query: "tools_box.controllers.api.get_active_employees"
+    };
+}
 cur_frm.add_fetch('item_code', 'stock_uom', 'uom');
 cur_frm.add_fetch('item_code', 'item_name', 'item_name');
 cur_frm.add_fetch('item_code', 'description', 'item_description');
@@ -19,6 +24,8 @@ frappe.ui.form.on('Job Card', {
         });
     },
     refresh: function (frm) {
+		frm.set_query("job_completion_verified_by", get_employees);
+		frm.set_query("requested_by", get_employees);
         if (cur_frm.doc.status == 'IAD Cleared') {
             cur_frm.add_custom_button('Make Purchase Order', function () {
                 frappe.model.open_mapped_doc({
