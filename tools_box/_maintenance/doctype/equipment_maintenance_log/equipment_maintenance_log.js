@@ -27,7 +27,7 @@ frappe.ui.form.on('Equipment Maintenance Log', {
 cur_frm.cscript.set_bd_time = function(doc,docname){
     var end_time = frappe.model.get_value(doc,docname,"start_time");
     var start_time = frappe.model.get_value(doc,docname,"end_time");
-    var h = moment(start_time).diff(end_time,"minutes") / 60;
+    var h = round_based_on_smallest_currency_fraction(moment(start_time).diff(end_time,"minutes") / 60);
     var m = moment(start_time).diff(end_time,"minutes") % 60;
     frappe.model.set_value(doc,docname,"bd_time",`${h}hours:${m}minutes`);
 };

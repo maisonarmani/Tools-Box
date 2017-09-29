@@ -64,6 +64,9 @@ frappe.ui.form.on("Accident",{
 
 
 frappe.ui.form.on("Employee External Work History",{
+	onload:function(frm){
+		frm.set_query("employee", get_employees);
+	},
     company_name: function (frm, cdt, cdn) {
 		console.log(arguments);
     }

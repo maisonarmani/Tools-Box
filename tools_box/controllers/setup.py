@@ -131,15 +131,42 @@ def get_production_section():
         "icon": "icon-sitemap",
         "link": "List/Raw Materials Return Form",
         "description": _("Raw Materials Return Form"),
-    },
-        {
-            "type": "doctype",
-            "label": _("Finished Goods Transfer Form"),
-            "name": "Finished Goods Transfer Form",
-            "icon": "icon-sitemap",
-            "link": "List/Finished Goods Transfer Form",
-            "description": _("Finished Goods Transfer Form"),
-        }
+    },{
+        "type": "doctype",
+        "label": _("Finished Goods Transfer Form"),
+        "name": "Finished Goods Transfer Form",
+        "icon": "icon-sitemap",
+        "link": "List/Finished Goods Transfer Form",
+        "description": _("Finished Goods Transfer Form"),
+    },{
+        "type": "doctype",
+        "label": _("Production Waste"),
+        "name": "Production Waste",
+        "icon": "icon-sitemap",
+        "link": "List/Production Waste",
+        "description": _("Production Waste"),
+    },{
+        "type": "doctype",
+        "label": _("Machine Downtime Monitoring"),
+        "name": "Machine Downtime Monitoring",
+        "icon": "icon-sitemap",
+        "link": "List/Machine Downtime Monitoring",
+        "description": _("Machine Downtime Monitoring"),
+    },{
+        "type": "doctype",
+        "label": _("Waste Control Inspection"),
+        "name": "Waste Control Inspection",
+        "icon": "icon-sitemap",
+        "link": "List/Waste Control Inspection",
+        "description": _("Waste Control Inspection"),
+    },{
+        "type": "doctype",
+        "label": _("Production Waste Setup"),
+        "name": "Production Waste Setup",
+        "icon": "icon-sitemap",
+        "link": "List/Production Waste Setup",
+        "description": _("Production Waste Setup"),
+    }
     ])
 
 
@@ -308,6 +335,11 @@ def get_extra_production_reports():
             "type": "report",
             "name": "Production Yield Variance Report",
             "doctype": "Production Order",
+            "is_query_report": True,
+        },{
+            "type": "report",
+            "name": "Production Waste Report",
+            "doctype": "Production Waste",
             "is_query_report": True,
         }
     ])

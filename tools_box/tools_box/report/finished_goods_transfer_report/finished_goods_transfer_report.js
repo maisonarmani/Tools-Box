@@ -14,7 +14,7 @@ frappe.query_reports["Finished Goods Transfer Report"] = {
 			"fieldname":"to",
 			"label": __("To Date"),
 			"fieldtype": "Date",
-			"default": get_today(),
+			"default": frappe.datetime.get_today(),
 			"reqd":1
 		},
 		{

@@ -13,11 +13,12 @@ class RawMaterialsReturnForm(Document):
 			nmrf.purpose = "Material Receipt"
 			nmrf.title = "Material Receipt"
 			nmrf.from_warehouse = ""
+			nmrf.production_order = self.production_order
 
 			new_items = []
 			for index, value in enumerate(self.items):
 
-				# Get items default warehouse\
+				# Get items default warehouse
 				cur_item = frappe.get_list(doctype="Item", filters={"name": value.item_code},
 										   fields=['default_warehouse'])
 				if index == 0:
@@ -34,7 +35,7 @@ class RawMaterialsReturnForm(Document):
 
 				# set new item
 				item = dict(
-					to_warehouse=cur_item[0].default_warehouse,
+					t_warehouse=cur_item[0].default_warehouse,
 					qty=value.qty,
 					item_code=value.item_code,
 					item_name=value.item_name,

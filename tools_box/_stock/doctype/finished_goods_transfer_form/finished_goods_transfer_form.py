@@ -13,11 +13,11 @@ class FinishedGoodsTransferForm(Document):
 			nmrf.purpose = "Manufacture"
 			nmrf.title = "Manufacture"
 			nmrf.from_warehouse = ""
+			nmrf.production_order = self.weekly_production_order_form
 
 			new_items = []
 			for index, value in enumerate(self.items):
-
-				# Get items default warehouse\
+				# Get items default warehouse
 				cur_item = frappe.get_list(doctype="Item", filters={"name": value.item_code},
 										   fields=['default_warehouse'])
 				if index == 0:
@@ -34,7 +34,7 @@ class FinishedGoodsTransferForm(Document):
 
 				# set new item
 				item = dict(
-					to_warehouse=cur_item[0].default_warehouse,
+					t_warehouse=cur_item[0].default_warehouse,
 					qty=value.qty,
 					item_code=value.item_code,
 					item_name=value.item_name,
@@ -58,8 +58,6 @@ def get_producted_items(production_order=None):
 				"name": itm.item_code,
 			}, fields=['item_name','stock_uom as uom'])
 			itm.update(item[0])
-
-			frappe.errprint(itm)
 
 		return prod
 	return []
