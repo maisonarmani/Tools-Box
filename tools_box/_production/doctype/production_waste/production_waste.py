@@ -46,7 +46,7 @@ def _get_production_items(production_order=None):
 	if production_order:
 		stock_entry_details = frappe.db.sql("""select  sd.item_name, sd.item_code, sd.uom item_uom ,SUM(sd.qty) issued from `tabStock Entry` s JOIN
 						`tabStock Entry Detail` sd ON s.name = sd.parent  WHERE s.production_order = '%s'
-						and s.purpose = "Material Transfer for Manufacture" GROUP BY sd.item_code""" %
+						and s.purpose = "Material Transfer for Manufacture" and s.docstatus = 1 GROUP BY sd.item_code""" %
 											production_order, as_dict=1)
 		return stock_entry_details
 	return []
@@ -54,11 +54,9 @@ def _get_production_items(production_order=None):
 
 def _get_manufactured_items(production_order=None):
 	if production_order:
-		stock_entry_details = frappe.db.sql("""select sd.qty actual, sd.item_name , sd.item_code , sd.uom item_uom from `tabStock Entry` s JOIN
-				`tabStock Entry Detail` sd ON s.name = sd.parent  WHERE s.production_order = '%s'
-				and s.purpose = "Manufacture" and sd.t_warehouse != "" GROUP BY s.production_order"""
-									% production_order, as_dict=1)
-		return stock_entry_details
+		po = frappe.db.sql("""select p.produced_qty actual, i.item_name , i.item_code , i.stock_uom item_uom from `tabItem` i JOIN
+				`tabProduction Order` p ON i.name = p.production_item  WHERE p.name = '%s'""" % production_order, as_dict=1)
+		return po
 	return []
 
 def _get_expected(production_order = None):
@@ -72,9 +70,11 @@ def _get_expected(production_order = None):
 
 def _get_used(production_order = None, item=None):
 	if production_order and item:
-		used = frappe.db.sql("""select c.qty from `tabStock Entry` p  JOIN
+		used = frappe.db.sql("""select SUM(c.qty) qty from `tabStock Entry` p  JOIN
                   `tabStock Entry Detail` c ON p.name = c.parent  WHERE (p.production_order = '%s'
-                  and c.item_code= '%s') and p.purpose = 'Manufacture' and s_warehouse != '' """ %( production_order, item ), as_dict=1)
+                  and c.item_code= '%s') and p.purpose = 'Manufacture' and s_warehouse != '' and p.docstatus = 1 GROUP BY c.item_code"""
+							 % (production_order, item ), as_dict=1)
+		frappe.errprint(used)
 		if len(used) > 0:
 			return used[0].get('qty') or '0'
 	return 0
@@ -85,7 +85,7 @@ def _get_excess(production_order = None, item=None):
 	if production_order and item:
 		excess = frappe.db.sql("""select c.qty excess from `tabFinished Goods Transfer Form` p  JOIN
                   `tabFinished Goods Transfer Item` c ON p.name = c.parent  WHERE (p.weekly_production_order_form = '%s'
-                  and c.item_code= '%s') and p.workflow_state = 'Received'""" % (production_order ,item) , as_dict=1)
+                  and c.item_code= '%s') and p.workflow_state = 'Received' and p.docstatus = 1""" % (production_order ,item) , as_dict=1)
 		if len(excess) > 0:
 			return excess[0].get('qty') or '0'
 	return 0
@@ -94,7 +94,8 @@ def _get_excess(production_order = None, item=None):
 def _get_returns(production_order = None, item = None):
 	if production_order and item:
 		returns = frappe.db.sql("""select c.qty from `tabRaw Materials Return Form` p  JOIN `tabRaw Materials Return Item`
-					c ON p.name = c.parent  WHERE (p.production_order = '%s' and c.item_code = '%s') and p.workflow_state = 'Received'""" % (production_order , item) , as_dict=1)
+					c ON p.name = c.parent  WHERE (p.production_order = '%s' and c.item_code = '%s') and
+					 p.workflow_state = 'Received' and p.docstatus = 1""" %( production_order , item) , as_dict=1)
 		if len(returns) > 0:
 			return returns[0].get('qty') or '0'
 	return 0
