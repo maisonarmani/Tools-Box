@@ -11,7 +11,6 @@ class ProductionWaste(Document):
 
 @frappe.whitelist(False)
 def get_production_details(production_order = None):
-	production_order = "GCL-PRO-17-00006"
 	prod_items = _get_production_items(production_order)
 	manu_items = _get_manufactured_items(production_order)
 	if prod_items is not []:
@@ -45,9 +44,9 @@ def _get_waste(item):
 
 def _get_production_items(production_order=None):
 	if production_order:
-		stock_entry_details = frappe.db.sql("""select  sd.item_name, sd.item_code, sd.uom item_uom ,sd.qty issued from `tabStock Entry` s JOIN
+		stock_entry_details = frappe.db.sql("""select  sd.item_name, sd.item_code, sd.uom item_uom ,SUM(sd.qty) issued from `tabStock Entry` s JOIN
 						`tabStock Entry Detail` sd ON s.name = sd.parent  WHERE s.production_order = '%s'
-						and s.purpose = "Material Transfer for Manufacture" """ %
+						and s.purpose = "Material Transfer for Manufacture" GROUP BY sd.item_code""" %
 											production_order, as_dict=1)
 		return stock_entry_details
 	return []

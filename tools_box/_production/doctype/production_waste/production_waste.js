@@ -28,6 +28,7 @@ frappe.ui.form.on('Production Waste', {
 				production_order:frm.doc.production_order
 			},
 			callback:function(ret){
+				console.log(ret.message)
 				if (ret != {}){
 					var message = ret.message;
 					frm.doc.issued = []; // clear older data
@@ -38,6 +39,11 @@ frappe.ui.form.on('Production Waste', {
 						take.apply(d,[val,[
 							'item_name','item_uom','item_code','issued','returned', "used", "waste"
 						]]);
+
+						d.issued   = !d.issued ? "0" :d.issued;
+						d.returned = !d.returned ? "0" :d.returned;
+						d.used  = !d.used ? "0" :d.used;
+						d.waste = !d.waste ? "0" :d.waste;
 					});
 
 					message.manufactured_items.forEach(function(val){
@@ -45,6 +51,10 @@ frappe.ui.form.on('Production Waste', {
 						take.apply(d,[val,[
 							'item_name','item_uom','item_code','excess','expected', "actual","waste"
 						]]);
+						d.excess   = !d.excess ? "0" :d.excess;
+						d.expected = !d.expected ? "0" :d.expected;
+						d.waste  = !d.waste ? "0" :d.waste;
+						d.actual = !d.actual ? "0" :d.actual;
 					});
 					// refresh the item list
 					refresh_field('issued');
