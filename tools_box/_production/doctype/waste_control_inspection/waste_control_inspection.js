@@ -10,9 +10,15 @@ var take = function(obj,param){
 		__self__[param] = obj[param];
 	}
 };
+var get_employees = function () {
+    return {
+        query: "tools_box.controllers.api.get_active_employees"
+    };
+}
 frappe.ui.form.on('Waste Control Inspection', {
 	refresh: function(frm) {
-		console.log(frm.doc.__last_sync_on)
+		frm.set_query('waste_officer', get_employees)
+		frm.set_query('quality_control_manager', get_employees)
 		if (frm.doc.__last_sync_on == undefined){
 			var activities = [
 				{activity:"Are the available wastes evacuated?"},
@@ -30,7 +36,7 @@ frappe.ui.form.on('Waste Control Inspection', {
 				{activity:"Are the ovens used functioning properly?"},
 				{activity:"Is the condition for cooled cupcakes okay?"},
 				{activity:"Are the packaging machines generating waste?"},
-				{activity:"Is frying machine in good working condition?"},
+				{activity:"Is frying machines in good working condition?"},
 				{activity:"Are the weighing scales okay?"},
 				{activity:"Are the packaging machines generating waste?"},
 				{activity:"Is there any saleable waste material available?"},
