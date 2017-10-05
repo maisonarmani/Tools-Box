@@ -23,8 +23,18 @@ def get_data():
             "items": [
                 {
                     "type": "doctype",
+                    "name": "Vehicle Schedule",
+                    "description": _("Vehicle Schedule"),
+                },
+                {
+                    "type": "doctype",
                     "name": "Vehicle Schedule Log",
                     "description": _("Vehicle Schedule Log"),
+                },
+                {
+                    "type": "doctype",
+                    "name": "Vehicle Daily Cost",
+                    "description": _("Vehicle Daily Cost"),
                 },
                 {
                     "type": "doctype",
@@ -60,6 +70,11 @@ def get_data():
             "label": _("Setup"),
             "icon": "icon-star",
             "items": [
+                {
+                    "type": "doctype",
+                    "name": "Logistics Settings",
+                    "description": _("Logistics Settings"),
+                },
                 {
                     "type": "doctype",
                     "name": "Driver",

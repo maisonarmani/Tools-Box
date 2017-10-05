@@ -7,7 +7,18 @@ import frappe
 from frappe.model.document import Document
 
 class VehicleSchedule(Document):
-	pass
+	def validate(self):
+		for item in self.vehicle_schedule_outbound_item:
+			i = frappe.get_list("Vehicle Schedule Outbound Item", {"ref_name":item.ref_name, "docstatus":1})
+			if len(i) > 0:
+				frappe.throw("Reference name {ref} is already covered ".format(
+					ref=item.ref_name))
+
+		for item in self.vehicle_schedule_inbound_item:
+			i = frappe.get_list("Vehicle Schedule Inbound Item", {"ref_name": item.ref_name, "docstatus": 1})
+			if len(i) > 0:
+				frappe.throw("Reference name {ref} is already covered ".format(
+					ref=item.ref_name))
 
 
 @frappe.whitelist(True)
@@ -37,3 +48,14 @@ def get_total(doctype = None, docname = None):
 		else:
 			return total[0].get('total')
 	return 0
+
+@frappe.whitelist(True)
+def get_allowed():
+	ls = frappe.get_single("Logistics Settings")
+	if ls:
+		return dict(
+			outbound=ls.get("allowed_outbound_cost"),
+			inbound=ls.get("allowed_inbound_cost")
+		)
+
+
