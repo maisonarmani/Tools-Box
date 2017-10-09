@@ -147,6 +147,13 @@ def get_production_section():
         "description": _("Production Waste"),
     },{
         "type": "doctype",
+        "label": _("Sold Waste"),
+        "name": "Production Waste",
+        "icon": "icon-sitemap",
+        "link": "List/Sold Waste",
+        "description": _("Sold Waste"),
+    },{
+        "type": "doctype",
         "label": _("Machine Downtime Monitoring"),
         "name": "Machine Downtime Monitoring",
         "icon": "icon-sitemap",
@@ -340,6 +347,11 @@ def get_extra_production_reports():
             "type": "report",
             "name": "Production Waste Report",
             "doctype": "Production Waste",
+            "is_query_report": True,
+        },{
+            "type": "report",
+            "name": "Sold Waste Report",
+            "doctype": "Sold     Waste",
             "is_query_report": True,
         }
     ])

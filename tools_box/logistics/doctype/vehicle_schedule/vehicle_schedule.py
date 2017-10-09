@@ -9,16 +9,17 @@ from frappe.model.document import Document
 class VehicleSchedule(Document):
 	def validate(self):
 		for item in self.vehicle_schedule_outbound_item:
-			i = frappe.get_list("Vehicle Schedule Outbound Item", {"ref_name":item.ref_name, "docstatus":1})
+			i = frappe.get_list("Vehicle Schedule {type} Item".format(type=self.type),
+								[["ref_name","=",item.ref_name], ["parent" ,"!=", self.name] ])
 			if len(i) > 0:
 				frappe.throw("Reference name {ref} is already covered ".format(
 					ref=item.ref_name))
 
-		for item in self.vehicle_schedule_inbound_item:
-			i = frappe.get_list("Vehicle Schedule Inbound Item", {"ref_name": item.ref_name, "docstatus": 1})
-			if len(i) > 0:
-				frappe.throw("Reference name {ref} is already covered ".format(
-					ref=item.ref_name))
+		# required clean so we dont have duplicate data
+		if self.type == "Inbound":
+			self.vehicle_schedule_outbound_item = []
+		else:
+			self.vehicle_schedule_inbound_item = []
 
 
 @frappe.whitelist(True)

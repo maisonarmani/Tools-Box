@@ -7,7 +7,6 @@ frappe.ui.form.on('Vehicle Schedule', {
         frappe.call({
             method: "tools_box.logistics.doctype.vehicle_schedule.vehicle_schedule.get_allowed",
             callback: function (ret) {
-                console.log(ret)
                 if (ret.message != undefined) {
                     allowed = ret.message
                 }
@@ -16,12 +15,20 @@ frappe.ui.form.on('Vehicle Schedule', {
     },
     vehicle:function (frm) {
         // get the daily cost information from
+        if (frm.doc.vehicle  == " " ||  frm.doc.vehicle  == " ")
+            return
+
         frappe.call({
             method: "tools_box.logistics.doctype.vehicle_schedule.vehicle_schedule.get_daily_cost",
             args: {
                 vehicle: frm.doc.vehicle
             },
             callback: function get_daily_cost(ret) {
+                if(ret.message == undefined){
+                    // Reset value for vehicle and throw exception
+                    frappe.model.set_value(cur_frm.doctype, cur_frm.docname, "vehicle"," ")
+                    frappe.throw("Sorry, Vehicle daily cost is not setup for the vehicle.");
+                }
                 frappe.model.set_value(cur_frm.doctype, cur_frm.docname, "daily_cost", ret == {} ? 0 : ret.message)
             }
         })

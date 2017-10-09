@@ -15,17 +15,22 @@ def get_data():
                     "type": "doctype",
                     "name": "Vehicle Log"
                 },
+                {
+                    "type": "doctype",
+                    "name": "Vehicle Schedule",
+                    "description": _("Vehicle Schedule"),
+                },
+                {
+                    "type": "doctype",
+                    "name": "Logistics Accident",
+                    "description": _("Logistics Accident"),
+                },
             ]
         },
         {
             "label": _("Vehicle"),
             "icon": "icon-star",
             "items": [
-                {
-                    "type": "doctype",
-                    "name": "Vehicle Schedule",
-                    "description": _("Vehicle Schedule"),
-                },
                 {
                     "type": "doctype",
                     "name": "Vehicle Schedule Log",
@@ -54,6 +59,12 @@ def get_data():
                 },
                 {
                     "type": "report",
+                    "name": "Vehicle Schedule Report",
+                    "route": "query-report/Vehicle Schedule Report",
+                    "doctype": "Vehicle Schedule",
+                },
+                {
+                    "type": "report",
                     "name": "Vehicle Allocation Schedule Report",
                     "route": "query-report/Vehicle Allocation Schedule Report",
                     "doctype": "Vehicle Schedule Log",
@@ -62,7 +73,13 @@ def get_data():
                     "type": "report",
                     "name": "Goods Tracking Report",
                     "route": "query-report/Goods Tracking Report",
-                    "doctype": "Vehicle Schedule ",
+                    "doctype": "Vehicle Schedule Log",
+                },
+                {
+                    "type": "report",
+                    "name": "Logistics Accident Report",
+                    "route": "query-report/Logistics Accident Report",
+                    "doctype": "Logistics Accident",
                 },
             ]
         },

@@ -2,7 +2,7 @@
 // For license information, please see license.txt
 /* eslint-disable */
 
-frappe.query_reports["Vehicle Schedule Report"] = {
+frappe.query_reports["Sold Waste Report"] = {
 	"filters": [{
 			"fieldname":"from",
 			"label": __("From Date"),
@@ -18,19 +18,17 @@ frappe.query_reports["Vehicle Schedule Report"] = {
 			"reqd":1
 		},
 		{
-			"fieldname":"type",
-			"label": __("Type"),
-			"fieldtype": "Select",
-			"reqd":0,
-			"options": [
-				"Inbound","Outbound"
-			],
+			"fieldname":"item",
+			"label": __("Item"),
+			"fieldtype": "Link",
+			"options": "Item",
+			"reqd":0
 		},
 		{
-			"fieldname":"vehicle",
-			"label": __("Vehicle"),
-			"fieldtype": "Link",
-			"options": "Vehicle",
+			"fieldname":"status",
+			"label": __("Status"),
+			"fieldtype": "Select",
+			"options": ["Sold","Pending"],
 			"reqd":0
 		},
 	]
