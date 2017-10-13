@@ -335,7 +335,7 @@ def get_extra_waste_reports():
             "doctype": "Sold Waste",
             "is_query_report": True,
         }
-    ])
+    ], label="Production Waste Reports")
 
 def get_extra_production_reports():
     return __default_rep_items([
