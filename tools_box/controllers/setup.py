@@ -139,7 +139,8 @@ def get_production_section():
         "link": "List/Finished Goods Transfer Form",
         "description": _("Finished Goods Transfer Form"),
     },
-], label="Additional")
+    ], label="Additional")
+
 
 def get_waste_section():
     return __default_item([{
@@ -170,7 +171,7 @@ def get_waste_section():
         "icon": "icon-sitemap",
         "link": "List/Production Waste Setup",
         "description": _("Production Waste Setup"),
-    } ,{
+    }, {
         "type": "doctype",
         "label": _("Machine Downtime Monitoring"),
         "name": "Machine Downtime Monitoring",
@@ -226,7 +227,16 @@ def get_maintenance_section():
 
 
 def get_purchasing_section():
-    return __default_item([{}])
+    return __default_item([
+        {
+            "type": "doctype",
+            "label": _("Material Requisition"),
+            "name": "Material Requisition",
+            "icon": "icon-sitemap",
+            "link": "List/Material Requisition",
+            "description": _("Material Requisition"),
+        }
+    ], label="Additions")
 
 
 def get_hr_section():
@@ -322,21 +332,21 @@ def get_extra_hr_reports():
         }, ])
 
 
-
 def get_extra_waste_reports():
     return __default_rep_items([{
-            "type": "report",
-            "name": "Production Waste Report",
-            "doctype": "Production Waste",
-            "is_query_report": True,
-        }, {
-            "type": "report",
-            "name": "Sold Waste Report",
-            "doctype": "Sold Waste",
-            "label":"Waste Sold Report",
-            "is_query_report": True,
-        }
+        "type": "report",
+        "name": "Production Waste Report",
+        "doctype": "Production Waste",
+        "is_query_report": True,
+    }, {
+        "type": "report",
+        "name": "Sold Waste Report",
+        "doctype": "Sold Waste",
+        "label": "Waste Sold Report",
+        "is_query_report": True,
+    }
     ], label="Production Waste Reports")
+
 
 def get_extra_production_reports():
     return __default_rep_items([
