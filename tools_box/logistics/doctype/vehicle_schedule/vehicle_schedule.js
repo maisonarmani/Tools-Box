@@ -194,7 +194,7 @@ function calc_total(frm) {
         var remark = "Vehicle's daily cost is " + roundNumber(ratio, 2) + "% of total amount";
         if (cur_frm.doc.daily_cost > t) {
             cur_frm.doc.ratio_ok = 0;
-            flag = "Vehicle's daily cost is more than " + allowed[String(cur_frm.doc.type).toLowerCase] + "% of " + format_currency(total_amount)
+            flag = "Vehicle's daily cost is more than " + allowed[String(cur_frm.doc.type).toLowerCase()] + "% of " + format_currency(total_amount)
         } else {
             cur_frm.doc.ratio_ok = 1;
             flag = "Vehicle's daily cost is " + roundNumber(ratio, 2) + "% of " + format_currency(total_amount)
