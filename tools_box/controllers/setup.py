@@ -331,8 +331,9 @@ def get_extra_waste_reports():
             "is_query_report": True,
         }, {
             "type": "report",
-            "name": "Waste Sold Report",
+            "name": "Sold Waste Report",
             "doctype": "Sold Waste",
+            "label":"Waste Sold Report",
             "is_query_report": True,
         }
     ], label="Production Waste Reports")
@@ -361,17 +362,7 @@ def get_extra_production_reports():
             "name": "Production Yield Variance Report",
             "doctype": "Production Order",
             "is_query_report": True,
-        }, {
-            "type": "report",
-            "name": "Production Waste Report",
-            "doctype": "Production Waste",
-            "is_query_report": True,
-        }, {
-            "type": "report",
-            "name": "Sold Waste Report",
-            "doctype": "Sold     Waste",
-            "is_query_report": True,
-        }
+        },
     ])
 
 
