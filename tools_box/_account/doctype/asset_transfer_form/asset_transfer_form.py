@@ -4,7 +4,12 @@
 
 from __future__ import unicode_literals
 import frappe
+
 from frappe.model.document import Document
+from datetime import  datetime
 
 class AssetTransferForm(Document):
-	pass
+	def validate(self):
+		if self.status == "Returned":
+			self.returned_date = datetime.now()
+

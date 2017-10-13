@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 from . import __version__ as app_version
 from frappe import _
+
 app_name = "tools_box"
 app_title = "Tools Box"
 app_publisher = "masonarmani38@gmail.com"
@@ -59,12 +60,12 @@ app_license = "MIT"
 # Permissions evaluated in scripted ways
 
 permission_query_conditions = {
-# 	"File": "tools_box._selling.doctype.client.client.get_permission_query_conditions_for_file",
+    # 	"File": "tools_box._selling.doctype.client.client.get_permission_query_conditions_for_file",
 }
 
 standard_portal_menu_items = [
-#	{"title": _("Meetings"), "route": "/meetings", "reference_doctype": "Meeting"},
-#	{"title": _("Document Manager"), "route": "/documents", "reference_doctype": "File"}
+    #	{"title": _("Meetings"), "route": "/meetings", "reference_doctype": "Meeting"},
+    #	{"title": _("Document Manager"), "route": "/documents", "reference_doctype": "File"}
 ]
 
 #
@@ -77,16 +78,17 @@ standard_portal_menu_items = [
 # Hook on document methods and events
 
 doc_events = {
-    "*": {
-        "after_save": [
+    "Expense Claim": {
+        "on_change": [
             "tools_box.controllers.sentinel.validate_status",
         ]
-#		"after_save": "method",
-#		"on_cancel": "method",
-# 		"on_trash": "method"
-	},
+    },
+    "Purchase Order": {
+        "on_change": [
+            "tools_box.logistics.doctype.vehicle_schedule.vehicle_schedule.update_status",
+        ]
+    }
 }
-
 
 # Scheduled Tasks
 # ---------------
@@ -108,4 +110,3 @@ scheduler_events = {
 # override_whitelisted_methods = {
 # 	"frappe.desk.doctype.event.event.get_events": "tools_box.event.get_events"
 # }
-

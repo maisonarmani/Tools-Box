@@ -7,7 +7,7 @@ from frappe import _
 from frappe.utils import cint, flt, cstr, comma_or
 
 """ 
-    this is suppose to return some kind of information used as addon
+    This is suppose to return some kind of information used as addon
     the Goal is to maintain all icons that's not ERPNext's from a centralized location
     thus making it easy to amend or extend
 """
@@ -95,7 +95,7 @@ def get_account_section():
         "icon": "icon-sitemap",
         "link": "List/Asset Transfer Form",
         "description": _("Asset Transfer Form"),
-    }])
+    }], label="Additional")
 
 
 def get_stock_section():
@@ -124,57 +124,60 @@ def get_production_section():
         "icon": "icon-sitemap",
         "link": "List/Production Unit",
         "description": _("Production Unit"),
-    },  {
+    }, {
         "type": "doctype",
         "label": _("Raw Materials Return Form"),
         "name": "Raw Materials Return Form",
         "icon": "icon-sitemap",
         "link": "List/Raw Materials Return Form",
         "description": _("Raw Materials Return Form"),
-    },{
+    }, {
         "type": "doctype",
         "label": _("Finished Goods Transfer Form"),
         "name": "Finished Goods Transfer Form",
         "icon": "icon-sitemap",
         "link": "List/Finished Goods Transfer Form",
         "description": _("Finished Goods Transfer Form"),
-    },{
+    },
+], label="Additional")
+
+def get_waste_section():
+    return __default_item([{
         "type": "doctype",
         "label": _("Production Waste"),
         "name": "Production Waste",
         "icon": "icon-sitemap",
         "link": "List/Production Waste",
         "description": _("Production Waste"),
-    },{
+    }, {
         "type": "doctype",
-        "label": _("Sold Waste"),
+        "label": _("Waste Sold"),
         "name": "Production Waste",
         "icon": "icon-sitemap",
         "link": "List/Sold Waste",
         "description": _("Sold Waste"),
-    },{
-        "type": "doctype",
-        "label": _("Machine Downtime Monitoring"),
-        "name": "Machine Downtime Monitoring",
-        "icon": "icon-sitemap",
-        "link": "List/Machine Downtime Monitoring",
-        "description": _("Machine Downtime Monitoring"),
-    },{
+    }, {
         "type": "doctype",
         "label": _("Waste Control Inspection"),
         "name": "Waste Control Inspection",
         "icon": "icon-sitemap",
         "link": "List/Waste Control Inspection",
         "description": _("Waste Control Inspection"),
-    },{
+    }, {
         "type": "doctype",
         "label": _("Production Waste Setup"),
         "name": "Production Waste Setup",
         "icon": "icon-sitemap",
         "link": "List/Production Waste Setup",
         "description": _("Production Waste Setup"),
-    }
-    ])
+    } ,{
+        "type": "doctype",
+        "label": _("Machine Downtime Monitoring"),
+        "name": "Machine Downtime Monitoring",
+        "icon": "icon-sitemap",
+        "link": "List/Machine Downtime Monitoring",
+        "description": _("Machine Downtime Monitoring"),
+    }], label="Production Waste")
 
 
 def get_maintenance_section():
@@ -319,6 +322,21 @@ def get_extra_hr_reports():
         }, ])
 
 
+
+def get_extra_waste_reports():
+    return __default_rep_items([{
+            "type": "report",
+            "name": "Production Waste Report",
+            "doctype": "Production Waste",
+            "is_query_report": True,
+        }, {
+            "type": "report",
+            "name": "Waste Sold Report",
+            "doctype": "Sold Waste",
+            "is_query_report": True,
+        }
+    ])
+
 def get_extra_production_reports():
     return __default_rep_items([
         {
@@ -338,17 +356,17 @@ def get_extra_production_reports():
             "is_query_report": True,
             "name": "Raw Materials Return Report",
             "doctype": "Raw Materials Return Form",
-        },  {
+        }, {
             "type": "report",
             "name": "Production Yield Variance Report",
             "doctype": "Production Order",
             "is_query_report": True,
-        },{
+        }, {
             "type": "report",
             "name": "Production Waste Report",
             "doctype": "Production Waste",
             "is_query_report": True,
-        },{
+        }, {
             "type": "report",
             "name": "Sold Waste Report",
             "doctype": "Sold     Waste",
@@ -606,16 +624,16 @@ def get_extra_support_reports():
     ])
 
 
-def __default_item(items):
+def __default_item(items, label="Extras"):
     return {
-        "label": _("Extras"),
-        "icon": "icon-cog",
-        "items": items
+        "label": label,
+        "items": items,
+        "icon": "icon-cog"
     }
 
 
-def __default_rep_items(items):
+def __default_rep_items(items, label="Extra Reports"):
     return {
-        "label": _("Extra Reports"),
+        "label": label,
         "items": items
     }

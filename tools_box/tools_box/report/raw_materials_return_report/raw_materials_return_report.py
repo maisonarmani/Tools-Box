@@ -14,8 +14,7 @@ def execute(filters=None):
 		item = """ and i.item_code = "{}" """.format(filters.get("item"))
 	if filters.get("item_group"):
 		item_group = """ and ii.item_group = "{}" """.format(filters.get("item_group"))
-	if filters.get("shift") != "All":
-		shift = """ and f.shift="{}" """.format(filters.get("shift"))
+
 	data = frappe.db.sql("""select f.date,f.shift,i.item_code,i.item_name,i.uom,i.qty
 		from `tabRaw Materials Return Item` i join `tabRaw Materials Return Form` f on i.parent=f.name 
 		join `tabItem` ii on ii.name = i.item_code

@@ -74,6 +74,7 @@ def get_item_description(item_code):
 def get_job_cards(start, end):
 	data = frappe.db.sql("""select name, job_card_date, proposed_completion_date, job_description, status from `tabJob Card` where ((ifnull(job_card_date, '0000-00-00')!= '0000-00-00') and (job_card_date between %(start)s and %(end)s) or ((ifnull(job_card_date, '0000-00-00')!= '0000-00-00') and proposed_completion_date between %(start)s and %(end)s))""", { "start": start, "end": end }, as_dict=True)
 	return data
+
 @frappe.whitelist()
 def make_purchase_order(source_name, target_doc=None):
 	def set_missing_values(source, target):

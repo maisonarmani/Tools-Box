@@ -1,0 +1,22 @@
+{
+ "align_labels_right": 1, 
+ "creation": "2017-10-10 13:36:01.154998", 
+ "custom_format": 0, 
+ "disabled": 0, 
+ "doc_type": "Vehicle Schedule", 
+ "docstatus": 0, 
+ "doctype": "Print Format", 
+ "font": "Default", 
+ "format_data": "[{\"fieldname\": \"print_heading_template\", \"fieldtype\": \"Custom HTML\", \"options\": \"<div class=\\\"print-heading\\\">\\t\\t\\t\\t<h2>Vehicle Schedule<br><small>{{ doc.name }}</small>\\t\\t\\t\\t</h2></div>\"}, {\"fieldtype\": \"Section Break\", \"label\": \"\"}, {\"fieldtype\": \"Column Break\"}, {\"print_hide\": 0, \"fieldname\": \"workflow_state\", \"label\": \"Workflow State\"}, {\"print_hide\": 0, \"fieldname\": \"vehicle\", \"label\": \"Vehicle\"}, {\"print_hide\": 0, \"fieldname\": \"vehicle_model\", \"label\": \"Vehicle Model\"}, {\"print_hide\": 0, \"fieldname\": \"type\", \"label\": \"Type\"}, {\"fieldtype\": \"Column Break\"}, {\"print_hide\": 0, \"fieldname\": \"date\", \"label\": \"Date\"}, {\"print_hide\": 0, \"fieldname\": \"acquisition_date\", \"label\": \"Acquisition Date\"}, {\"print_hide\": 0, \"fieldname\": \"color\", \"label\": \"Color\"}, {\"print_hide\": 0, \"fieldname\": \"daily_cost\", \"label\": \"Daily Cost\"}, {\"fieldtype\": \"Section Break\", \"label\": \"Schedule\"}, {\"fieldtype\": \"Column Break\"}, {\"visible_columns\": [{\"print_hide\": 0, \"fieldname\": \"ref_type\", \"print_width\": \"\"}, {\"print_hide\": 0, \"fieldname\": \"ref_name\", \"print_width\": \"\"}, {\"print_hide\": 0, \"fieldname\": \"party\", \"print_width\": \"\"}, {\"print_hide\": 0, \"fieldname\": \"amount\", \"print_width\": \"\"}, {\"print_hide\": 0, \"fieldname\": \"status\", \"print_width\": \"\"}], \"print_hide\": 0, \"fieldname\": \"vehicle_schedule_outbound_item\", \"label\": \"Vehicle Schedule Outbound Items\"}, {\"visible_columns\": [{\"print_hide\": 0, \"fieldname\": \"ref_type\", \"print_width\": \"\"}, {\"print_hide\": 0, \"fieldname\": \"ref_name\", \"print_width\": \"\"}, {\"print_hide\": 0, \"fieldname\": \"party\", \"print_width\": \"\"}, {\"print_hide\": 0, \"fieldname\": \"amount\", \"print_width\": \"\"}, {\"print_hide\": 0, \"fieldname\": \"status\", \"print_width\": \"\"}], \"print_hide\": 0, \"fieldname\": \"vehicle_schedule_inbound_item\", \"label\": \"Vehicle Schedule Inbound Items\"}, {\"fieldtype\": \"Section Break\", \"label\": \"\"}, {\"fieldtype\": \"Column Break\"}, {\"print_hide\": 0, \"fieldname\": \"total_amount\", \"label\": \"Total Amount\"}, {\"fieldtype\": \"Column Break\"}, {\"print_hide\": 0, \"fieldname\": \"remark\", \"label\": \"Remark\"}, {\"fieldtype\": \"Section Break\", \"label\": \"\"}, {\"fieldtype\": \"Column Break\"}, {\"print_hide\": 0, \"fieldname\": \"reason\", \"label\": \"Reason\"}, {\"fieldtype\": \"Section Break\", \"label\": \"\"}, {\"fieldtype\": \"Column Break\"}, {\"print_hide\": 0, \"label\": \"Custom HTML\", \"fieldname\": \"_custom_html\", \"options\": \"<h4>Depatch Officer Check</h4>\\n<ul>\\n<li>Are the goods packed correctly?</li>\\n<li>Is purchase included?</li>\\n<ul>\", \"fieldtype\": \"HTML\"}]", 
+ "idx": 0, 
+ "line_breaks": 1, 
+ "modified": "2017-10-10 13:45:10.635478", 
+ "modified_by": "Administrator", 
+ "module": "Logistics", 
+ "name": "Vehicle Schedule Print Format", 
+ "owner": "Administrator", 
+ "print_format_builder": 1, 
+ "print_format_type": "Server", 
+ "show_section_headings": 1, 
+ "standard": "Yes"
+}

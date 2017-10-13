@@ -20,11 +20,6 @@ def get_data():
                     "name": "Vehicle Schedule",
                     "description": _("Vehicle Schedule"),
                 },
-                {
-                    "type": "doctype",
-                    "name": "Logistics Accident",
-                    "description": _("Logistics Accident"),
-                },
             ]
         },
         {
@@ -38,13 +33,13 @@ def get_data():
                 },
                 {
                     "type": "doctype",
-                    "name": "Vehicle Daily Cost",
-                    "description": _("Vehicle Daily Cost"),
+                    "name": "Vehicle Inspection Checklist",
+                    "description": _("Vehicle Inspection Checklist"),
                 },
                 {
                     "type": "doctype",
-                    "name": "Vehicle Inspection Checklist",
-                    "description": _("Vehicle Inspection Checklist"),
+                    "name": "Logistics Accident",
+                    "description": _("Logistics Accident"),
                 },
             ]
         },
@@ -89,11 +84,6 @@ def get_data():
             "items": [
                 {
                     "type": "doctype",
-                    "name": "Logistics Settings",
-                    "description": _("Logistics Settings"),
-                },
-                {
-                    "type": "doctype",
                     "name": "Driver",
                     "description": _("Driver"),
                 },
@@ -101,6 +91,16 @@ def get_data():
                     "type": "doctype",
                     "name": "Purpose",
                     "description": _("Purpose"),
+                },
+                {
+                    "type": "doctype",
+                    "name": "Vehicle Daily Cost",
+                    "description": _("Vehicle Daily Cost"),
+                },
+                {
+                    "type": "doctype",
+                    "name": "Logistics Settings",
+                    "description": _("Logistics Settings"),
                 },
             ]
         },
