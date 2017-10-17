@@ -11,8 +11,16 @@ var take = function(obj,param){
 	}
 };
 
+var get_employees = function () {
+    return {
+        query: "tools_box.controllers.api.get_active_employees"
+    };
+}
+
 frappe.ui.form.on('Raw Materials Return Form', {
 	onload:function(frm){
+		frm.set_query('received_by',get_employees);
+		frm.set_query('returned_by',get_employees);
 		frm.set_query('production_order', function(){
 			return {
 				filters:{

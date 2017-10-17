@@ -11,9 +11,16 @@ var take = function(obj,param){
 	}
 };
 
+var get_employees = function () {
+    return {
+        query: "tools_box.controllers.api.get_active_employees"
+    };
+}
+
 frappe.ui.form.on('Finished Goods Transfer Form', {
 	onload:function(frm){
-		frm.set_query('weekly_production_order_form', function(){
+		frm.set_query('received_by',get_employees);
+		frm.set_query('production_order', function(){
 			return {
 				filters:{
 					status:"Completed",
@@ -25,14 +32,12 @@ frappe.ui.form.on('Finished Goods Transfer Form', {
 		cur_frm.add_fetch("item_code","stock_uom","uom");
 		cur_frm.add_fetch("item_code","item_name","item_name");
 		cur_frm.add_fetch("item_code","description","description");
-		cur_frm.add_fetch("weekly_production_order_form","planned_start_date","date");
-
 	},
-	weekly_production_order_form: function(frm){
+	production_order: function(frm){
 		frappe.call({
 			method: "tools_box._stock.doctype.finished_goods_transfer_form.finished_goods_transfer_form.get_producted_items",
 			args:{
-				production_order:frm.doc.weekly_production_order_form
+				production_order:frm.doc.production_order
 			},
 			callback:function(ret){
 				if (ret != {}){
@@ -52,7 +57,5 @@ frappe.ui.form.on('Finished Goods Transfer Form', {
 			}
 		})
 	}
-
-
 
 });

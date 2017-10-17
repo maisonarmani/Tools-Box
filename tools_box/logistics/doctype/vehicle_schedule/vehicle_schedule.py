@@ -4,7 +4,6 @@
 
 from __future__ import unicode_literals
 import frappe
-from frappe.model.mapper import get_mapped_doc
 from frappe.model.document import Document
 
 
@@ -17,26 +16,20 @@ class VehicleSchedule(Document):
                 frappe.throw("Reference name {ref} is already covered ".format(
                     ref=item.ref_name))
 
+    def before_save(self):
         # required clean so we dont have duplicate data
         if self.type == "Inbound":
             self.vehicle_schedule_outbound_item = []
         else:
             self.vehicle_schedule_inbound_item = []
 
-    def before_save(self):
-        frappe.errprint(self.ratio_ok)
+
         if self.ratio_ok == 0 and self.is_new():
             self.status = "Awaiting Approval"
 
         elif self.ratio_ok == 1 and self.is_new():
             self.status = "Awaiting Purchase Order"
 
-    def after_save(self):
-        pass
-
-    # if self.is_new() and self.status== "Awaiting Approval":
-    # get everyone with a role of financial controller and send an email to them
-    #	frappe.sendmail(recipients=[""],sender="",subject="",doctype="",template="",message="", as_markdown="" )
 
 
 @frappe.whitelist(False)

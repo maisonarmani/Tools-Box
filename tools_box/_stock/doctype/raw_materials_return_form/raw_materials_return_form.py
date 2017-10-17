@@ -8,7 +8,7 @@ from frappe.model.document import Document
 
 class RawMaterialsReturnForm(Document):
 	def on_change(self):
-		if self.workflow_state == "Received":
+		if self.workflow_state == "Approved":
 			nmrf = frappe.new_doc("Stock Entry")
 			nmrf.purpose = "Material Receipt"
 			nmrf.title = "Material Receipt"
@@ -21,9 +21,12 @@ class RawMaterialsReturnForm(Document):
 				# Get items default warehouse
 				cur_item = frappe.get_list(doctype="Item", filters={"name": value.item_code},
 										   fields=['default_warehouse'])
+
 				if index == 0:
 					nmrf.to_warehouse = cur_item[0].default_warehouse
 
+				if nmrf.to_warehouse == "":
+					frappe.throw("Item {0} does not have default warehouse required for material receipt" .format(value.item_code))
 				# using the latest cost center for item
 				last_cost_center = frappe.get_list(doctype="Stock Entry Detail",
 												   filters={"item_code": value.item_code}, fields=['cost_center'],

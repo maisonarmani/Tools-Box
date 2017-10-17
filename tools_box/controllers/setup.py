@@ -119,13 +119,6 @@ def get_stock_section():
 def get_production_section():
     return __default_item([{
         "type": "doctype",
-        "label": _("Production Unit"),
-        "name": "Production Unit",
-        "icon": "icon-sitemap",
-        "link": "List/Production Unit",
-        "description": _("Production Unit"),
-    }, {
-        "type": "doctype",
         "label": _("Raw Materials Return Form"),
         "name": "Raw Materials Return Form",
         "icon": "icon-sitemap",
@@ -254,7 +247,29 @@ def get_hr_section():
         "icon": "icon-sitemap",
         "link": "List/Staff Replacement Request Form",
         "description": _("Staff Replacement Request Form"),
-    }])
+    }, {
+        "type": "doctype",
+        "label": _("Overtime Request"),
+        "name": "Overtime Request",
+        "icon": "icon-sitemap",
+        "link": "List/Overtime Request",
+        "description": _("Overtime Request"),
+    }, {
+        "type": "doctype",
+        "label": _("Overtime Sheet"),
+        "name": "Overtime Sheet",
+        "icon": "icon-sitemap",
+        "link": "List/Overtime Sheet",
+        "description": _("Overtime Sheet"),
+    }, {
+        "type": "doctype",
+        "label": _("Stationaries Issued"),
+        "name": "Stationaries Issued",
+        "icon": "icon-sitemap",
+        "link": "List/Stationaries Issued",
+        "description": _("Stationaries Issued"),
+    },
+    ])
 
 
 def get_support_section():

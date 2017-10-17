@@ -18,6 +18,16 @@ frappe.query_reports["Finished Goods Transfer Report"] = {
 			"reqd":1
 		},
 		{
+			"fieldname":"production_order",
+			"label": __("Production Order"),
+			"fieldtype": "Link",
+			"options": "Production Order",
+			"reqd":0,
+			"filters":{
+				status:"Completed"
+			}
+		},
+		{
 			"fieldname":"item",
 			"label": __("Item"),
 			"fieldtype": "Link",

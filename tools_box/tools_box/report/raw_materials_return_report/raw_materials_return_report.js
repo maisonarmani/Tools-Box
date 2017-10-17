@@ -1,7 +1,7 @@
 // Copyright (c) 2016, bobzz.zone@gmail.com and contributors
 // For license information, please see license.txt
 
-frappe.query_reports["Raw Materials Return Report"] = {
+frappe.query_reports["Finished Goods Transfer Report"] = {
 	"filters": [
 		{
 			"fieldname":"from",
@@ -14,8 +14,18 @@ frappe.query_reports["Raw Materials Return Report"] = {
 			"fieldname":"to",
 			"label": __("To Date"),
 			"fieldtype": "Date",
-			"default": get_today(),
+			"default": frappe.datetime.get_today(),
 			"reqd":1
+		},
+		{
+			"fieldname":"production_order",
+			"label": __("Production Order"),
+			"fieldtype": "Link",
+			"options": "Production Order",
+			"reqd":0,
+			"filters":{
+				status:"Completed"
+			}
 		},
 		{
 			"fieldname":"item",

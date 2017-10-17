@@ -5,34 +5,7 @@ var allowed = {};
 var ready = function (frm) {
     var status = frm.doc.status;
     var can_create_po = frappe.user_roles.includes("Purchase User");
-    var can_clear = frappe.user_roles.includes("Financial Controller");
-    var deliver = frappe.user_roles.includes("Logistics User");
-
-    console.log(can_clear, status)
-    if (status == "Completed" && deliver) {
-        frm.add_custom_button(
-            __("Delivered"), function () {
-                frm.__new_state = "Delivered";
-                frm.trigger("deliver")
-            }, __("Status"));
-    }
-
-    else if (status == "Awaiting Approval" && can_clear) {
-
-        console.log(can_clear, status)
-        cur_frm.add_custom_button(
-            __("Approve"), function () {
-                frm.__new_state = "Awaiting Purchase Order";
-                frm.trigger("change_status")
-            }, __("Status"));
-
-        cur_frm.add_custom_button(
-            __("Decline"), function () {
-                frm.__new_state = "Declined";
-                frm.trigger("change_status")
-            }, __("Status"))
-    }
-    else if ((status == "Awaiting Purchase Order" && can_create_po)) {
+    if ((status == "Awaiting Purchase Order" && can_create_po)) {
         cur_frm.add_custom_button(
             __("Make Purchase Order"), function () {
                 // do some kind of mapping and create a new purchase order
@@ -68,39 +41,6 @@ var ready = function (frm) {
 frappe.ui.form.on('Vehicle Schedule', {
     onload: ready,
     refresh: ready,
-    change_status: function (frm) {
-        frappe.confirm(
-            'Are you sure you want to submit this document?',
-            function () {
-                frappe.call({
-                    method: "tools_box.logistics.doctype.vehicle_schedule.vehicle_schedule.change_status",
-                    args: {
-                        dt: frm.doctype,
-                        dn: frm.docname,
-                        status: frm.__new_state
-                    },
-                    callback: function (ret) {
-                        frm.reload_doc()
-                    }
-                })
-            })
-    },
-    deliver: function (frm) {
-        frappe.confirm(
-            'Are you sure you want to mark all deliverables as delivered',
-            function () {
-                frappe.call({
-                    method: "tools_box.logistics.doctype.vehicle_schedule.vehicle_schedule.deliver",
-                    args: {
-                        dt: frm.doctype,
-                        dn: frm.docname
-                    },
-                    callback: function (ret) {
-                        frm.reload_doc()
-                    }
-                })
-            })
-    },
     refresh: function () {
         frappe.call({
             method: "tools_box.logistics.doctype.vehicle_schedule.vehicle_schedule.get_allowed",
@@ -165,6 +105,10 @@ var item_opts = {
         })
     },
     amount: calc_total,
+    status:function(frm){
+        frappe.model.set_value(cur_frm.doctype, cur_frm.docname,"modified_again", frappe.datetime.now_datetime())
+        console.log(frappe.datetime.now_datetime())
+    }
 
 }
 
@@ -179,7 +123,7 @@ function calc_total(frm) {
         total_amount += _.amount || 0;
     });
 
-    if (total_amount > 0) {
+    if (total_amount !== 0) {
         if (cur_frm.doc.type == "Inbound") {
             t = (allowed.inbound / 100 ) * total_amount;
         }
@@ -200,7 +144,7 @@ function calc_total(frm) {
             flag = "Vehicle's daily cost is " + roundNumber(ratio, 2) + "% of " + format_currency(total_amount)
         }
 
-        frappe.model.set_value(cur_frm.doctype, cur_frm.docname, "total_amount", total_amount)
+        frappe.model.set_value(cur_frm.doctype, cur_frm.docname, "total_amount", format_currency(total_amount))
         frappe.model.set_value(cur_frm.doctype, cur_frm.docname, "remark", remark)
         frappe.model.set_value(cur_frm.doctype, cur_frm.docname, "reason", flag)
     }
