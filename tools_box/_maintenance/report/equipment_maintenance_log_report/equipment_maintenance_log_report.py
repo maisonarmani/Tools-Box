@@ -16,6 +16,10 @@ def get_data(filters):
         conditions += " and tab.modified  BETWEEN '{modified_from}' and '{modified_to}'"
     if filters.get('status'):
         conditions += " and tab.status = '{status}'"
+    if filters.get('type_of_maintenance'):
+        conditions += " and tab.type_of_maintenance = '{m_type}'"
+    if filters.get('equipment'):
+        conditions += " and tab.equipment = '{equipment'}"
 
     sql = "select tab.equipment, tab.date, tab.status, tab.performed_by, tab.performed_by_name," \
           "tab.type_of_maintenance, tab.start_time,  tab.end_time, tab.bd_time from `tabEquipment Maintenance Log` tab " \
@@ -25,7 +29,7 @@ def get_data(filters):
 
 def get_column():
     return [
-        "Equipment:Link/Item:150",
+        "Equipment:Link/Asset:150",
         "Maintenance Date:Date:150",
         "Status:Data:100",
         "Performed:Link/Employee:100",

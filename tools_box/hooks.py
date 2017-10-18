@@ -87,6 +87,11 @@ doc_events = {
         "on_change": [
             "tools_box.logistics.doctype.vehicle_schedule.vehicle_schedule.update_status",
         ]
+    },
+    ("Finished Goods Transfer Form", "Raw Materials Return Form"): {
+        "on_change": [
+            "tools_box._stock.doctype.finished_goods_transfer_form.finished_goods_transfer_form.update_receivers"
+        ]
     }
 }
 

@@ -1,4 +1,4 @@
-// Copyright (c) 2016, bobzz.zone@gmail.com and contributors
+// Copyright (c) 2016, bobzz.zone@gmail.com, masonrmani38@gmail.colm and contributors
 // For license information, please see license.txt
 
 frappe.query_reports["Expense Claim Report"] = {
@@ -24,6 +24,12 @@ frappe.query_reports["Expense Claim Report"] = {
             label: __("Expense Claim Type"),
             fieldtype: "Link",
             options: "Expense Claim Type",
+        },
+        {
+            fieldname: "cost_center",
+            label: __("Cost Center"),
+            fieldtype: "Link",
+            options: "Cost Center",
         },
         {
             fieldname: "include_authorized",

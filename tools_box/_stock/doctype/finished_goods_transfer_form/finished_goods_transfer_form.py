@@ -5,27 +5,32 @@
 from __future__ import unicode_literals
 import frappe
 from frappe.model.document import Document
-
+from frappe import utils
+import traceback
 
 class FinishedGoodsTransferForm(Document):
+    def validate(self):
+        if self.is_new():
+            self.transferred_by = frappe.session.user
+
     def on_change(self):
         if self.workflow_state == "Approved":
             nmrf = frappe.new_doc("Stock Entry")
-            nmrf.purpose = "Manufacture"
-            nmrf.title = "Manufacture"
+            nmrf.purpose = "Material Receipt"
+            nmrf.title = "Material Receipt"
             nmrf.from_warehouse = ""
             nmrf.production_order = self.production_order
 
-            new_items = []
             for index, value in enumerate(self.items):
                 # Get items default warehouse
                 cur_item = frappe.get_list(doctype="Item", filters={"name": value.item_code},
                                            fields=['default_warehouse'])
                 if index == 0:
                     nmrf.to_warehouse = cur_item[0].default_warehouse
+                    # nmrf.manufactured_qty = value.qty,
 
-                if nmrf.to_warehouse == "":
-                    frappe.throw("Item {0} does not have default warehouse required for material receipt".format(
+                if len(nmrf.to_warehouse) <= 0:
+                    frappe.throw("Item {0} does not have default warehouse required for stock entry".format(
                         value.item_code))
 
                 # using the latest cost center for item
@@ -64,6 +69,11 @@ def get_producted_items(production_order=None):
                 "name": itm.item_code,
             }, fields=['item_name', 'stock_uom as uom'])
             itm.update(item[0])
-
         return prod
     return []
+
+@frappe.whitelist(False)
+def update_receivers(doc, trigger):
+    if doc.workflow_state == "Received":
+        frappe.db.sql("update `tab{doc}` set received_date = '{rd}',received_by ='{rb}' where name = '{name}'"
+                      .format(doc=doc.doctype, rd=utils.now_datetime(), rb=frappe.session.user, name=doc.name))

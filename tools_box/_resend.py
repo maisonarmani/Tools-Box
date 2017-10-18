@@ -8,3 +8,8 @@ def resend():
 		retry_sending(datum[0])
 	print data
 
+
+def set_employee():
+	employee = frappe.get_doc("Employee" ,"GCL-EMP/0882")
+	employee.user_id ="Administrator"
+	employee.save(ignore_permissions =True)
