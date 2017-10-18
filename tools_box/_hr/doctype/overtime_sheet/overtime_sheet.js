@@ -32,7 +32,7 @@ var DaysBetween = function (date1, date2) {
 frappe.ui.form.on('Overtime Sheet', {
     refresh: function (frm, dtype, dname) {
         compute_duration(frm, dtype, dname);
-        if (frm.docstatus == 1) {
+        if (frm.doc.docstatus == 1) {
             frm.add_custom_button(
                 __("Expense Claim"), function () {
                     frappe.call({
