@@ -11,7 +11,12 @@ from erpnext import get_default_company
 
 
 class OvertimeSheet(Document):
-    pass
+    def validate(self):
+        overtime_sheet = frappe.db.sql("""select name from `tabOvertime Sheet` where overtime=%s and name != %s"""
+                            % (self.overtime_request, self.name))
+        if overtime_sheet:
+            frappe.throw("Sorry, Overtime Request %s is already in use." % self.overtime_request)
+
 
 
 @frappe.whitelist()

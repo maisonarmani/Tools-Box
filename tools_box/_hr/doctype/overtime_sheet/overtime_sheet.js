@@ -1,7 +1,6 @@
 // Copyright (c) 2017, masonarmani38@gmail.com and contributors
 // For license information, please see license.txt
 
-
 var DaysBetween = function (date1, date2) {
     //Get 1 day in milliseconds
     var one_day = 1000 * 60 * 60 * 24;
@@ -32,6 +31,14 @@ var DaysBetween = function (date1, date2) {
 frappe.ui.form.on('Overtime Sheet', {
     refresh: function (frm, dtype, dname) {
         compute_duration(frm, dtype, dname);
+        frm.set_query("employee", "overtime_information", function () {
+            // filter based on the current department
+            return {
+                filters: {
+                    department: cur_frm.doc.department
+                }
+            }
+        });
         if (frm.doc.docstatus == 1) {
             frm.add_custom_button(
                 __("Expense Claim"), function () {
@@ -61,8 +68,15 @@ frappe.ui.form.on('Overtime Sheet', {
 frappe.ui.form.on('Overtime Sheet Item', {
     amount: calc_total,
     employee: calc_total,
-    overtime_information_remove: calc_total,
-    overtime_information_add: calc_total,
+    overtime_information_remove: function (frm, dtype, dname) {
+        calc_total(frm, dtype, dname)
+    },
+    overtime_information_add: function (frm, dtype, dname) {
+        calc_total(frm, dtype, dname);
+        // set default value of the child form
+        frappe.model.set_value(dtype, dname, "start_time", frm.doc.start_time);
+        frappe.model.set_value(dtype, dname, "end_time", frm.doc.end_time);
+    },
     start_time: function (frm, dtype, dname) {
         compute_duration(frm, dtype, dname)
     },
