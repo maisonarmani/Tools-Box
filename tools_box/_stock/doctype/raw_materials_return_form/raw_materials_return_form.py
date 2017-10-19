@@ -5,14 +5,12 @@
 from __future__ import unicode_literals
 import frappe
 from frappe.model.document import Document
-from frappe import utils
 
 
 class RawMaterialsReturnForm(Document):
     def validate(self):
-        if self.workflow_state == "Received":
-            self.received_date = utils.now_datetime()
-            self.received_by = frappe.session.user
+        if self.is_new():
+            self.returned_by = frappe.session.data.full_name
 
     def on_change(self):
         if self.workflow_state == "Approved":
@@ -22,9 +20,7 @@ class RawMaterialsReturnForm(Document):
             nmrf.from_warehouse = ""
             nmrf.production_order = self.production_order
 
-            new_items = []
             for index, value in enumerate(self.items):
-
                 # Get items default warehouse
                 cur_item = frappe.get_list(doctype="Item", filters={"name": value.item_code},
                                            fields=['default_warehouse'])

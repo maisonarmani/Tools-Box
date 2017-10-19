@@ -5,6 +5,7 @@
 from __future__ import unicode_literals
 import frappe
 from frappe.model.document import Document
+from frappe import _
 
 
 class VehicleSchedule(Document):
@@ -98,3 +99,38 @@ def update_status(document, trigger):
             doc.status = "Completed"
             doc.docstatus = 1
             doc.save(ignore_permissions=1)
+
+
+
+@frappe.whitelist()
+def make_purchase_order(docname):
+    def check_purchae_order():
+        p = frappe.db.sql("""select name from `tabPurchase Order` where vehicle_schedule=%s""", vs.name)
+        return p[0][0] if p else ""
+
+    vs = frappe.get_doc("Vehicle Schedule", docname)
+    po = check_purchae_order()
+    if po:
+        frappe.throw(_("Purchase Order {0} already exists for the Vehicle Schedule").format(po))
+
+    po = frappe.new_doc("Purchase Order")
+    po.supplier = vs.supplier
+    po.vehicle_schedule = vs.name
+    po.company="Graceco Limited"
+    po.transaction_date = vs.date
+
+    po.append("items", {
+        "item_name":"Van Hire & Delivery Service",
+        "description":"Van Hire & Delivery Service",
+        "uom":"Nos",
+        "stock_uom":"Nos",
+        "schedule_date":vs.date,
+        "item_code": "GCL0716",
+        "unit_cost":vs.daily_cost,
+        "rate":vs.daily_cost,
+        "amount":vs.daily_cost,
+        "qty":1,
+        "conversion_factor":"1",
+    })
+
+    return po.as_dict()

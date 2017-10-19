@@ -9,29 +9,16 @@ var ready = function (frm) {
         cur_frm.add_custom_button(
             __("Make Purchase Order"), function () {
                 // do some kind of mapping and create a new purchase order
-                var po = frappe.model.make_new_doc_and_get_name('Purchase Order');
-                po = locals['Purchase Order'][po];
-                po.vehicle_schedule = frm.doc.name;
-                po.transaction_date = frm.doc.date;
-                po.supplier = frm.doc.supplier;
-                po.company = "Graceco Limited";
-
-                // setup items
-                // var items = [];
-                // var poi = frappe.model.make_new_doc_and_get_name('Purchase Order Item');
-                // var _ = locals['Purchase Order Item'][poi];
-                // _.item_code = "GCL0716";
-                // _.item_name = "Van Hire & Delivery Service";
-                // _.description = "Van Hire & Delivery Service";
-                // _.uom = "Nos";
-                // _.unit_cost = frm.doc.daily_cost;
-                // _.conversion_factor = 1;
-                // _.rate = frm.doc.daily_cost;
-                // _.amount = frm.doc.daily_cost;
-                // _.qty = 1;
-                // items.push(_);
-                // po.items = items;
-                frappe.set_route("Form", "Purchase Order", po.name);
+                 frappe.call({
+                    method: "tools_box.logistics.doctype.vehicle_schedule.vehicle_schedule.make_purchase_order",
+                    args: {
+                        docname: cur_frm.doc.name
+                    },
+                    callback: function (r) {
+                        frappe.model.sync(r.message);
+                        frappe.set_route('Form', 'Purchase Order', r.message.name);
+                    }
+                });
             }
         )
     }

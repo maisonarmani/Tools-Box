@@ -11,7 +11,7 @@ import traceback
 class FinishedGoodsTransferForm(Document):
     def validate(self):
         if self.is_new():
-            self.transferred_by = frappe.session.user
+            self.transferred_by = frappe.session.data.full_name
 
     def on_change(self):
         if self.workflow_state == "Approved":
@@ -76,4 +76,4 @@ def get_producted_items(production_order=None):
 def update_receivers(doc, trigger):
     if doc.workflow_state == "Received":
         frappe.db.sql("update `tab{doc}` set received_date = '{rd}',received_by ='{rb}' where name = '{name}'"
-                      .format(doc=doc.doctype, rd=utils.now_datetime(), rb=frappe.session.user, name=doc.name))
+                      .format(doc=doc.doctype, rd=utils.now_datetime(), rb=frappe.session.user_fullname, name=doc.name))
