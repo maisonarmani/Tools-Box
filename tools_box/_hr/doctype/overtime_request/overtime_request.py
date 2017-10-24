@@ -7,10 +7,18 @@ import frappe
 from frappe.model.document import Document
 
 class OvertimeRequest(Document):
-	pass
+	def on_change(self):
+		if self.workflow_state == "Approved":
+			c_employee = frappe.get_value("Employee", {"user_id": frappe.session.get('user')}, "name")
+			if self.approved_by != c_employee:
+				frappe.throw("Sorry, this document can only be approved by %s" %
+							 self.approved_by)
 
-
-
+		elif self.workflow_state == "Authorized":
+			c_employee = frappe.get_value("Employee", {"user_id": frappe.session.get('user')}, "name")
+			if self.authorized_by != c_employee:
+				frappe.throw("Sorry, this document can only be authorized by and %s" %
+							 self.authorized_by)
 
 @frappe.whitelist()
 def make_overtime_sheet(docname):

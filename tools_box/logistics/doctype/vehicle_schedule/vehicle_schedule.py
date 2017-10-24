@@ -104,12 +104,12 @@ def update_status(document, trigger):
 
 @frappe.whitelist()
 def make_purchase_order(docname):
-    def check_purchae_order():
+    def check_purchase_order():
         p = frappe.db.sql("""select name from `tabPurchase Order` where vehicle_schedule=%s""", vs.name)
         return p[0][0] if p else ""
 
     vs = frappe.get_doc("Vehicle Schedule", docname)
-    po = check_purchae_order()
+    po = check_purchase_order()
     if po:
         frappe.throw(_("Purchase Order {0} already exists for the Vehicle Schedule").format(po))
 

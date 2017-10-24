@@ -223,11 +223,11 @@ def get_purchasing_section():
     return __default_item([
         {
             "type": "doctype",
-            "label": _("Material Requisition"),
-            "name": "Material Requisition",
+            "label": _("Purchase Requisition"),
+            "name": "Purchase Requisition",
             "icon": "icon-sitemap",
-            "link": "List/Material Requisition",
-            "description": _("Material Requisition"),
+            "link": "List/Purchase Requisition",
+            "description": _("Purchase Requisition"),
         }
     ], label="Additions")
 
@@ -578,6 +578,19 @@ def get_extra_purchase_reports():
             "is_query_report": True,
             "name": "Purchase Order Summary Report",
             "doctype": "Purchase Order"
+        },
+        {
+            "type": "report",
+            "is_query_report": True,
+            "name": "Purchase Requisition Report",
+            "doctype": "Purchase Requisition"
+        },
+
+        {
+            "type": "report",
+            "is_query_report": True,
+            "name": "Material Request Report",
+            "doctype": "Material Request"
         }
     ])
 

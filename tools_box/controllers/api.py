@@ -24,3 +24,10 @@ def get_directors(doctype, txt, searchfield, start, page_len, filters):
 		where u.name = r.parent and r.role = 'Directors' 
 		and u.enabled = 1 and u.name like %s
 	""", ("%" + txt + "%"))
+
+@frappe.whitelist()
+def get_approver_authorizer(emp):
+    # first who the employee reports to
+    # and up the ladder
+	return frappe.db.sql(""" SELECT c.reports_to approver, IFNULL(p.reports_to, c.reports_to) authorizer  from
+          tabEmployee c JOIN tabEmployee p  ON (c.reports_to = p.name) WHERE c.name="{0}" """.format(emp), as_dict=1)

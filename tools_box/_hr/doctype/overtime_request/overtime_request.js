@@ -2,7 +2,7 @@
 // For license information, please see license.txt
 
 
-var DaysBetween = function (date1, date2) {
+function DaysBetween(date1, date2) {
     //Get 1 day in milliseconds
     var one_day = 1000 * 60 * 60 * 24;
     // try reconverting to real date
@@ -29,15 +29,15 @@ var DaysBetween = function (date1, date2) {
     return days + ' day(s), ' + hours + ' hour(s) and ' + minutes + ' minute(s)';
 };
 
-var get_approvers = function () {
+function get_employees() {
     return {
-        query: "tools_box.controllers.api.get_directors"
+        query: "tools_box.controllers.api.get_active_employees"
     };
 }
 
 frappe.ui.form.on('Overtime Request', {
     refresh:function(frm){
-        frm.set_query("authorized_by", get_approvers);
+        frm.set_query("requested_by",get_employees);
         if (frm.doc.workflow_state == "Authorized") {
             frm.trigger("make_overtime_sheet");
         }
@@ -66,6 +66,21 @@ frappe.ui.form.on('Overtime Request', {
     end_time: function (frm, dtype, dname) {
         compute_duration(frm, dtype, dname)
     },
+    requested_by: function (frm) {
+         frappe.call({
+            method: "tools_box.controllers.api.get_approver_authorizer",
+            args: {
+                emp:frm.doc.requested_by
+            },
+            callback: function approver_authorizer(ret) {
+                if (ret.message != undefined) {
+                    // Reset value for vehicle and throw exception
+                    frappe.model.set_value(cur_frm.doctype, cur_frm.docname, "approved_by", ret.message[0].approver);
+                    frappe.model.set_value(cur_frm.doctype, cur_frm.docname, "authorized_by",  ret.message[0].authorizer);
+                }
+            }
+        })
+    }
 });
 
 
