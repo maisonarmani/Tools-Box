@@ -12,7 +12,7 @@ from erpnext import get_default_company
 
 class OvertimeSheet(Document):
     def validate(self):
-        overtime_sheet = frappe.db.sql("""select name from `tabOvertime Sheet` where overtime=%s and name != %s"""
+        overtime_sheet = frappe.db.sql("""select name from `tabOvertime Sheet` where overtime_request="%s" and name != "%s" """
                             % (self.overtime_request, self.name))
         if overtime_sheet:
             frappe.throw("Sorry, Overtime Request %s is already in use." % self.overtime_request)
@@ -22,7 +22,7 @@ class OvertimeSheet(Document):
 @frappe.whitelist()
 def make_expense_claim_new(docname):
     def check_exp_claim_exists():
-        exp = frappe.db.sql("""select name from `tabExpense Claim` where overtime=%s""", overtime.name)
+        exp = frappe.db.sql("""select name from `tabExpense Claim` where overtime="%s" """, overtime.name)
         return exp[0][0] if exp else ""
 
     overtime = frappe.get_doc("Overtime Sheet", docname)
