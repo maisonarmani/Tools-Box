@@ -229,7 +229,7 @@ def get_purchasing_section():
             "link": "List/Purchase Requisition",
             "description": _("Purchase Requisition"),
         }
-    ], label="Additions")
+    ], label="Additionals")
 
 
 def get_hr_section():
