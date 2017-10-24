@@ -35,7 +35,7 @@ frappe.ui.form.on('Overtime Sheet', {
             // filter based on the current department
             return {
                 filters: {
-                    department: cur_frm.doc.department
+
                 }
             }
         });

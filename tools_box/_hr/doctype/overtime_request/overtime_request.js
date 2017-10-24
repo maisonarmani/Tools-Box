@@ -77,6 +77,8 @@ frappe.ui.form.on('Overtime Request', {
                     // Reset value for vehicle and throw exception
                     frappe.model.set_value(cur_frm.doctype, cur_frm.docname, "approved_by", ret.message[0].approver);
                     frappe.model.set_value(cur_frm.doctype, cur_frm.docname, "authorized_by",  ret.message[0].authorizer);
+                    frappe.model.set_value(cur_frm.doctype, cur_frm.docname, "approved_by_name", ret.message[0].approver_name);
+                    frappe.model.set_value(cur_frm.doctype, cur_frm.docname, "authorized_by_name",  ret.message[0].authorizer_name);
                 }
             }
         })

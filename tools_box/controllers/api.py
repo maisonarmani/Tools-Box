@@ -29,5 +29,18 @@ def get_directors(doctype, txt, searchfield, start, page_len, filters):
 def get_approver_authorizer(emp):
     # first who the employee reports to
     # and up the ladder
-	return frappe.db.sql(""" SELECT c.reports_to approver, IFNULL(p.reports_to, c.reports_to) authorizer  from
+    data = frappe.db.sql(""" SELECT c.reports_to approver, IFNULL(p.reports_to, c.reports_to) authorizer  from
           tabEmployee c JOIN tabEmployee p  ON (c.reports_to = p.name) WHERE c.name="{0}" """.format(emp), as_dict=1)
+    d = []
+    for datum in data:
+        approver_name = frappe.get_value("Employee", datum.approver,"employee_name")
+        authorizer_name = frappe.get_value("Employee", datum.authorizer,"employee_name")
+
+        d= [{
+            "approver":datum.approver,
+            "authorizer":datum.authorizer,
+            "approver_name":approver_name,
+            "authorizer_name":authorizer_name
+        }]
+
+    return  d
