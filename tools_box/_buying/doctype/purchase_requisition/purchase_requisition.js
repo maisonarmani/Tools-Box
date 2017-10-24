@@ -29,23 +29,23 @@ function get_employees() {
 }
 
 
-function validate(ref_name, parent){
+function validate(ref_name, parent) {
     var r = frappe.model.get_list("Purchase Requisition Item", {item_code: ref_name});
     if (r.length > 0 && r[0].name != parent) {
         //frappe.model.set_value("Vehicle Schedule Inbound Item",parent,"ref_name", "");
-        frappe.throw("Sorry, Duplicate Entry " + ref_name );
+        frappe.throw("Sorry, Duplicate Entry " + ref_name);
     }
 }
 
 frappe.ui.form.on('Purchase Requisition', {
-    refresh:function(frm){
+    refresh: function (frm) {
         var status = frm.doc.status;
         var can_create_po = frappe.user_roles.includes("Purchase User");
         if ((status == "Authorized" && can_create_po)) {
             cur_frm.add_custom_button(
                 __("Make Purchase Order"), function () {
                     // do some kind of mapping and create a new purchase order
-                     frappe.call({
+                    frappe.call({
                         method: "tools_box._buying.doctype.purchase_requisition.purchase_requisition.make_purchase_order",
                         args: {
                             docname: cur_frm.doc.name
@@ -58,22 +58,24 @@ frappe.ui.form.on('Purchase Requisition', {
                 }
             )
         }
-		frm.set_query("requested_by", get_employees);
+        frm.set_query("requested_by", get_employees);
     },
     requested_by: function (frm) {
-         frappe.call({
-            method: "tools_box.controllers.api.get_approver_authorizer",
-            args: {
-                emp:frm.doc.requested_by
-            },
-            callback: function approver_authorizer(ret) {
-                if (ret.message != undefined) {
-                    // Reset value for vehicle and throw exception
-                    frappe.model.set_value(cur_frm.doctype, cur_frm.docname, "approved_by", ret.message[0].approver);
-                    frappe.model.set_value(cur_frm.doctype, cur_frm.docname, "authorized_by",  ret.message[0].authorizer);
+        if (frm.doc.requested_by != "") {
+            frappe.call({
+                method: "tools_box.controllers.api.get_approver_authorizer",
+                args: {
+                    emp: frm.doc.requested_by
+                },
+                callback: function approver_authorizer(ret) {
+                    if (ret.message != undefined) {
+                        // Reset value for vehicle and throw exception
+                        frappe.model.set_value(cur_frm.doctype, cur_frm.docname, "approved_by", ret.message[0].approver);
+                        frappe.model.set_value(cur_frm.doctype, cur_frm.docname, "authorized_by", ret.message[0].authorizer);
+                    }
                 }
-            }
-        })
+            })
+        }
     }
 });
 
@@ -84,7 +86,7 @@ frappe.ui.form.on('Purchase Requisition Item', {
     rate: function (frm, doctype, docname) {
         calcTotal(frm, doctype, docname);
     },
-    item_code:function(frm, doctype, docname){
-        validate(frappe.model.get_value(doctype, docname, 'item_code'),docname)
+    item_code: function (frm, doctype, docname) {
+        validate(frappe.model.get_value(doctype, docname, 'item_code'), docname)
     }
 });
