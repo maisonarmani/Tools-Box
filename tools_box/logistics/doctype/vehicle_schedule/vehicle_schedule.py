@@ -34,18 +34,18 @@ class VehicleSchedule(Document):
 
 
 @frappe.whitelist(False)
-def get_daily_cost(vehicle=None):
+def get_daily_cost_supplier(vehicle=None):
     if vehicle:
-        daily_cost = frappe.get_list("Vehicle Daily Cost", filters={
+        daily_cost_n_supplier = frappe.get_list("Vehicle Daily Cost", filters={
             "vehicle": vehicle,
             "enabled": 1
-        }, fields=['total_cost'])
+        }, fields=['total_cost',"supplier"])
 
-        if not len(daily_cost):
-            return 0
+        if not len(daily_cost_n_supplier):
+            return {}
         else:
-            return daily_cost[0].get('total_cost')
-    return 0
+            return daily_cost_n_supplier
+    return {}
 
 
 @frappe.whitelist(False)

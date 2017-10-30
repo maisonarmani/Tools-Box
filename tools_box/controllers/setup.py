@@ -620,6 +620,12 @@ def get_extra_stock_reports():
             "is_query_report": True,
             "name": "Material Receipt List Report",
             "doctype": "Purchase Receipt",
+        },
+        {
+            "type": "report",
+            "is_query_report": True,
+            "name": "Stock Balance With Valuation",
+            "doctype": "Stock Entry",
         }
     ])
 

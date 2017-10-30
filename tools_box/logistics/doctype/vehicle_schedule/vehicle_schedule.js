@@ -2,33 +2,27 @@
 // For license information, please see license.txt
 
 var allowed = {};
-var ready = function (frm) {
-    var status = frm.doc.status;
-    var can_create_po = frappe.user_roles.includes("Purchase User");
-    if ((status == "Awaiting Purchase Order" && can_create_po)) {
-        cur_frm.add_custom_button(
-            __("Make Purchase Order"), function () {
-                // do some kind of mapping and create a new purchase order
-                 frappe.call({
-                    method: "tools_box.logistics.doctype.vehicle_schedule.vehicle_schedule.make_purchase_order",
-                    args: {
-                        docname: cur_frm.doc.name
-                    },
-                    callback: function (r) {
-                        frappe.model.sync(r.message);
-                        frappe.set_route('Form', 'Purchase Order', r.message.name);
-                    }
-                });
-            }
-        )
-    }
-
-};
-
 frappe.ui.form.on('Vehicle Schedule', {
-    onload: ready,
-    refresh: ready,
-    refresh: function () {
+    refresh: function (frm) {
+        var status = frm.doc.status;
+        var can_create_po = frappe.user_roles.includes("Purchase User");
+        if ((status == "Awaiting Purchase Order" && can_create_po)) {
+            cur_frm.add_custom_button(
+                __("Make Purchase Order"), function () {
+                    // do some kind of mapping and create a new purchase order
+                    frappe.call({
+                        method: "tools_box.logistics.doctype.vehicle_schedule.vehicle_schedule.make_purchase_order",
+                        args: {
+                            docname: cur_frm.doc.name
+                        },
+                        callback: function (r) {
+                            frappe.model.sync(r.message);
+                            frappe.set_route('Form', 'Purchase Order', r.message.name);
+                        }
+                    });
+                }
+            )
+        }
         frappe.call({
             method: "tools_box.logistics.doctype.vehicle_schedule.vehicle_schedule.get_allowed",
             callback: function (ret) {
@@ -44,17 +38,20 @@ frappe.ui.form.on('Vehicle Schedule', {
             return
 
         frappe.call({
-            method: "tools_box.logistics.doctype.vehicle_schedule.vehicle_schedule.get_daily_cost",
+            method: "tools_box.logistics.doctype.vehicle_schedule.vehicle_schedule.get_daily_cost_supplier",
             args: {
                 vehicle: frm.doc.vehicle
             },
             callback: function get_daily_cost(ret) {
+                console.log(ret)
                 if (ret.message == undefined) {
                     // Reset value for vehicle and throw exception
                     frappe.model.set_value(cur_frm.doctype, cur_frm.docname, "vehicle", "");
                     frappe.throw("Sorry, Vehicle daily cost is not setup for the vehicle.");
                 }
-                frappe.model.set_value(cur_frm.doctype, cur_frm.docname, "daily_cost", ret == {} ? 0 : ret.message)
+                var d = ret.message[0];
+                frappe.model.set_value(cur_frm.doctype, cur_frm.docname, "daily_cost", d.total_cost);
+                frappe.model.set_value(cur_frm.doctype, cur_frm.docname, "supplier", d.supplier);
             }
         })
     }
@@ -92,9 +89,8 @@ var item_opts = {
         })
     },
     amount: calc_total,
-    status:function(frm){
-        frappe.model.set_value(cur_frm.doctype, cur_frm.docname,"modified_again", frappe.datetime.now_datetime())
-        console.log(frappe.datetime.now_datetime())
+    status: function (frm) {
+        frappe.model.set_value(cur_frm.doctype, cur_frm.docname, "modified_again", frappe.datetime.now_datetime())
     }
 
 }

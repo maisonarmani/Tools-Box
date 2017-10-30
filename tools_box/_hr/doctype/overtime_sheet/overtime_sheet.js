@@ -31,11 +31,10 @@ var DaysBetween = function (date1, date2) {
 frappe.ui.form.on('Overtime Sheet', {
     refresh: function (frm, dtype, dname) {
         compute_duration(frm, dtype, dname);
-        frm.set_query("employee", "overtime_information", function () {
-            // filter based on the current department
+        frm.set_query("overtime_request", function () {
             return {
                 filters: {
-
+                    workflow_state:"Authorized"
                 }
             }
         });

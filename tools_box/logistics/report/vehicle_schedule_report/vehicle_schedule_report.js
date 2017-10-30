@@ -18,20 +18,31 @@ frappe.query_reports["Vehicle Schedule Report"] = {
 			"reqd":1
 		},
 		{
-			"fieldname":"type",
-			"label": __("Type"),
-			"fieldtype": "Select",
-			"reqd":0,
-			"options": [
-				"Inbound","Outbound"
-			],
-		},
-		{
 			"fieldname":"vehicle",
 			"label": __("Vehicle"),
 			"fieldtype": "Link",
 			"options": "Vehicle",
 			"reqd":0
+		},
+		{
+			"fieldname":"type",
+			"label": __("Type"),
+			"fieldtype": "Select",
+			"reqd":0,
+			"default":"Inbound",
+			"options": [
+				"Inbound","Outbound"
+			],
+		},
+		{
+			"fieldname":"status",
+			"label": __("Status"),
+			"fieldtype": "Select",
+			"reqd":0,
+			"default":"In Transit",
+			"options": [
+				"In Transit","Delivered","Returned"
+			],
 		},
 	]
 }

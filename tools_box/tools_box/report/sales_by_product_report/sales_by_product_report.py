@@ -13,6 +13,7 @@ def execute(filters=None):
 		"Customer:Link/Customer:200",
 		"Qty:Float:50",
 		"Amount:Currency:100",
+		"Discount:Currency:100",
 		"Territory:Link/Territory:100"
 	]
 
@@ -33,7 +34,7 @@ def execute(filters=None):
 
 
 	data = frappe.db.sql("""SELECT CONCAT(sii.item_name,' (',sii.item_code,')'),si.posting_date,si.name,si.customer,
-		sii.qty,sii.amount,c.territory FROM `tabSales Invoice` si, `tabSales Invoice Item` sii, `tabCustomer` c 
+		sii.qty,sii.net_amount,si.discount_amount,c.territory FROM `tabSales Invoice` si, `tabSales Invoice Item` sii, `tabCustomer` c 
 		WHERE si.name = sii.parent AND c.name = si.customer %s ORDER BY sii.item_name,si.posting_date""" % conditions,
 						 filters)
 	return columns, data
