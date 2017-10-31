@@ -52,12 +52,16 @@ def make_purchase_order(docname):
     po.currency = pr.currency
 
 
+
     for item in pr.items:
+        it = frappe.new_doc("Purchase Order Item")
+        item.name = it.name
+        item.doctype = it.doctype
         item.base_net_amount = item.amount
         item.net_amount = item.amount
         item.net_rate = item.rate
         item.amount = item.rate
-        item.docstatus =0
+        item.docstatus = 0
         po.append("items", item)
 
     return po.as_dict()

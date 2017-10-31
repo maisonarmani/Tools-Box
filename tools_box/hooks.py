@@ -84,8 +84,12 @@ doc_events = {
         ]
     },
     "Purchase Order": {
+        "on_save": [
+            "tools_box.controllers.sentinel.validate_required"
+        ],
         "on_change": [
             "tools_box.logistics.doctype.vehicle_schedule.vehicle_schedule.update_status",
+            "tools_box.controllers.sentinel.validate_required"
         ]
     },
     ("Finished Goods Transfer Form", "Raw Materials Return Form"): {

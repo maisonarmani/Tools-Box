@@ -52,8 +52,8 @@ def get_daily_cost_supplier(vehicle=None):
 def get_party(doctype=None, docname=None):
     if doctype and docname:
         party = "supplier"
-        if doctype == "Delivery Note":
-            party = "customer"
+        if doctype == "Authority to Load    ":
+            party = "customer_name"
         p = frappe.get_list(doctype, filters={
             "name": docname,
             "docstatus": 1
@@ -95,10 +95,13 @@ def update_status(document, trigger):
     # after approving the purchase order the vehicle schedule is then change t
     if document.get('vehicle_schedule') and document.get('workflow_state') == "Approved":
         doc = frappe.get_doc("Vehicle Schedule", document.get('vehicle_schedule'))
-        if doc:
-            doc.status = "Completed"
-            doc.docstatus = 1
-            doc.save(ignore_permissions=1)
+        try:
+            if doc:
+                doc.status = "Completed"
+                doc.docstatus = 1
+                doc.save(ignore_permissions=1)
+        except:
+            pass
 
 
 
