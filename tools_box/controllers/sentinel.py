@@ -34,8 +34,9 @@ def validate_required(document, trigger):
         if doctype == "Job Card":
             state = "workflow_state"
 
-        _ = frappe.db.sql("""select name from `tab{dt}` where name = '{name}' and {state}="Approved" """
-                          .format(name=name, dt=doctype, state=state), as_list=1)
+        _ = frappe.db.sql(
+            """select name from `tab{dt}` where name = '{name}' and {state} in ("Approved", "Authorized") """
+            .format(name=name, dt=doctype, state=state), as_list=1)
 
         if not bool(len(_)):
             frappe.throw("{dt} attached has not been approved"
