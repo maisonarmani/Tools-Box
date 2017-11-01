@@ -52,7 +52,7 @@ def get_daily_cost_supplier(vehicle=None):
 def get_party(doctype=None, docname=None):
     if doctype and docname:
         party = "supplier"
-        if doctype == "Authority to Load    ":
+        if doctype == "Authority to Load":
             party = "customer_name"
         p = frappe.get_list(doctype, filters={
             "name": docname,
