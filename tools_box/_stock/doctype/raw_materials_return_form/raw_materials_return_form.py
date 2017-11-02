@@ -14,7 +14,7 @@ class RawMaterialsReturnForm(Document):
             self.returned_by = _get_employee_fullname(frappe.session.data.user)
 
     def on_change(self):
-        if self.workflow_state == "Approved":
+        if self.workflow_state == "Received":
             nmrf = frappe.new_doc("Stock Entry")
             nmrf.purpose = "Material Receipt"
             nmrf.title = "Material Receipt"

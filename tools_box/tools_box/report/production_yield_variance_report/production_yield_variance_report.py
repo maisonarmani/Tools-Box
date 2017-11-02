@@ -45,7 +45,8 @@ def execute(filters=None):
 
         if production_order != None:
             # get producion item
-            item = frappe.db.sql("select production_item from `tabProduction Order` where name=%s" %production_order, as_dict=1)
+            item = frappe.db.sql("select production_item from `tabProduction Order` where name='%s'" %production_order, as_dict=1)
+
             filters.update({"name": item[0].production_item})
 
         elif item != None:
@@ -81,8 +82,11 @@ def execute(filters=None):
     if filters.get("item") != None:
         items = get_considered_items(item=filters.get("item"))
 
-    if filters.get("item_group") != None:
+    elif filters.get("item_group") != None:
         items = get_considered_items(item_group=filters.get("item_group"))
+
+    elif filters.get("production_order") != None:
+        items = get_considered_items(production_order=filters.get("production_order"))
 
     if len(items) > 0:
         for item in items:
