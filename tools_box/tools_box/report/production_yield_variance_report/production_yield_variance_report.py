@@ -16,15 +16,17 @@ def execute(filters=None):
     production_order = ""
     data = []
     columns = [
-        "Date:Date:200",
-        "Item Code:Link/Item:200",
-        "Item:Data:200",
+        "Date:Date:120",
+        "Item Code:Link/Item:100",
+        "Item Name:Data:160",
         "Item Group:Data:100",
         "UOM:Link/UOM:75",
+        "Production Order:Link/Production Order:160",
         "Expected Output:Float:100",
         "Actual Output:Float:100",
         "Variance:Float:100"
     ]
+
     def get_excess():
         excess = 0
         if production_order:
@@ -36,26 +38,40 @@ def execute(filters=None):
 
         return excess
 
+    def get_considered_items(item_group=None, item=None, production_order=None):
 
-    def get_considered_items(item_group=None, item = None):
         filters = {}
-        if item != None:
-            filters.update({"name":item})
+
+
+        if production_order != None:
+            # get producion item
+            item = frappe.db.sql("select production_item from `tabProduction Order` where name=%s" %production_order, as_dict=1)
+            filters.update({"name": item[0].production_item})
+
+        elif item != None:
+            filters.update({"name": item})
+
         if item_group != None:
             filters.update({"item_group": item_group})
         frappe.errprint(filters)
-        items = frappe.get_list(doctype="Item", filters=filters, fields=['name', 'stock_uom', 'item_name','item_group'])
+
+        items = frappe.get_list(doctype="Item", filters=filters,
+                                fields=['name', 'stock_uom', 'item_name', 'item_group'])
         return items
 
-    def get_production_orders(item = None, **kwargs):
+
+    def get_production_orders(item=None, **kwargs):
         if item != None:
             production_orders = frappe.db.sql(
                 """select name,planned_start_date, production_item,qty, produced_qty from `tabProduction Order` where production_item='{item}'  and planned_start_date
-                BETWEEN DATE('{start_date}') and DATE('{end_date}') and status='Completed' """.format(item=item, **kwargs), as_dict=1)
+                BETWEEN DATE('{start_date}') and DATE('{end_date}') and status='Completed' """.format(item=item,
+                                                                                                      **kwargs),
+                as_dict=1)
         else:
             production_orders = frappe.db.sql(
                 """select name, planned_start_date,production_item,qty, produced_qty from `tabProduction Order` where  planned_start_date BETWEEN
-                        DATE('{start_date}') and DATE('{end_date}') and status='Completed' """.format(**kwargs), as_dict=1)
+                        DATE('{start_date}') and DATE('{end_date}') and status='Completed' """.format(**kwargs),
+                as_dict=1)
         return production_orders
 
     items = []
@@ -63,9 +79,10 @@ def execute(filters=None):
     sd, ed = filters.get("from"), filters.get("to")
 
     if filters.get("item") != None:
-        items = get_considered_items(item = filters.get("item"))
+        items = get_considered_items(item=filters.get("item"))
+
     if filters.get("item_group") != None:
-        items = get_considered_items(item_group= filters.get("item_group"))
+        items = get_considered_items(item_group=filters.get("item_group"))
 
     if len(items) > 0:
         for item in items:
@@ -76,7 +93,7 @@ def execute(filters=None):
                 actual = po.produced_qty
                 excess = get_excess()
                 data.append(
-                    (po.planned_start_date, item.name, item.item_name, item.item_group, item.stock_uom,
+                    (po.planned_start_date, item.name, item.item_name, item.item_group,item.stock_uom,po.name,
                      expected, actual + excess, - expected + (actual + excess))
                 )
     else:
@@ -88,7 +105,7 @@ def execute(filters=None):
             excess = get_excess()
             item = get_considered_items(item=po.production_item)[0]
             data.append(
-                (po.planned_start_date,item.name,item.item_name,item.item_group,item.stock_uom,
-                expected, actual + excess,- expected + (actual + excess))
+                (po.planned_start_date, item.name, item.item_name, item.item_group, item.stock_uom,po.name,
+                 expected, actual + excess, - expected + (actual + excess))
             )
     return columns, data

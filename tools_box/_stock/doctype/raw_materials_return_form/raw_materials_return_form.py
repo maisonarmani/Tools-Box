@@ -5,12 +5,13 @@
 from __future__ import unicode_literals
 import frappe
 from frappe.model.document import Document
+from tools_box._stock.doctype.finished_goods_transfer_form.finished_goods_transfer_form import _get_employee_fullname
 
 
 class RawMaterialsReturnForm(Document):
     def validate(self):
         if self.is_new():
-            self.returned_by = frappe.session.data.full_name
+            self.returned_by = _get_employee_fullname(frappe.session.data.user)
 
     def on_change(self):
         if self.workflow_state == "Approved":

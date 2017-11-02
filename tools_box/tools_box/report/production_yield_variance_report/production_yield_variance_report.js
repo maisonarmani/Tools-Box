@@ -18,6 +18,13 @@ frappe.query_reports["Production Yield Variance Report"] = {
 			"reqd":1
 		},
 		{
+			"fieldname":"production_order",
+			"label": __("Production Order"),
+			"fieldtype": "Link",
+			"options": "Production Order",
+			"reqd":0
+		},
+		{
 			"fieldname":"item",
 			"label": __("Item"),
 			"fieldtype": "Link",

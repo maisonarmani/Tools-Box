@@ -1,5 +1,5 @@
 {
- "add_total_row": 0, 
+ "add_total_row": 1, 
  "apply_user_permissions": 1, 
  "creation": "2016-10-05 19:39:12.863419", 
  "disabled": 0, 
@@ -7,7 +7,7 @@
  "doctype": "Report", 
  "idx": 0, 
  "is_standard": "Yes", 
- "modified": "2017-05-22 18:08:07.706995", 
+ "modified": "2017-11-02 12:02:32.787356", 
  "modified_by": "Administrator", 
  "module": "Tools Box", 
  "name": "Raw Materials Return Report", 

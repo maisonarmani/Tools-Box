@@ -1,5 +1,5 @@
 {
- "add_total_row": 0, 
+ "add_total_row": 1, 
  "apply_user_permissions": 1, 
  "creation": "2016-10-08 04:36:11.749158", 
  "disabled": 0, 
@@ -7,7 +7,7 @@
  "doctype": "Report", 
  "idx": 0, 
  "is_standard": "Yes", 
- "modified": "2017-09-22 12:17:47.957609", 
+ "modified": "2017-11-02 14:14:13.277739", 
  "modified_by": "Administrator", 
  "module": "Tools Box", 
  "name": "Production Yield Variance Report", 

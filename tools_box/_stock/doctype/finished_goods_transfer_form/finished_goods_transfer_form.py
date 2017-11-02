@@ -11,10 +11,10 @@ import traceback
 class FinishedGoodsTransferForm(Document):
     def validate(self):
         if self.is_new():
-            self.transferred_by = frappe.session.data.full_name
+            self.transferred_by = _get_employee_fullname(frappe.session.data.user)
 
     def on_change(self):
-        if self.workflow_state == "Approved":
+        if self.workflow_state == "Received":
             nmrf = frappe.new_doc("Stock Entry")
             nmrf.purpose = "Material Receipt"
             nmrf.title = "Material Receipt"
@@ -76,4 +76,12 @@ def get_producted_items(production_order=None):
 def update_receivers(doc, trigger):
     if doc.workflow_state == "Received":
         frappe.db.sql("update `tab{doc}` set received_date = '{rd}',received_by ='{rb}' where name = '{name}'"
-                      .format(doc=doc.doctype, rd=utils.now_datetime(), rb=frappe.session.user_fullname, name=doc.name))
+                      .format(doc=doc.doctype, rd=utils.now_datetime(), rb=_get_employee_fullname(frappe.session.data.user), name=doc.name))
+
+
+def _get_employee_fullname(user):
+    employee = frappe.get_list(doctype="Employee",fields=["employee_name"],filters={"user_id":user})
+
+    if employee:
+        return employee[0].employee_name
+    return None
