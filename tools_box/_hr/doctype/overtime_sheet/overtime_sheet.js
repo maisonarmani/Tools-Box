@@ -1,6 +1,12 @@
 // Copyright (c) 2017, masonarmani38@gmail.com and contributors
 // For license information, please see license.txt
 
+var get_employees = function () {
+    return {
+        query: "tools_box.controllers.api.get_active_employees"
+    };
+};
+
 var DaysBetween = function (date1, date2) {
     //Get 1 day in milliseconds
     var one_day = 1000 * 60 * 60 * 24;
@@ -38,6 +44,8 @@ frappe.ui.form.on('Overtime Sheet', {
                 }
             }
         });
+        frm.set_query("employee","overtime_information", get_employees);
+
         if (frm.doc.docstatus == 1) {
             frm.add_custom_button(
                 __("Expense Claim"), function () {
