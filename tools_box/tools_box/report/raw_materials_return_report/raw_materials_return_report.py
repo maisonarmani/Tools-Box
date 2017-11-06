@@ -7,7 +7,7 @@ import frappe
 
 def execute(filters=None):
     columns, data = ["Name:Link/Raw Materials Return Form:140","Date:Date:140", "Production Order:Link/Production Order:150", "Item Code:Link/Item:100",
-                     "Item Name:Data:200", "UOM:Link/UOM:75","Qty:Float:75", "Returned by:Data:150","Received by:Data:150","Recieved Date:Date:100"], []
+                     "Item Name:Data:200", "UOM:Link/UOM:75", "Qty:Float:75", "Returned By:Data:150", "Received By:Data:150","Received Date:Date:100"], []
     # Date	Item	UOM	Qty
     conditions = ""
     if filters.get("item"):
@@ -19,8 +19,8 @@ def execute(filters=None):
     if filters.get("production_order"):
         conditions += """ and f.production_order = "{production_order}" """
 
-    data = frappe.db.sql("""SELECT f.name, f.date, p.name,  i.item_code,i.item_name,i.uom,i.qty, 
-        f.returned_by, f.received_by, f.received_date from `tabRaw Materials Return Item` i JOIN `tabRaw Materials Return Form` f 
+    data = frappe.db.sql("""SELECT f.name, f.date, p.name,  i.item_code,i.item_name,i.uom,i.qty, f.returned_by, 
+        f.received_by, f.received_date from `tabRaw Materials Return Item` i JOIN `tabRaw Materials Return Form` f 
         ON i.parent=f.name JOIN `tabItem` ii ON (ii.name = i.item_code) JOIN `tabProduction Order` p ON 
         (f.production_order = p.name) WHERE f.docstatus =1 {0} """.format(conditions.format(**filters)), as_list=1)
 

@@ -44,3 +44,28 @@ def get_approver_authorizer(emp):
         }]
 
     return  d
+
+
+
+def confirmation_notification():
+    # get the list of employees that should be confirmed today
+    # make sure it has not be confirmed
+    # send bulk alert to all hr members
+    import datetime
+    from frappe import sendmail
+    confirmees = frappe.get_list(doctype='Employee', filters =dict(final_confirmation_date=datetime.date.today()),
+                               fields=['employee_name','final_confirmation_date','date_of_joining'] )
+
+    message = "<div><ul style='list-style=none; margin:0; padding:0'>"
+    for confirmee in confirmees:
+        message += "<li><b>{employee_name}</b> employeed on {date_of_joining} is due for confirmation today ({final_confirmation_date}) </li>".format(**confirmee)
+
+    message += "<ul><h4>Please attend to this ASAP.</h4></div>"
+
+    # get all HR Users
+    hr_users=  frappe.db.sql("""select u.name from tabUser u, `tabHas Role` r where u.name = r.parent and 
+          r.role = 'HR User'and u.enabled = 1""", as_list=1)
+    hr_users = [x[0] for x in hr_users]
+    sendmail(recipients=hr_users, sender="erp.graceco.ng", subject="Employee Confirmation Notification",
+                        message=message, reference_doctype="Employee", reference_name="" )
+

@@ -73,14 +73,6 @@ def get_allowed():
             inbound=ls.get("allowed_inbound_cost")
         )
 
-
-@frappe.whitelist(False)
-def deliver(dt,dn):
-    #Hack
-    frappe.db.sql("update `tab{dt} Outbound Item` set status = 'Delivered' where parent = '{dn}'".format(dt=dt, dn=dn))
-    frappe.db.sql("update `tab{dt} Inbound Item` set status = 'Delivered' where parent = '{dn}'".format(dt=dt, dn=dn))
-
-
 @frappe.whitelist(False)
 def change_status(dt, dn, status):
     doc = frappe.get_doc(dt, dn)

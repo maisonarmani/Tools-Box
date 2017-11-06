@@ -105,6 +105,9 @@ doc_events = {
 scheduler_events = {
     "hourly": [
         "erpnext.stock.reorder_item.reorder_item"
+    ],
+    "daily":[
+        "tools_box.controller.api.confirmation_notification"
     ]
 }
 

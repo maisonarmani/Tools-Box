@@ -1,6 +1,3 @@
-<div style="margin-bottom: 7px;" class="text-center">
-	{%= frappe.boot.letter_heads[filters.letter_head  || frappe.defaults.get_default("letter_head")] %}
-</div>
 <h2 class="text-center">Raw Materials Return</h2>
 <h5 class="text-center">
 	{%= dateutil.str_to_user(filters.from) %}
@@ -13,28 +10,33 @@
 {% if (filters.item_group && filters.item_group!=""){ %}
 	<h5>Item Group : {%=filters.item_group %}</h5>
 {% } %}
-{% if (filters.shift && filters.shift!=""){ %}
-	<h5>Shift : {%=filters.shift %}</h5>
+{% if (filters.production_order && filters.production_order!=""){ %}
+	<h5>Production Order : {%=filters.production_order %}</h5>
 {% } %}
 <hr>
 <table class="table table-bordered">
 	<thead>
 		<tr>
 			<th style="width: 20%">Date</th>
-			<th style="width: 20%">Shift</th>
-			<th style="width: 40%">Item</th>
-			<th style="width: 20%">Qty</th>
+			<th style="width: 20%">Production Order</th>
+			<th style="width: 20%">Item Name</th>
+			<th style="width: 10%">Qty</th>
+            <th style="width: 20%">Returned By</th>
+            <th style="width: 20%">Received By</th>
+            <th style="width: 20%">Received Date</th>
 		</tr>
 	</thead>
 	<tbody>
 		{% for(var i=0,l=data.length; i<l; i++) { %}
 			<tr>
-				{% 
-				var row = data[i]; %}
+				{% var row = data[i]; %}
 					<td>{%= dateutil.str_to_user(row["Date"]) %}</td>
-					<td >{%= row["Shift"] %}</td>
-					<td >{%= row["Item"] %}</td>
+					<td >{%= row["Production Order"] %}</td>
+					<td >{%= row["Item Name"] %}</td>
 					<td style="text-align: right">{%= row["Qty"] %} {%= row["UOM"] %}</td>
+					<td style="text-align: right">{%= row["Returned By"] %}</td>
+					<td style="text-align: right">{%= row["Received By"] %}</td>
+					<td style="text-align: right">{%= row["Received Date"] %}</td>
 
 			</tr>
 		{% } %}
