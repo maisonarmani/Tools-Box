@@ -35,7 +35,7 @@ def validate_required(document, trigger):
             state = "workflow_state"
         if name:
             _ = frappe.db.sql(
-                """select name from `tab{dt}` where name = '{name}' and {state} in ("Approved", "Authorized") """
+                """select name from `tab{dt}` where name = '{name}' and docstatus = 1 or {state} in ("Approved", "Authorized","Awaiting Purchase Order") """
                 .format(name=name, dt=doctype, state=state), as_list=1)
 
             if not bool(len(_)):

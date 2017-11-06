@@ -4,9 +4,9 @@
 var allowed = {};
 frappe.ui.form.on('Vehicle Schedule', {
     refresh: function (frm) {
-        var status = frm.doc.status;
+        var status = frm.doc.docstatus;
         var can_create_po = frappe.user_roles.includes("Purchase User");
-        if ((status == "Awaiting Purchase Order" && can_create_po)) {
+        if ((status && can_create_po)) {
             cur_frm.add_custom_button(
                 __("Make Purchase Order"), function () {
                     // do some kind of mapping and create a new purchase order
@@ -34,7 +34,7 @@ frappe.ui.form.on('Vehicle Schedule', {
     },
     vehicle: function (frm) {
         // get the daily cost information from
-        if (frm.doc.vehicle == "" || frm.doc.vehicle == "")
+        if (frm.doc.vehicle == "")
             return
 
         frappe.call({
@@ -121,13 +121,13 @@ function calc_total(frm) {
         var remark = "Vehicle's daily cost is " + roundNumber(ratio, 2) + "% of total amount";
         if (cur_frm.doc.daily_cost > t) {
             cur_frm.doc.ratio_ok = 0;
-            flag = "Vehicle's daily cost is more than " + allowed[String(cur_frm.doc.type).toLowerCase()] + "% of " + format_currency(total_amount)
+            flag = "Vehicle's daily cost is more than " + allowed[String(cur_frm.doc.type).toLowerCase()] + "% of " +format_currency(total_amount)
         } else {
             cur_frm.doc.ratio_ok = 1;
             flag = "Vehicle's daily cost is " + roundNumber(ratio, 2) + "% of " + format_currency(total_amount)
         }
 
-        frappe.model.set_value(cur_frm.doctype, cur_frm.docname, "total_amount", format_currency(total_amount))
+        frappe.model.set_value(cur_frm.doctype, cur_frm.docname, "total_amount",                                                total_amount)
         frappe.model.set_value(cur_frm.doctype, cur_frm.docname, "remark", remark)
         frappe.model.set_value(cur_frm.doctype, cur_frm.docname, "reason", flag)
     }

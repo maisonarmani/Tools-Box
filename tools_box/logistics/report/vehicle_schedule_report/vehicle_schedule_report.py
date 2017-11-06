@@ -9,13 +9,13 @@ def execute(filters=None):
     data, conditions = [], ""
     columns = [
         "Date:Date:100",
+        "ID:Link/Vehicle Schedule:100",
         "Vehicle:Link/Vehicle:100",
         "Type:Data:100",
+        "Daily Cost:Currency:100",
+        "Amount:Currency:130",
         "Remark:Data:260",
-        "Ref Type:Data:120",
-        "Ref Name:Data:130",
-        "Status:Data:130",
-        "Amount:Currency:130"
+        "Ratio:Float:120"
     ]
 
     if filters.get('from') and filters.get('to'):
@@ -27,21 +27,17 @@ def execute(filters=None):
     if filters.get('type'):
         conditions += " and p.type = '{type}'"
 
-    schedules = frappe.db.sql("""select name from `tabVehicle Schedule` p where (1=1) {cond} """
-                              .format(cond=conditions.format(**filters)), as_dict=1)
+    if filters.get('status'):
+        conditions = " and c.status = '{status}'"
 
-    for schedule in schedules:
-        data.extend(list(__get_bound(schedule.name, filters.get('type'), filters.get('status')))[0:])
+    data = frappe.db.sql("""select p.date, p.name, p.vehicle, p.type,p.daily_cost, p.total_amount, p.remark 
+    from `tabVehicle Schedule` as p JOIN `tabVehicle Schedule {type} Item` c 
+    WHERE (1=1) {c} GROUP BY name""".format(c=conditions.format(**filters), type=filters.get('type')), as_list=1)
+
+    frappe.errprint(data)
+    for d in data:
+        _ =  round(((d[4] / d[5]) * 100), 2)
+        d.append(_)
 
     return columns, data
 
-
-def __get_bound(name=None, type=None, status=None):
-    if status:
-        status = " and c.status = '{0}'".format(status)
-    if name:
-        name = " and p.name = '{0}'".format(name)
-    items = frappe.db.sql("""select p.date, p.vehicle, p.type, p.remark, c.ref_type, c.ref_name,
-	 c.status, c.amount from `tabVehicle Schedule` as p JOIN `tabVehicle Schedule {type} Item` as c ON(c.parent = p.name) WHERE (1=1) {name} {status}"""
-                          .format(name=name, type=type, status=status))
-    return items
