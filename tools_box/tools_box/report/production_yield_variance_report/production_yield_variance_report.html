@@ -1,12 +1,12 @@
-<div style="margin-bottom: 7px;" class="text-center">
-	{%= frappe.boot.letter_heads[filters.letter_head  || frappe.defaults.get_default("letter_head")] %}
-</div>
 <h2 class="text-center">Production Yield Variance</h2>
 <h5 class="text-center">
 	{%= dateutil.str_to_user(filters.from) %}
 	{%= __("to") %}
 	{%= dateutil.str_to_user(filters.to) %}
 </h5>
+{% if (filters.production_order && filters.production_order!=""){ %}
+	<h5>Production Order : {%=filters.production_order %}</h5>
+{% } %}
 {% if (filters.item && filters.item!=""){ %}
 	<h5>Item : {%=filters.item %}</h5>
 {% } %}
@@ -18,7 +18,8 @@
 	<thead>
 		<tr>
 			<th style="width: 20%">Date</th>
-			<th style="width: 20%">Item</th>
+			<th style="width: 20%">Item Name</th>
+			<th style="width: 15%">Production Order</th>
 			<th style="width: 15%">Expected Qty</th>
 			<th style="width: 15%">Actual Qty</th>
 			<th style="width: 15%">Variance Qty</th>
@@ -30,7 +31,8 @@
 				{% 
 				var row = data[i]; %}
 					<td>{%= dateutil.str_to_user(row["Date"]) %}</td>
-					<td >{%= row["Item"] %}</td>
+					<td >{%= row["Item Name"] %}</td>
+					<td >{%= row["Production Order"] %}</td>
 					<td style="text-align: right">{%= row["Expected Output"] %} {%= row["UOM"] %}</td>
 					<td style="text-align: right">{%= row["Actual Output"] %} {%= row["UOM"] %}</td>
 					<td style="text-align: right">{%= row["Variance"] %} {%= row["UOM"] %}</td>
