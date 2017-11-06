@@ -65,13 +65,13 @@ def execute(filters=None):
         if item != None:
             production_orders = frappe.db.sql(
                 """select name,planned_start_date, production_item,qty, produced_qty from `tabProduction Order` where production_item='{item}'  and planned_start_date
-                BETWEEN DATE('{start_date}') and DATE('{end_date}') and status='Completed' """.format(item=item,
+                BETWEEN DATE('{start_date}') and DATE('{end_date}') """.format(item=item,
                                                                                                       **kwargs),
                 as_dict=1)
         else:
             production_orders = frappe.db.sql(
                 """select name, planned_start_date,production_item,qty, produced_qty from `tabProduction Order` where  planned_start_date BETWEEN
-                        DATE('{start_date}') and DATE('{end_date}') and status='Completed' """.format(**kwargs),
+                        DATE('{start_date}') and DATE('{end_date}')""".format(**kwargs),
                 as_dict=1)
         return production_orders
 
