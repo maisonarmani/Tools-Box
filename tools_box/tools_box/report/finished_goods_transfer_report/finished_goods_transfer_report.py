@@ -11,7 +11,7 @@ def execute(filters=None):
     # Date	Item	UOM	Qty
     conditions = ""
     if filters.get("item"):
-        conditions += """ and i.item_code = "{item_code}" """
+        conditions += """ and i.item_code = "{item}" """
     if filters.get("from"):
         conditions += """ and f.date between DATE("{from}") and DATE("{to}")"""
     if filters.get("item_group"):
