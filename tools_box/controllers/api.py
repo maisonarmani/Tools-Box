@@ -69,3 +69,10 @@ def confirmation_notification():
     sendmail(recipients=hr_users, sender="erp.graceco.ng", subject="Employee Confirmation Notification",
                         message=message, reference_doctype="Employee", reference_name="" )
 
+
+
+@frappe.whitelist()
+def complete_production_order(doctype, docname):
+    # update without checking permissions
+    frappe.db.sql("update `tab%s` set status = 'Completed', skip_transfer=1 where name = '%s'" % (doctype, docname))
+    return True
