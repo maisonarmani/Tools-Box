@@ -6,5 +6,5 @@ from __future__ import unicode_literals
 import frappe
 import unittest
 
-class TestStationariesIssued(unittest.TestCase):
+class TestStationariesRequest(unittest.TestCase):
 	pass

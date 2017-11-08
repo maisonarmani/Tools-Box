@@ -113,7 +113,14 @@ def get_stock_section():
         "icon": "icon-sitemap",
         "link": "List/Store Bin Card",
         "description": _("Store Bin Card"),
-    }, ])
+    },{
+        "type": "doctype",
+        "label": _("Stationaries Request"),
+        "name": "Stationaries Request",
+        "icon": "icon-sitemap",
+        "link": "List/Stationaries Request",
+        "description": _("Stationaries Request"),
+    } ])
 
 
 def get_production_section():
@@ -263,11 +270,18 @@ def get_hr_section():
         "description": _("Overtime Sheet"),
     }, {
         "type": "doctype",
-        "label": _("Stationaries Issued"),
-        "name": "Stationaries Issued",
+        "label": _("Stationaries Request"),
+        "name": "Stationaries Request",
         "icon": "icon-sitemap",
-        "link": "List/Stationaries Issued",
-        "description": _("Stationaries Issued"),
+        "link": "List/Stationaries Request",
+        "description": _("Stationaries Request"),
+    },{
+        "type": "doctype",
+        "label": _("Stationaries Log"),
+        "name": "Stationaries Log",
+        "icon": "icon-sitemap",
+        "link": "List/Stationaries Log",
+        "description": _("Stationaries Log"),
     },
     ])
 
