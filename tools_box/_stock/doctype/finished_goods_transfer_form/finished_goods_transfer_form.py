@@ -10,14 +10,24 @@ import traceback
 
 class FinishedGoodsTransferForm(Document):
     def validate(self):
+
+        if self._validate_fields():
+            frappe.throw("Finished goods transfer form already created for " +self.production_order)
+
         if self.is_new():
             self.transferred_by = _get_employee_fullname(frappe.session.data.user)
+
+
+    def _validate_fields(self):
+        d = frappe.db.sql("SELECT name FROM `tab%s` WHERE production_order = '%s' and name != '%s'" % (self.doctype,
+                                                                                       self.production_order, self.name))
+        return len(d) > 0
 
     def on_change(self):
         if self.workflow_state == "Received":
             nmrf = frappe.new_doc("Stock Entry")
-            nmrf.purpose = "Material Receipt"
-            nmrf.title = "Material Receipt"
+            nmrf.purpose = "Manufacture"
+            nmrf.title = "Manufacture"
             nmrf.from_warehouse = ""
             nmrf.production_order = self.production_order
 

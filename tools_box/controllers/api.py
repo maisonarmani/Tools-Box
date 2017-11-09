@@ -72,7 +72,7 @@ def confirmation_notification():
 
 
 @frappe.whitelist()
-def complete_production_order(doctype, docname):
+def resolve_production_order(doctype, docname):
     # update without checking permissions
-    frappe.db.sql("update `tab%s` set status = 'Completed', skip_transfer=1 where name = '%s'" % (doctype, docname))
+    frappe.db.sql("update `tab%s` set status = 'Resolved', skip_transfer=1 where name = '%s'" % (doctype, docname))
     return True

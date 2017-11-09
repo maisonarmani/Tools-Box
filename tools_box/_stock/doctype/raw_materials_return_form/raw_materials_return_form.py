@@ -10,8 +10,17 @@ from tools_box._stock.doctype.finished_goods_transfer_form.finished_goods_transf
 
 class RawMaterialsReturnForm(Document):
     def validate(self):
+        if self._validate_fields():
+            frappe.throw("Raw materials return form already created for " + self.production_order)
+
         if self.is_new():
             self.returned_by = _get_employee_fullname(frappe.session.data.user)
+
+    def _validate_fields(self):
+        d = frappe.db.sql("SELECT name FROM `tab%s` WHERE production_order = '%s' and name != '%s'" % (self.doctype,
+                                                                                                       self.production_order,
+                                                                                                       self.name))
+        return len(d) > 0
 
     def on_change(self):
         if self.workflow_state == "Received":
