@@ -10,10 +10,6 @@ from frappe import _
 
 class PurchaseRequisition(Document):
 
-    def before_save(self):
-        if self.budgeted_expense == 0 and self.is_new():
-            self.status = "Awaiting Clearance"
-
     def on_change(self):
         roles = frappe.get_roles(frappe.session.get('user'))
         if self.status == "Approved":
@@ -22,17 +18,6 @@ class PurchaseRequisition(Document):
                 if self.approved_by != c_employee:
                     frappe.throw("Sorry, this document can only be approved by the financial controller and %s" %
                                  self.approved_by)
-
-        if self.status == "Authorized":
-            c_employee = frappe.get_value("Employee", {"user_id": frappe.session.get('user') }, "name")
-            if self.authorized_by != c_employee:
-                frappe.throw("Sorry, this document can only be authorized by and %s" %
-                             self.authorized_by)
-
-
-
-
-
 
 @frappe.whitelist()
 def make_purchase_order(docname):

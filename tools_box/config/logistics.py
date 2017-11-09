@@ -19,18 +19,13 @@ def get_data():
                     "type": "doctype",
                     "name": "Vehicle Schedule",
                     "description": _("Vehicle Schedule"),
-                },
+                }
             ]
         },
         {
             "label": _("Vehicle"),
             "icon": "icon-star",
             "items": [
-                {
-                    "type": "doctype",
-                    "name": "Vehicle Schedule Log",
-                    "description": _("Vehicle Schedule Log"),
-                },
                 {
                     "type": "doctype",
                     "name": "Vehicle Inspection Checklist",

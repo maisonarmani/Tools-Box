@@ -6,7 +6,24 @@ frappe.ui.form.on('Vehicle Schedule', {
     refresh: function (frm) {
         var status = frm.doc.docstatus;
         var can_create_po = frappe.user_roles.includes("Purchase User");
-        if ((status && can_create_po)) {
+        if (status && frm.doc.type == "Outbound") {
+            cur_frm.add_custom_button(
+                __("Make Delivery Tracking"), function () {
+                    // do some kind of mapping and create a new purchase order
+                    frappe.call({
+                        method: "tools_box.logistics.doctype.vehicle_schedule.vehicle_schedule.make_delivery_tracker",
+                        args: {
+                            docname: cur_frm.doc.name
+                        },
+                        callback: function (r) {
+                            frappe.model.sync(r.message);
+                            frappe.set_route('Form', 'Goods Delivery Tracking', r.message.name);
+                        }
+                    });
+                }
+                , __("Make"))
+        }
+        if ((status && can_create_po) || frm.doc.status == "Awaiting Purchase Order") {
             cur_frm.add_custom_button(
                 __("Make Purchase Order"), function () {
                     // do some kind of mapping and create a new purchase order
@@ -21,7 +38,7 @@ frappe.ui.form.on('Vehicle Schedule', {
                         }
                     });
                 }
-            )
+                , __("Make"))
         }
         frappe.call({
             method: "tools_box.logistics.doctype.vehicle_schedule.vehicle_schedule.get_allowed",
@@ -31,6 +48,7 @@ frappe.ui.form.on('Vehicle Schedule', {
                 }
             }
         })
+
     },
     vehicle: function (frm) {
         // get the daily cost information from
@@ -43,7 +61,6 @@ frappe.ui.form.on('Vehicle Schedule', {
                 vehicle: frm.doc.vehicle
             },
             callback: function get_daily_cost(ret) {
-                console.log(ret)
                 if (ret.message == undefined) {
                     // Reset value for vehicle and throw exception
                     frappe.model.set_value(cur_frm.doctype, cur_frm.docname, "vehicle", "");
@@ -54,19 +71,22 @@ frappe.ui.form.on('Vehicle Schedule', {
                 frappe.model.set_value(cur_frm.doctype, cur_frm.docname, "supplier", d.supplier);
             }
         })
+    },
+    type:function (frm) {
+        if (cur_frm.doc.__islocal && cur_frm.doc.type == "Operations"){
+            // first calc total
+            cur_frm.doc.ratio_ok = 1;
+            cur_frm.doc.total_amount = 0;
+        }else{
+            cur_frm.doc.ratio_ok = 0;
+        }
     }
 });
 
 
 var item_opts = {
     onload: function (frm) {
-        frm.set_query("ref_name", function () {
-            return {
-                filters: {
-                    docstatus: 1
-                }
-            }
-        })
+        calc_total(frm);
     },
     vehicle_schedule_outbound_item_add: calc_total,
     vehicle_schedule_outbound_item_remove: calc_total,
@@ -88,48 +108,47 @@ var item_opts = {
             }
         })
     },
-    amount: calc_total,
-    status: function (frm) {
-        frappe.model.set_value(cur_frm.doctype, cur_frm.docname, "modified_again", frappe.datetime.now_datetime())
-    }
+    amount: calc_total
 
 }
 
 // calculate the total of the items  and
 function calc_total(frm) {
     var total_amount = 0;
-    var items = cur_frm.doc.vehicle_schedule_outbound_item
-    if (cur_frm.doc.type == "Inbound")
-        items = cur_frm.doc.vehicle_schedule_inbound_item;
+    if (frm.doc.type != "Operations") {
+        var items = cur_frm.doc.vehicle_schedule_outbound_item
+        if (cur_frm.doc.type == "Inbound")
+            items = cur_frm.doc.vehicle_schedule_inbound_item;
 
-    items.forEach(function (_) {
-        total_amount += _.amount || 0;
-    });
+        items.forEach(function (_) {
+            total_amount += _.amount || 0;
+        });
 
-    if (total_amount !== 0) {
-        if (cur_frm.doc.type == "Inbound") {
-            t = (allowed.inbound / 100 ) * total_amount;
+        if (total_amount !== 0) {
+            if (cur_frm.doc.type == "Inbound") {
+                t = (allowed.inbound / 100 ) * total_amount;
+            }
+            else {
+                t = (allowed.outbound / 100 ) * total_amount;
+            }
+            // what percentage of total is total cost
+            var ratio = (cur_frm.doc.daily_cost / total_amount) * 100;
+
+            // if daily cost is greater than allowed_outbound percentage of the total amount flag it
+            var flag = "";
+            var remark = "Vehicle's daily cost is " + roundNumber(ratio, 2) + "% of total amount";
+            if (cur_frm.doc.daily_cost > t) {
+                cur_frm.doc.ratio_ok = 0;
+                flag = "Vehicle's daily cost is more than " + allowed[String(cur_frm.doc.type).toLowerCase()] + "% of " + format_currency(total_amount)
+            } else {
+                cur_frm.doc.ratio_ok = 1;
+                flag = "Vehicle's daily cost is " + roundNumber(ratio, 2) + "% of " + format_currency(total_amount)
+            }
+
+            frappe.model.set_value(cur_frm.doctype, cur_frm.docname, "total_amount", total_amount)
+            frappe.model.set_value(cur_frm.doctype, cur_frm.docname, "remark", remark)
+            frappe.model.set_value(cur_frm.doctype, cur_frm.docname, "reason", flag)
         }
-        else {
-            t = (allowed.outbound / 100 ) * total_amount;
-        }
-        // what percentage of total is total cost
-        var ratio = (cur_frm.doc.daily_cost / total_amount) * 100;
-
-        // if daily cost is greater than allowed_outbound percentage of the total amount flag it
-        var flag = "";
-        var remark = "Vehicle's daily cost is " + roundNumber(ratio, 2) + "% of total amount";
-        if (cur_frm.doc.daily_cost > t) {
-            cur_frm.doc.ratio_ok = 0;
-            flag = "Vehicle's daily cost is more than " + allowed[String(cur_frm.doc.type).toLowerCase()] + "% of " +format_currency(total_amount)
-        } else {
-            cur_frm.doc.ratio_ok = 1;
-            flag = "Vehicle's daily cost is " + roundNumber(ratio, 2) + "% of " + format_currency(total_amount)
-        }
-
-        frappe.model.set_value(cur_frm.doctype, cur_frm.docname, "total_amount",                                                total_amount)
-        frappe.model.set_value(cur_frm.doctype, cur_frm.docname, "remark", remark)
-        frappe.model.set_value(cur_frm.doctype, cur_frm.docname, "reason", flag)
     }
 }
 

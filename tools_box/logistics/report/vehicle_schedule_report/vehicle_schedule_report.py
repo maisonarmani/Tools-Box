@@ -6,17 +6,11 @@ import frappe
 
 
 def execute(filters=None):
-    data, conditions = [], ""
-    columns = [
-        "Date:Date:100",
-        "ID:Link/Vehicle Schedule:100",
-        "Vehicle:Link/Vehicle:100",
-        "Type:Data:100",
-        "Daily Cost:Currency:100",
-        "Amount:Currency:130",
-        "Remark:Data:260",
-        "Ratio:Float:120"
-    ]
+    return get_columns(filters.type), get_data(filters)
+
+
+def get_data(filters):
+    conditions = ""
 
     if filters.get('from') and filters.get('to'):
         conditions += " and date BETWEEN DATE('{from}') and DATE('{to}')"
@@ -27,17 +21,42 @@ def execute(filters=None):
     if filters.get('type'):
         conditions += " and p.type = '{type}'"
 
-    if filters.get('status'):
-        conditions = " and c.status = '{status}'"
+    if filters.get('type') != "Operations":
+        data = frappe.db.sql("""select p.date, p.name, p.vehicle, p.type,p.daily_cost, p.total_amount, p.remark 
+        from `tabVehicle Schedule` as p JOIN `tabVehicle Schedule {type} Item` c 
+        WHERE (1=1) {c} GROUP BY name""".format(c=conditions.format(**filters), type=filters.get('type')), as_list=1)
 
-    data = frappe.db.sql("""select p.date, p.name, p.vehicle, p.type,p.daily_cost, p.total_amount, p.remark 
-    from `tabVehicle Schedule` as p JOIN `tabVehicle Schedule {type} Item` c 
-    WHERE (1=1) {c} GROUP BY name""".format(c=conditions.format(**filters), type=filters.get('type')), as_list=1)
+        for d in data:
+            _ = round(((d[4] / d[5]) * 100), 2)
+            d.append(_)
 
-    frappe.errprint(data)
-    for d in data:
-        _ =  round(((d[4] / d[5]) * 100), 2)
-        d.append(_)
+        return data
+    else:
+        data = frappe.db.sql("""select p.date, p.name, p.vehicle, p.type,p.daily_cost, p.description, p.total_amount 
+                from `tabVehicle Schedule` as p WHERE (1=1) {c}""".format(c=conditions.format(**filters)), as_list=1)
+        frappe.errprint(data)
+        return data
 
-    return columns, data
 
+def get_columns(stype):
+    if stype != "Operations":
+        return [
+            "Date:Date:100",
+            "ID:Link/Vehicle Schedule:100",
+            "Vehicle:Link/Vehicle:100",
+            "Type:Data:100",
+            "Daily Cost:Currency:100",
+            "Amount:Currency:130",
+            "Remark:Data:260",
+            "Ratio:Float:120"
+        ]
+    else:
+        return [
+            "Date:Date:100",
+            "ID:Link/Vehicle Schedule:100",
+            "Vehicle:Link/Vehicle:100",
+            "Type:Data:100",
+            "Daily Cost:Currency:100",
+            "Description:Data:200",
+            "Amount:Currency:130"
+        ]

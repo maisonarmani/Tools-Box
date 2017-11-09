@@ -24,13 +24,11 @@ class VehicleSchedule(Document):
         else:
             self.vehicle_schedule_inbound_item = []
 
-
         if self.ratio_ok == 0 and self.is_new():
             self.status = "Awaiting Approval"
 
         elif self.ratio_ok == 1 and self.is_new():
             self.status = "Awaiting Purchase Order"
-
 
 
 @frappe.whitelist(False)
@@ -39,7 +37,7 @@ def get_daily_cost_supplier(vehicle=None):
         daily_cost_n_supplier = frappe.get_list("Vehicle Daily Cost", filters={
             "vehicle": vehicle,
             "enabled": 1
-        }, fields=['total_cost',"supplier"])
+        }, fields=['total_cost', "supplier"])
 
         if not len(daily_cost_n_supplier):
             return {}
@@ -73,6 +71,7 @@ def get_allowed():
             inbound=ls.get("allowed_inbound_cost")
         )
 
+
 @frappe.whitelist(False)
 def change_status(dt, dn, status):
     doc = frappe.get_doc(dt, dn)
@@ -96,7 +95,6 @@ def update_status(document, trigger):
             pass
 
 
-
 @frappe.whitelist()
 def make_purchase_order(docname):
     def check_purchase_order():
@@ -111,21 +109,48 @@ def make_purchase_order(docname):
     po = frappe.new_doc("Purchase Order")
     po.supplier = vs.supplier
     po.vehicle_schedule = vs.name
-    po.company="Graceco Limited"
+    po.company = "Graceco Limited"
     po.transaction_date = vs.date
 
     po.append("items", {
-        "item_name":"Van Hire & Delivery Service",
-        "description":"Van Hire & Delivery Service",
-        "uom":"Nos",
-        "stock_uom":"Nos",
-        "schedule_date":vs.date,
+        "item_name": "Van Hire & Delivery Service",
+        "description": "Van Hire & Delivery Service",
+        "uom": "Nos",
+        "stock_uom": "Nos",
+        "schedule_date": vs.date,
         "item_code": "GCL0716",
-        "unit_cost":vs.daily_cost,
-        "rate":vs.daily_cost,
-        "amount":vs.daily_cost,
-        "qty":1,
-        "conversion_factor":"1",
+        "unit_cost": vs.daily_cost,
+        "rate": vs.daily_cost,
+        "amount": vs.daily_cost,
+        "qty": 1,
+        "conversion_factor": "1",
     })
 
     return po.as_dict()
+
+
+@frappe.whitelist()
+def make_delivery_tracker(docname):
+    import datetime
+    def validate():
+        g = frappe.db.sql("""select name from `tabGoods Delivery Tracking` where vehicle_schedule=%s""", vs.name)
+        return g[0][0] if g else ""
+
+    vs = frappe.get_doc("Vehicle Schedule", docname)
+    g = validate()
+    if g:
+        frappe.throw(_("Goods Delivery Tracking {0} already exists for the Vehicle Schedule").format(po))
+
+    g = frappe.new_doc("Goods Delivery Tracking")
+    g.date = datetime.datetime.today()
+    g.vehicle_schedule = vs.name
+    g.company = "Graceco Limited"
+    g.vehicle = vs.vehicle
+
+    for item in vs.vehicle_schedule_outbound_item:
+        g.append("goods_delivery_tracking_item", {
+            "atl": item.ref_name,
+            "delivery_status": "Loading"
+        })
+
+    return g.as_dict()
