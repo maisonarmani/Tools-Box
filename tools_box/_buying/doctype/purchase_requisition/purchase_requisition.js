@@ -79,8 +79,8 @@ frappe.ui.form.on('Purchase Requisition', {
                 callback: function approver(ret) {
                     if (ret.message != undefined) {
                         // Reset value for vehicle and throw exception
-                        frappe.model.set_value(cur_frm.doctype, cur_frm.docname, "approved_by", ret.message[0].approver);
-                        frappe.model.set_value(cur_frm.doctype, cur_frm.docname, "approved_by_name", ret.message[0].approver_name);
+                        frappe.model.set_value(cur_frm.doctype, cur_frm.docname, "approved_by", ret.message[0].authorizer);
+                        frappe.model.set_value(cur_frm.doctype, cur_frm.docname, "approved_by_name", ret.message[0].authorizer_name);
                     }
                 }
             })
