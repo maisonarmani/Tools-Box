@@ -15,7 +15,6 @@ class StationariesRequest(Document):
         # check the quantity requested and see all we have in store
         # then transfer req quantity from the warehouse to the stationaries warehouse
         # then submit
-
         # we also need the warehouse with the largest stock quantity of
         if self.workflow_state == "Received":
             for item in self.items:
@@ -33,6 +32,12 @@ class StationariesRequest(Document):
                     frappe.throw(
                         "Ooops... {0} - {1} is not available in other warehouses.".format(item.item_name, item.item))
         elif self.workflow_state == "Approved":
+            for item in self.items:
+                xi = _get_max_warehouse(item.item)
+                if xi == 0:
+                    frappe.throw(
+                        "Ooops... {0} - {1} is not available in other warehouses.".format(item.item_name, item.item))
+
             _update_approver(self)
 
 
