@@ -24,12 +24,6 @@ class VehicleSchedule(Document):
         else:
             self.vehicle_schedule_inbound_item = []
 
-        if self.ratio_ok == 0 and self.is_new():
-            self.status = "Awaiting Approval"
-
-        elif self.ratio_ok == 1 and self.is_new():
-            self.status = "Awaiting Purchase Order"
-
 
 @frappe.whitelist(False)
 def get_daily_cost_supplier(vehicle=None):
