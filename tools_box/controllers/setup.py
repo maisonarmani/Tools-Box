@@ -58,6 +58,13 @@ def get_selling_section():
         "description": _("Daily Route Activity."),
     }, {
         "type": "doctype",
+        "label": _("Sales Journey Plan"),
+        "name": "Sales Journey Plan",
+        "icon": "icon-sitemap",
+        "link": "List/Sales Journey Plan",
+        "description": _("Sales Journey Plan."),
+    }, {
+        "type": "doctype",
         "label": _("Sales Weekly Report"),
         "name": "Sales Weekly Report",
         "icon": "icon-sitemap",
