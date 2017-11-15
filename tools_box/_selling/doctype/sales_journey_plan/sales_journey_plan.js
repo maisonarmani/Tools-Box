@@ -27,7 +27,7 @@ frappe.ui.form.on('Sales Journey Plan', {
 });
 
 
-frappe.ui.form.on('Sales Journey Plan New Item', {
+var opts = {
     // Set current date value of item from
     new_outlets_add: function (frm, doctype, docname) {
         var items = frappe.model.get_list(doctype);
@@ -48,31 +48,10 @@ frappe.ui.form.on('Sales Journey Plan New Item', {
     day_of_the_week: function (frm, doctype, docname) {
         setDOTW(frm,doctype,docname)
     }
-});
+}
 
-
-frappe.ui.form.on('Sales Journey Plan Existing Item', {
-    // when a new item is added take the previous items data
-    // remove the customer information and prefill
-    existing_outlets_add: function (frm, doctype, docname) {
-        var items = frappe.model.get_list(doctype);
-        if (items.length > 1) {
-            var last = items[items.length - 2]; // last is previous item
-            frappe.model.set_value(doctype, docname, "date", last.date)
-            frappe.model.set_value(doctype, docname, "day_of_the_week", last.day_of_the_week)
-            frappe.model.set_value(doctype, docname, "territory", last.territory)
-        }
-
-        calcTotal(frm, frm.doctype, frm.docname)
-        setDOTW(frm,doctype,docname)
-    },
-    existing_outlets_remove: function (frm) {
-        calcTotal(frm, frm.doctype, frm.docname)
-    },
-    day_of_the_week: function (frm, doctype, docname) {
-        setDOTW(frm,doctype,docname)
-    }
-});
+frappe.ui.form.on('Sales Journey Plan New Item',opts);
+frappe.ui.form.on('Sales Journey Plan Existing Item', opts);
 
 
 var setDOTW = function (frm, doctype, docname) {
@@ -92,7 +71,7 @@ var setDOTW = function (frm, doctype, docname) {
 }
 
 
-function calcTotal(frm, doct, docn) {
+var calcTotal = function(frm, doct, docn) {
     frappe.model.set_value(doct, docn, "total_routes",
         frm.doc.existing_outlets.length + frm.doc.new_outlets.length)
 }

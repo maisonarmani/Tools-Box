@@ -31,13 +31,25 @@ frappe.ui.form.on('Daily Route Activity', {
                     date: frm.doc.dra_date
                 },
                 callback: function (r) {
-					frm.doc.dra_visits = []
-                    if (r.message != undefined) {
-                        r.message.forEach(function (val) {
+
+                    var mesg =  r.message;
+
+					frm.doc.dra_visits = [];
+					frm.doc.outlets = [];
+
+                    if (mesg != undefined && mesg.dra_visits) {
+                        mesg.dra_visits.forEach(function (val) {
                             var d = frappe.model.add_child(frm.doc, "Daily Route Activity Visit","dra_visits");
                             take.apply(d, [val, ['drav_customer']]);
                         });
 				        refresh_field('dra_visits');
+                    }
+                    if (mesg != undefined && mesg.outlets) {
+                        mesg.outlets.forEach(function (val) {
+                            var d = frappe.model.add_child(frm.doc, "Outlet Details","outlets");
+                            take.apply(d, [val, ['outlet_name']]);
+                        });
+				        refresh_field('outlets');
                     }
                 }
             })

@@ -117,7 +117,7 @@ def get_stock_section():
         "type": "doctype",
         "label": _("Store Bin Card"),
         "name": "Store Bin Card",
-        "icon": "icon-sitemap",
+            "icon": "icon-sitemap",
         "link": "List/Store Bin Card",
         "description": _("Store Bin Card"),
     },{
