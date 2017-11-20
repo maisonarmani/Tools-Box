@@ -42,6 +42,11 @@ def get_data():
                     "name": "Fire Extinguisher",
                     "description": _("Fire Extinguisher")
                 },
+                {
+                    "type": "doctype",
+                    "name": "Incident Report",
+                    "description": _("Incident Report")
+                },
             ]
         },
         {
