@@ -1,0 +1,30 @@
+{
+ "add_total_row": 0, 
+ "apply_user_permissions": 1, 
+ "creation": "2017-11-22 08:14:17.957876", 
+ "disabled": 0, 
+ "docstatus": 0, 
+ "doctype": "Report", 
+ "idx": 0, 
+ "is_standard": "Yes", 
+ "letter_head": "Standard Letterhead", 
+ "modified": "2017-11-22 08:15:02.098886", 
+ "modified_by": "Administrator", 
+ "module": "_Buying", 
+ "name": "Item Supplier Report", 
+ "owner": "Administrator", 
+ "ref_doctype": "Item Price", 
+ "report_name": "Item Supplier Report", 
+ "report_type": "Script Report", 
+ "roles": [
+  {
+   "role": "Sales User"
+  }, 
+  {
+   "role": "Sales Master Manager"
+  }, 
+  {
+   "role": "Purchase Master Manager"
+  }
+ ]
+}
