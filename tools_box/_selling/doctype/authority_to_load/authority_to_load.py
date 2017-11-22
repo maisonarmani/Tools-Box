@@ -49,3 +49,29 @@ class AuthoritytoLoad(Document):
         doc = frappe.get_all('Sales Order', fields=['title'], filters=[["name", "=", self.sales_order]],
                              ignore_permissions=True)
         return doc[0].title
+
+@frappe.whitelist()
+def make_authority_to_load(source_name, target_doc=None):
+    from frappe.model.mapper import get_mapped_doc
+    def set_missing_values(source, target):
+        target.sales_order = source.name
+
+    def update_item(source_doc, target_doc, source_parent):
+        pass
+
+    doc = get_mapped_doc("Sales Order", source_name, {
+        "Sales Order": {
+            "doctype": "Authority to Load",
+            "validation": {
+                "docstatus": ["=", 1]
+            },
+            "field_map": {
+                "sales_order": "name"
+            },
+            "add_if_empty": False,
+            "postprocess": update_item,
+            "condition": lambda doc: doc.docstatus == 1
+        },
+    }, target_doc, set_missing_values)
+
+    return doc

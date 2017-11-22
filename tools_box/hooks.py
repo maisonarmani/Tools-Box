@@ -78,11 +78,6 @@ standard_portal_menu_items = [
 # Hook on document methods and events
 
 doc_events = {
-    "Expense Claim": {
-        "on_change": [
-            "tools_box.controllers.sentinel.validate_status",
-        ]
-    },
     "Purchase Order": {
         "on_save": [
             "tools_box.controllers.sentinel.validate_required"

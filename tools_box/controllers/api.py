@@ -43,7 +43,6 @@ def get_approver_authorizer(emp):
             "approver_name":approver_name,
             "authorizer_name":authorizer_name
         }]
-
     return  d
 
 

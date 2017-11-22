@@ -5,19 +5,6 @@ from __future__ import unicode_literals
 import frappe
 
 
-def validate_status(document, trigger):
-    print "validate status"
-    sanitized = ["Sales Order", "Purchase Order", "Expense Claim"]
-    for doc in sanitized:
-        # clean the error
-        frappe.db.sql(
-            "update `tab{}` set workflow_state = \"Draft\" where workflow_state = 'Approved' and docstatus = 0 "
-                .format(doc))
-        # mark all closed as closed
-        frappe.db.sql("update `tab{}` set workflow_state = \"Closed\" where workflow_state = 'Approved' and status = "
-                      "'Closed' ".format(doc))
-
-
 def validate_required(document, trigger):
     def _validate_duplicate(field, doctype, document):
         if document.get(field):
@@ -36,7 +23,7 @@ def validate_required(document, trigger):
         if name:
             _ = frappe.db.sql(
                 """select name from `tab{dt}` where name = '{name}' and docstatus = 1 or {state} in ("Approved", "Authorized","Awaiting Purchase Order") """
-                .format(name=name, dt=doctype, state=state), as_list=1)
+                    .format(name=name, dt=doctype, state=state), as_list=1)
 
             if not bool(len(_)):
                 frappe.throw("{dt} attached has not been approved"
@@ -49,22 +36,24 @@ def validate_required(document, trigger):
         return item != []
 
     for item in document.items:
-        if _is_raw_material(item.item_code):
-            pass
+        # if _is_raw_material(item.item_code):
+        #   pass
+        # purchase requisition or job card is required
+        if not (document.purchase_requisition or document.vehicle_schedule
+                or document.material_request or document.job_card):
+            frappe.throw("Purchase Order {name} can't be saved without Purchase Requisition, "
+                         "Vehicle Schedule, Material Request or Job Card".format(name=document.name))
         else:
-            # purchase requisition or jobcard is required
-            if not (document.purchase_requisition or document.vehicle_schedule or document.job_card):
-                frappe.throw("Purchase Order {name} can't be created without Purchase Requisition, "
-                             "Vehicle Schedule or Job Card".format(name=document.name))
-            else:
-                # check that purchase_req, veh_sch, job_card doesn't exist on an approved po
-                _validate_duplicate("purchase_requisition", "Purchase Requisition", document)
-                _validate_duplicate("job_card", "Job Card", document)
-                _validate_duplicate("vehicle_schedule", "Vehicle Schedule", document)
+            # check that purchase_req, veh_sch, job_card doesn't exist on an approved po
+            _validate_duplicate("purchase_requisition", "Purchase Requisition", document)
+            _validate_duplicate("job_card", "Job Card", document)
+            _validate_duplicate("vehicle_schedule", "Vehicle Schedule", document)
+            #_validate_duplicate("material_request", "Material Request", document)
 
-                _validate_allowed(document.get("purchase_requisition"), "Purchase Requisition")
-                _validate_allowed(document.get("job_card"), "Job Card")
-                _validate_allowed(document.get("vehicle_schedule"), "Vehicle Schedule")
+            _validate_allowed(document.get("purchase_requisition"), "Purchase Requisition")
+            _validate_allowed(document.get("job_card"), "Job Card")
+            _validate_allowed(document.get("vehicle_schedule"), "Vehicle Schedule")
+            _validate_allowed(document.get("material_request"), "Material Request")
 
 
 def create_communication():
