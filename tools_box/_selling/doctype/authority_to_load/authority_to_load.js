@@ -14,7 +14,6 @@ frappe.ui.form.on('Authority to Load', {
 		$.each(frm.fields_dict,function(i,v){
 			frm.set_df_property(i, "read_only", 1);
 		});
-
 	}
 });
 
