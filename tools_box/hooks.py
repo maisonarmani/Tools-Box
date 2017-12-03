@@ -79,12 +79,11 @@ standard_portal_menu_items = [
 
 doc_events = {
     "Purchase Order": {
-        "on_save": [
+        "before_save": [
             "tools_box.controllers.sentinel.validate_required"
         ],
         "on_change": [
-            "tools_box.logistics.doctype.vehicle_schedule.vehicle_schedule.update_status",
-            "tools_box.controllers.sentinel.validate_required"
+            "tools_box.logistics.doctype.vehicle_schedule.vehicle_schedule.update_status"
         ]
     },
     ("Finished Goods Transfer Form", "Raw Materials Return Form"): {

@@ -35,25 +35,31 @@ def validate_required(document, trigger):
                              as_list=1)
         return item != []
 
-    for item in document.items:
-        # if _is_raw_material(item.item_code):
-        #   pass
-        # purchase requisition or job card is required
-        if not (document.purchase_requisition or document.vehicle_schedule
-                or document.material_request or document.job_card):
-            frappe.throw("Purchase Order {name} can't be saved without Purchase Requisition, "
-                         "Vehicle Schedule, Material Request or Job Card".format(name=document.name))
-        else:
-            # check that purchase_req, veh_sch, job_card doesn't exist on an approved po
-            _validate_duplicate("purchase_requisition", "Purchase Requisition", document)
-            _validate_duplicate("job_card", "Job Card", document)
-            _validate_duplicate("vehicle_schedule", "Vehicle Schedule", document)
-            #_validate_duplicate("material_request", "Material Request", document)
+    def _is_new(name):
+        _ = frappe.db.sql("select name from `tabPurchase Order` where name='{name}'".format(name=name),
+                             as_list=1)
+        return _ == []
 
-            _validate_allowed(document.get("purchase_requisition"), "Purchase Requisition")
-            _validate_allowed(document.get("job_card"), "Job Card")
-            _validate_allowed(document.get("vehicle_schedule"), "Vehicle Schedule")
-            _validate_allowed(document.get("material_request"), "Material Request")
+    if _is_new(document.name):
+        for item in document.items:
+            # if _is_raw_material(item.item_code):
+            # pass
+            # purchase requisition or job card is required
+            if not (document.purchase_requisition or document.vehicle_schedule
+                    or document.material_request or document.job_card):
+                frappe.throw("Purchase Order {name} can't be saved without Purchase Requisition, "
+                             "Vehicle Schedule, Material Request or Job Card".format(name=document.name))
+            else:
+                # check that purchase_req, veh_sch, job_card doesn't exist on an approved po
+                _validate_duplicate("purchase_requisition", "Purchase Requisition", document)
+                _validate_duplicate("job_card", "Job Card", document)
+                _validate_duplicate("vehicle_schedule", "Vehicle Schedule", document)
+                #_validate_duplicate("material_request", "Material Request", document)
+
+                _validate_allowed(document.get("purchase_requisition"), "Purchase Requisition")
+                _validate_allowed(document.get("job_card"), "Job Card")
+                _validate_allowed(document.get("vehicle_schedule"), "Vehicle Schedule")
+                _validate_allowed(document.get("material_request"), "Material Request")
 
 
 def create_communication():
