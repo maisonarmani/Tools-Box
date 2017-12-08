@@ -15,7 +15,7 @@ def execute(filters=None):
 	if cint(days_since_last_order) <= 0:
 		frappe.throw(_("'Days Since Last Order' must be greater than or equal to zero"))
 
-	columns = get_columns()
+	columns = get_columns(filters.doctype)
 	customers = get_sales_details(doctype)
 
 	data = []
@@ -58,16 +58,20 @@ def get_last_sales_amt(customer, doctype):
 
 	return res and res[0][0] or 0
 
-def get_columns():
+def get_columns(doctype):
+	_doctype = "Invoice"
+	if doctype == "Sales Order":
+		_doctype = "Order"
+
 	return [
 		_("Customer") + ":Link/Customer:120",
 		_("Customer Name") + ":Data:120",
 		_("Territory") + "::120",
 		_("Customer Group") + "::120",
-		_("Number of Order") + "::120",
-		_("Total Order Value") + ":Currency:120",
-		_("Total Order Considered") + ":Currency:160",
-		_("Last Order Amount") + ":Currency:160",
-		_("Last Order Date") + ":Date:160",
-		_("Days Since Last Order") + "::160"
+		_("Number of {0}").format(_doctype) + "::120",
+		_("Total {0} Value").format(_doctype) + ":Currency:120",
+		_("Total {0} Considered").format(_doctype) + ":Currency:160",
+		_("Last {0} Amount").format(_doctype) + ":Currency:160",
+		_("Last {0} Date").format(_doctype) + ":Date:160",
+		_("Days Since Last {0}").format(_doctype) + "::160"
 	]

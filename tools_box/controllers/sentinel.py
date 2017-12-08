@@ -22,44 +22,66 @@ def validate_required(document, trigger):
             state = "workflow_state"
         if name:
             _ = frappe.db.sql(
-                """select name from `tab{dt}` where name = '{name}' and docstatus = 1 or {state} in ("Approved", "Authorized","Awaiting Purchase Order") """
+                """select name from `tab{dt}` where name = '{name}' and docstatus = 1 or {state} 
+                      in ("Approved", "Authorized","Awaiting Purchase Order") """
                     .format(name=name, dt=doctype, state=state), as_list=1)
 
             if not bool(len(_)):
-                frappe.throw("{dt} attached has not been approved"
-                             .format(dt=doctype))
+                frappe.throw("{dt} attached has not been approved".format(dt=doctype))
 
-    def _is_raw_material(item):
-        item = frappe.db.sql("select name from `tabItem` where name='{name}' and item_group='Raw Material' "
-                             .format(name=item),
-                             as_list=1)
-        return item != []
+    def _get_item_group(item):
+        item = frappe.db.sql("select item_group from `tabItem` where name='{name}'".format(name=item.item_code), as_list=1)
+        return item[0][0]
 
     def _is_new(name):
         _ = frappe.db.sql("select name from `tabPurchase Order` where name='{name}'".format(name=name),
-                             as_list=1)
+                          as_list=1)
         return _ == []
 
     if _is_new(document.name):
         for item in document.items:
-            # if _is_raw_material(item.item_code):
-            # pass
-            # purchase requisition or job card is required
-            if not (document.purchase_requisition or document.vehicle_schedule
-                    or document.material_request or document.job_card):
-                frappe.throw("Purchase Order {name} can't be saved without Purchase Requisition, "
-                             "Vehicle Schedule, Material Request or Job Card".format(name=document.name))
-            else:
-                # check that purchase_req, veh_sch, job_card doesn't exist on an approved po
-                _validate_duplicate("purchase_requisition", "Purchase Requisition", document)
-                _validate_duplicate("job_card", "Job Card", document)
-                _validate_duplicate("vehicle_schedule", "Vehicle Schedule", document)
-                #_validate_duplicate("material_request", "Material Request", document)
+            # Raw material need material request
+            # Spare parts needs job card
+            # Consumable needs Purchase req or material request
+            # Fixed Assets needs purchase requisition
+            if _get_item_group(item) == "Spares Parts":
+                if not (document.job_card):
+                    frappe.throw("Purchase Order can't be saved without Job Card")
+                else:
+                    _validate_duplicate("job_card", "Job Card", document)
+                    _validate_allowed(document.get("job_card"), "Job Card")
 
-                _validate_allowed(document.get("purchase_requisition"), "Purchase Requisition")
-                _validate_allowed(document.get("job_card"), "Job Card")
-                _validate_allowed(document.get("vehicle_schedule"), "Vehicle Schedule")
-                _validate_allowed(document.get("material_request"), "Material Request")
+
+            elif _get_item_group(item) == "Fixed Assets":
+                if not document.purchase_requisition:
+                    frappe.throw(
+                        "Purchase Order can't be saved without Purchase Requisition")
+                else:
+                    _validate_duplicate("purchase_requisition", "Purchase Requisition", document)
+                    _validate_allowed(document.get("purchase_requisition"), "Purchase Requisition")
+
+
+            elif _get_item_group(item) == "Consumable":
+                if not (document.material_request or document.purchase_requisition):
+                    frappe.throw(
+                        "Purchase Order can't be saved without Material Request or Purchase Requisition")
+                else:
+                    if document.material_request:
+                        _validate_duplicate("material_request", "Material Request", document)
+                        _validate_allowed(document.get("material_request"), "Material Request")
+
+                    elif document.purchase_requisiton:
+                        _validate_duplicate("purchase_requisition", "Purchase Requisition", document)
+                        _validate_allowed(document.get("purchase_requisition"), "Purchase Requisition")
+
+
+            elif _get_item_group(item) == "Raw Material":
+                if not (document.material_request):
+                    frappe.throw("Purchase Order can't be saved without Material Request")
+                else:
+                    if document.material_request:
+                        _validate_duplicate("material_request", "Material Request", document)
+                        _validate_allowed(document.get("material_request"), "Material Request")
 
 
 def create_communication():
