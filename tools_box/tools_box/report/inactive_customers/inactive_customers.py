@@ -1,4 +1,4 @@
-# Copyright (c) 2013, Frappe Technologies Pvt. Ltd. and contributors
+ # Copyright (c) 2013, Frappe Technologies Pvt. Ltd. and contributors
 # For license information, please see license.txt
 
 from __future__ import unicode_literals
@@ -61,21 +61,20 @@ def get_last_sales_amt(customer, doctype):
 
     return res and res[0][0] or 0
 
-
 def get_columns(doctype):
-    _doctype = "Invoice"
-    if doctype == "Sales Order":
-        _doctype = "Order"
+	_doctype = "Invoice"
+	if doctype == "Sales Order":
+		_doctype = "Order"
 
-    return [
-        _("Customer") + ":Link/Customer:120",
-        _("Customer Name") + ":Data:120",
-        _("Territory") + "::120",
-        _("Customer Group") + "::120",
-        _("Number of {0}").format(_doctype) + "::120",
-        _("Total {0} Value").format(_doctype) + ":Currency:120",
-        _("Total {0} Considered").format(_doctype) + ":Currency:160",
-        _("Last {0} Amount").format(_doctype) + ":Currency:160",
-        _("Last {0} Date").format(_doctype) + ":Date:160",
-        _("Days Since Last {0}").format(_doctype) + "::160"
-    ]
+	return [
+		_("Customer") + ":Link/Customer:120",
+		_("Customer Name") + ":Data:120",
+		_("Territory") + "::120",
+		_("Customer Group") + "::120",
+		_("Number of {0}").format(_doctype) + "::120",
+		_("Total {0} Value").format(_doctype) + ":Currency:120",
+		_("Total {0} Considered").format(_doctype) + ":Currency:160",
+		_("Last {0} Amount").format(_doctype) + ":Currency:160",
+		_("Last {0} Date").format(_doctype) + ":Date:160",
+		_("Days Since Last {0}").format(_doctype) + "::160"
+	]
