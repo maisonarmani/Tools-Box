@@ -23,23 +23,25 @@ class FinishedGoodsTransferForm(Document):
                                                                                        self.production_order, self.name))
         return len(d) > 0
 
+
     def on_change(self):
         if self.workflow_state == "Received":
-            nmrf = frappe.new_doc("Stock Entry")
-            nmrf.purpose = "Manufacture"
-            nmrf.title = "Manufacture"
-            nmrf.from_warehouse = ""
-            nmrf.production_order = self.production_order
+            se = frappe.new_doc("Stock Entry")
+            se.purpose = "Material Receipt"
+            se.title = "Material Receipt"
+            se.from_warehouse = ""
+            se.production_order = self.production_order
 
             for index, value in enumerate(self.items):
                 # Get items default warehouse
                 cur_item = frappe.get_list(doctype="Item", filters={"name": value.item_code},
-                                           fields=['default_warehouse'])
+                                           fields=['default_warehouse', 'standard_rate'])
                 if index == 0:
-                    nmrf.to_warehouse = cur_item[0].default_warehouse
-                    # nmrf.manufactured_qty = value.qty,
+                    se.to_warehouse = cur_item[0].default_warehouse
+                    #se.manufactured_qty = value.qty
+                    #se.fg_completed_qty = value.qty
 
-                if len(nmrf.to_warehouse) <= 0:
+                if len(se.to_warehouse) <= 0:
                     frappe.throw("Item {0} does not have default warehouse required for stock entry".format(
                         value.item_code))
 
@@ -59,12 +61,15 @@ class FinishedGoodsTransferForm(Document):
                     item_code=value.item_code,
                     item_name=value.item_name,
                     uom=value.uom,
-                    cost_center=d_cost_center
+                    cost_center=d_cost_center,
+                    basic_rate=cur_item[0].standard_rate,
+                    amount=cur_item[0].standard_rate * value.qty,
+                    valuation_rate=cur_item[0].standard_rate
                 )
-                nmrf.append('items', item)
+                se.append('items', item)
 
-            nmrf.insert()
-            nmrf.submit()
+            se.insert()
+            se.submit()
 
 
 @frappe.whitelist(False)
