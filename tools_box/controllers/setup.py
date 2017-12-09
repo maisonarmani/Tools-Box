@@ -542,6 +542,12 @@ def get_extra_selling_reports():
         {
             "type": "report",
             "is_query_report": True,
+            "name": "Sales By Product Report Adjusted",
+            "doctype": "Sales Invoice"
+        },
+        {
+            "type": "report",
+            "is_query_report": True,
             "name": "Inactive Customers",
             "doctype": "Sales Order"
         },
