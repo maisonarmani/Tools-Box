@@ -6,7 +6,7 @@ import frappe
 
 
 def validate_required(document, trigger):
-    return True
+
     def _validate_duplicate(field, doctype, document):
         if document.get(field):
             _ = frappe.db.sql("""select name from `tabPurchase Order` where name != '{name}' and workflow_state="Approved" 
