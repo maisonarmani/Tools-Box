@@ -11,7 +11,7 @@ import traceback
 class FinishedGoodsTransferForm(Document):
     def validate(self):
 
-        if self._validate_fields():
+        if self.completed_po and self._validate_fields():
             frappe.throw("Finished goods transfer form already created for " +self.production_order)
 
         if self.is_new():

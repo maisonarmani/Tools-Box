@@ -10,7 +10,7 @@ from tools_box._stock.doctype.finished_goods_transfer_form.finished_goods_transf
 
 class RawMaterialsReturnForm(Document):
     def validate(self):
-        if self._validate_fields():
+        if self.completed_po and self._validate_fields():
             frappe.throw("Raw materials return form already created for " + self.production_order)
 
         if self.is_new():
