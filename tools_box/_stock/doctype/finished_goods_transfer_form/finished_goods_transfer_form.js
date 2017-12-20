@@ -20,13 +20,6 @@ var get_employees = function () {
 frappe.ui.form.on('Finished Goods Transfer Form', {
 	onload:function(frm){
 		frm.set_query('received_by',get_employees);
-		frm.set_query('production_order', function(){
-			return {
-				filters:{
-					status:"Completed",
-				}
-			}
-		})
 	},
 	refresh: function(frm) {
 		cur_frm.add_fetch("item_code","stock_uom","uom");

@@ -36,19 +36,22 @@ def get_approver_authorizer(emp):
 
     authorizer = approver = ""
     for datum in data:
-        approver = frappe.get_value("Employee", datum.approver, ["user_id", "employee_name"])
-        authorizer = frappe.get_value("Employee", datum.authorizer, ["user_id", "employee_name"])
+        approver = frappe.get_value("Employee", datum.approver, ["name", "user_id", "employee_name"])
+        authorizer = frappe.get_value("Employee", datum.authorizer, ["name", "user_id", "employee_name"])
 
     if not authorizer:
-        authorizer == ["",""]
+        authorizer = ["", "", ""]
+
+    if not approver:
+        approver = ["", "", ""]
 
     return [{
-        "approver": datum.approver,
-        "authorizer": datum.authorizer,
-        "approver_name": approver[1],
-        "authorizer_name": authorizer[1],
-        "approver_user_id": approver[0],
-        "authorizer_user_id": authorizer[0]
+        "approver": approver[0],
+        "authorizer": authorizer[0],
+        "approver_name": approver[2],
+        "authorizer_name": authorizer[2],
+        "approver_user_id": approver[1],
+        "authorizer_user_id": authorizer[1]
     }]
 
 
