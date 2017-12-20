@@ -34,6 +34,7 @@ def get_approver_authorizer(emp):
     data = frappe.db.sql(""" SELECT c.reports_to approver, IFNULL(p.reports_to, c.reports_to) authorizer from
           tabEmployee c JOIN tabEmployee p  ON (c.reports_to = p.name) WHERE c.name="{0}" """.format(emp), as_dict=1)
 
+    authorizer = approver = ""
     for datum in data:
         approver = frappe.get_value("Employee", datum.approver, ["user_id", "employee_name"])
         authorizer = frappe.get_value("Employee", datum.authorizer, ["user_id", "employee_name"])
