@@ -230,7 +230,7 @@ def get_maintenance_section():
             "link": "List/Daily Generator Activity Log",
             "description": _("Daily Generator Activity Log"),
         }
-    ])
+    ], label = "Maintenance")
 
 
 def get_purchasing_section():
@@ -621,7 +621,6 @@ def get_extra_purchase_reports():
         }
     ])
 
-
 def get_extra_stock_reports():
     return __default_rep_items([
         {
@@ -655,7 +654,6 @@ def get_extra_stock_reports():
             "doctype": "Stock Entry",
         }
     ])
-
 
 def get_extra_support_reports():
     return __default_rep_items([
