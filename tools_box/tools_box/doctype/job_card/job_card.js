@@ -24,6 +24,7 @@ frappe.ui.form.on('Job Card', {
         });
     },
     refresh: function (frm) {
+        cur_frm.toggle_reqd("ticket_number", true)
 		frm.set_query("job_completion_verified_by", get_employees);
 		frm.set_query("requested_by", get_employees);
         if (cur_frm.doc.status == 'IAD Cleared') {
@@ -49,10 +50,20 @@ frappe.ui.form.on('Job Card', {
             //cur_frm.set_df_property('status','read_only',0);
             cur_frm.set_df_property('approval', 'read_only', 0);
         }
+
+
+        if (cur_frm.doc.asset_category == "Plant and Machinery"){
+            cur_frm.toggle_reqd("ticket_number", false)
+        }
+
         cur_frm.set_df_property('status', 'read_only', 1);
 
     },
-
+    asset_category:function(frm, doc,docname){
+        if (cur_frm.doc.asset_category == "Plant and Machinery"){
+            cur_frm.toggle_reqd("ticket_number", false)
+        }
+    },
     ticket_number: function (frm, cdt, cdn) {
         var job_card = frappe.model.get_doc(cdt, cdn);
         if (job_card.ticket_number) {
@@ -62,7 +73,6 @@ frappe.ui.form.on('Job Card', {
                     ticket_number: job_card.ticket_number
                 },
                 callback: function (r) {
-
                     frappe.model.set_value(cdt, cdn, "requested_by", r.message);
                 }
             });

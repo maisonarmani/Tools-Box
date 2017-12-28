@@ -133,7 +133,7 @@ def make_delivery_tracker(docname):
     vs = frappe.get_doc("Vehicle Schedule", docname)
     g = validate()
     if g:
-        frappe.throw(_("Goods Delivery Tracking {0} already exists for the Vehicle Schedule").format(po))
+        frappe.throw(_("Goods Delivery Tracking {0} already exists for the Vehicle Schedule").format(g))
 
     g = frappe.new_doc("Goods Delivery Tracking")
     g.date = datetime.datetime.today()
