@@ -7,23 +7,41 @@ var get_employees = function () {
 }
 
 cur_frm.add_fetch("assigned_to", "employee_name", "assigned_to_name");//,"employee_name")
+cur_frm.cscript.add_buttons = function (frm) {
+    if (cur_frm.doc.status != "Close" && in_list([cur_frm.doc.owner, "Administrator"], frappe.user.name)) {
+        cur_frm.add_custom_button("Close Ticket", function () {
+            frappe.call({
+                method: "tools_box.tools_box.doctype.helpdesk_ticket.helpdesk_ticket.close_ticket",
+                args: {
+                    ticket_no: cur_frm.doc.name
+                },
+                callback: function (r) {
+                    cur_frm.reload_doc()
+                }
+            });
+        })
+    }
+
+
+    cur_frm.add_custom_button('Make Job Card', function () {
+        var jc = frappe.model.make_new_doc_and_get_name('Job Card');
+        jc = locals['Job Card'][jc];
+        jc.ticket_number = cur_frm.doc.name;
+        jc.priority = cur_frm.doc.priority;
+        jc.asset = cur_frm.doc.asset;
+        jc.asset_category = cur_frm.doc.asset_category;
+        frappe.set_route("Form", "Job Card", jc.name);
+    });
+
+}
 frappe.ui.form.on('Helpdesk Ticket', {
     onload: function (frm) {
         frm.set_query("raised_by", get_employees);
         frm.set_query("assigned_to", get_employees);
+        frm.cscript.add_buttons(frm);
+
     },
     refresh: function (frm) {
-        cur_frm.add_custom_button('Make Job Card', function () {
-            var jc = frappe.model.make_new_doc_and_get_name('Job Card');
-            jc = locals['Job Card'][jc];
-            jc.ticket_number = cur_frm.doc.name;
-            jc.priority = cur_frm.doc.priority;
-            jc.asset = cur_frm.doc.asset;
-            jc.asset_category = cur_frm.doc.asset_category;
-            frappe.set_route("Form", "Job Card", jc.name);
-        });
-
-
         var assigned_on_hold_close = (cur_frm.doc.status == "Assigned" || cur_frm.doc.status == "On-Hold" || cur_frm.doc.status == "Close");
         cur_frm.set_df_property("priority", "read_only", assigned_on_hold_close);
         cur_frm.set_df_property("request_type", "read_only", assigned_on_hold_close);
