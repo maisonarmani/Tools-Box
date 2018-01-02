@@ -14,23 +14,42 @@ cur_frm.set_query("approver", function () {
     };
 });
 frappe.ui.form.on('Job Card', {
-    asset_category:function(){
-         cur_frm.set_query("asset", function () {
+    onload: function (frm) {
+        if (cur_frm.doc.asset_category != "Plant and Machinery")
+            cur_frm.toggle_reqd("ticket_number", true)
+    },
+    asset_category: function (frm) {
+        cur_frm.toggle_reqd("ticket_number", false);
+        if (cur_frm.doc.asset_category != "Plant and Machinery")
+            cur_frm.toggle_reqd("ticket_number", true);
+
+        cur_frm.set_query("asset", function () {
             return {
                 "filters": {
-                    "asset_category":cur_frm.doc.asset_category
+                    "asset_category": cur_frm.doc.asset_category
                 }
             };
         });
     },
     refresh: function (frm) {
-        cur_frm.toggle_reqd("ticket_number", true)
-		frm.set_query("job_completion_verified_by", get_employees);
-		frm.set_query("requested_by", get_employees);
-        if (cur_frm.doc.status == 'IAD Cleared') {
+        if (cur_frm.doc.asset_category != "Plant and Machinery")
+            cur_frm.toggle_reqd("ticket_number", true)
+        frm.set_query("job_completion_verified_by", get_employees);
+        frm.set_query("requested_by", get_employees);
+        if (cur_frm.doc.status == 'Not Completed') {
             cur_frm.add_custom_button('Make Purchase Order', function () {
                 frappe.model.open_mapped_doc({
                     method: "tools_box.tools_box.doctype.job_card.job_card.make_purchase_order",
+                    frm: cur_frm
+                });
+            });
+        }
+
+        if (cur_frm.doc.equipment_maintenance_log &&
+            in_list(['Not Completed', 'IAD Cleared'], cur_frm.doc.status)) {
+            cur_frm.add_custom_button('Make Expense Claim', function () {
+                frappe.model.open_mapped_doc({
+                    method: "tools_box.tools_box.doctype.job_card.job_card.make_expense_claim",
                     frm: cur_frm
                 });
             });
@@ -51,18 +70,8 @@ frappe.ui.form.on('Job Card', {
             cur_frm.set_df_property('approval', 'read_only', 0);
         }
 
-
-        if (cur_frm.doc.asset_category == "Plant and Machinery"){
-            cur_frm.toggle_reqd("ticket_number", false)
-        }
-
         cur_frm.set_df_property('status', 'read_only', 1);
 
-    },
-    asset_category:function(frm, doc,docname){
-        if (cur_frm.doc.asset_category == "Plant and Machinery"){
-            cur_frm.toggle_reqd("ticket_number", false)
-        }
     },
     ticket_number: function (frm, cdt, cdn) {
         var job_card = frappe.model.get_doc(cdt, cdn);
@@ -82,7 +91,6 @@ frappe.ui.form.on('Job Card', {
                     ticket_number: job_card.ticket_number
                 },
                 callback: function (r) {
-
                     frappe.model.set_value(cdt, cdn, "employee_name", r.message);
                 }
             });
