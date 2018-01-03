@@ -1,3 +1,5 @@
+
+
 // Copyright (c) 2017, masonarmani38@gmail.com and contributors
 // For license information, please see license.txt
 
@@ -40,6 +42,14 @@ frappe.ui.form.on('Vehicle Schedule', {
                 }
                 , __("Make"))
         }
+
+
+        // Allow it to be editable if there's no value
+        if (cur_frm.daily_cost < 1) {
+            cur_frm.set_df_property('daily_cost', 'read_only', 0);
+            cur_frm.set_df_property('supplier', 'read_only', 0);
+        }
+        // get setup ratio levels
         frappe.call({
             method: "tools_box.logistics.doctype.vehicle_schedule.vehicle_schedule.get_allowed",
             callback: function (ret) {
@@ -53,33 +63,21 @@ frappe.ui.form.on('Vehicle Schedule', {
     vehicle: function (frm) {
         // get the daily cost information from
         if (frm.doc.vehicle == "")
-            return
+            return;
 
-        frappe.call({
-            method: "tools_box.logistics.doctype.vehicle_schedule.vehicle_schedule.get_daily_cost_supplier",
-            args: {
-                vehicle: frm.doc.vehicle
-            },
-            callback: function get_daily_cost(ret) {
-                if (ret.message == undefined) {
-                    // Reset value for vehicle and throw exception
-                    frappe.model.set_value(cur_frm.doctype, cur_frm.docname, "vehicle", "");
-                    frappe.throw("Sorry, Vehicle daily cost is not setup for the vehicle.");
-                }
-                var d = ret.message[0];
-                frappe.model.set_value(cur_frm.doctype, cur_frm.docname, "daily_cost", d.total_cost);
-                frappe.model.set_value(cur_frm.doctype, cur_frm.docname, "supplier", d.supplier);
-            }
-        })
+        get_daily_cost();
     },
-    type:function (frm) {
-        if (cur_frm.doc.__islocal && cur_frm.doc.type == "Operations"){
+    type: function (frm) {
+        if (cur_frm.doc.__islocal && cur_frm.doc.type == "Operations") {
             // first calc total
             cur_frm.doc.ratio_ok = 1;
             cur_frm.doc.total_amount = 0;
-        }else{
+        } else {
             cur_frm.doc.ratio_ok = 0;
         }
+
+        // fetchs daily cost for type
+        get_daily_cost();
     }
 });
 
@@ -167,6 +165,43 @@ function validate(ref_name, parent) {
         frappe.throw("Sorry, Reference name " + ref_name + " already in use");
     }
 }
+
+function get_daily_cost() {
+
+    console.log("calling all")
+    frappe.call({
+        method: "tools_box.logistics.doctype.vehicle_schedule.vehicle_schedule.get_daily_cost_supplier",
+        args: {
+            vehicle: cur_frm.doc.vehicle
+        },
+        callback: function get_daily_cost(ret) {
+            if (ret.message == undefined) {
+                // Reset value for vehicle and throw exception
+                // frappe.model.set_value(cur_frm.doctype, cur_frm.docname, "vehicle", "");
+                // frappe.throw("Sorry, Vehicle daily cost is not setup for the vehicle.");
+                frappe.model.set_value(cur_frm.doctype, cur_frm.docname, "daily_cost", 0);
+                cur_frm.set_df_property('daily_cost', 'read_only', 0);
+                cur_frm.set_df_property('supplier', 'read_only', 0);
+            } else {
+                var d = ret.message[0];
+                if (cur_frm.doc.type != "Outbound"){
+                    frappe.model.set_value(cur_frm.doctype, cur_frm.docname, "daily_cost", d.outbound_daily_cost);
+                }
+                else{
+                    frappe.model.set_value(cur_frm.doctype, cur_frm.docname, "daily_cost", d.inbound_daily_cost);
+                }
+
+                frappe.model.set_value(cur_frm.doctype, cur_frm.docname, "supplier", d.supplier);
+
+                // close value up
+                cur_frm.set_df_property('daily_cost', 'read_only', 1);
+                cur_frm.set_df_property('supplier', 'read_only', 1);
+
+            }
+        }
+    })
+}
+
 
 frappe.ui.form.on('Vehicle Schedule Outbound Item', item_opts);
 frappe.ui.form.on('Vehicle Schedule Inbound Item', item_opts);

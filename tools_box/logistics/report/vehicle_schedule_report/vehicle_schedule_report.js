@@ -29,10 +29,26 @@ frappe.query_reports["Vehicle Schedule Report"] = {
 			"label": __("Type"),
 			"fieldtype": "Select",
 			"reqd":0,
-			"default":"Inbound",
+			"default":"Outbound",
 			"options": [
 				"Inbound","Outbound", "Operations"
 			],
+		},
+		{
+			"fieldname":"ref_name",
+			"label": __("Reference Document"),
+			"fieldtype": "Link",
+			"options": "Purchase Order",
+			"get_query": function() {
+				//
+				var type = frappe.query_report.filters[3].value;
+				return {
+					"doctype": (type == "Inbound") ? "Purchase Order" : "Delivery Note",
+					"filters": {
+						docstatus:1
+					}
+				}
+			}
 		}
 	]
 }

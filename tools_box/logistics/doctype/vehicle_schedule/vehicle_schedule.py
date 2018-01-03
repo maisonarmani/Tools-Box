@@ -31,11 +31,9 @@ def get_daily_cost_supplier(vehicle=None):
         daily_cost_n_supplier = frappe.get_list("Vehicle Daily Cost", filters={
             "vehicle": vehicle,
             "enabled": 1
-        }, fields=['total_cost', "supplier"])
+        }, fields=['inbound_daily_cost', "supplier","outbound_daily_cost"])
 
-        if not len(daily_cost_n_supplier):
-            return {}
-        else:
+        if len(daily_cost_n_supplier):
             return daily_cost_n_supplier
     return {}
 
@@ -44,8 +42,8 @@ def get_daily_cost_supplier(vehicle=None):
 def get_party(doctype=None, docname=None):
     if doctype and docname:
         party = "supplier"
-        if doctype == "Authority to Load":
-            party = "customer_name"
+        if doctype == "Delivery Note":
+            party = "customer"
         p = frappe.get_list(doctype, filters={
             "name": docname,
             "docstatus": 1

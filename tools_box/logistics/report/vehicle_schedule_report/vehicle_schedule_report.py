@@ -21,6 +21,9 @@ def get_data(filters):
     if filters.get('type'):
         conditions += " and p.type = '{type}'"
 
+    if filters.get('ref_name'):
+        conditions += " and c.ref_name = '{ref_name}'"
+
     if filters.get('type') != "Operations":
         data = frappe.db.sql("""select p.date, p.name, p.vehicle, p.type,p.daily_cost, p.total_amount, p.remark 
         from `tabVehicle Schedule` as p JOIN `tabVehicle Schedule {type} Item` c 
