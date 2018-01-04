@@ -3,63 +3,85 @@
 
 from __future__ import unicode_literals
 import frappe
+from frappe import _
 
 
 def execute(filters=None):
-    return get_columns(filters.type), get_data(filters)
-
-
-def get_data(filters):
-    conditions = ""
+    cconditions = conditions = "(1=1)"
 
     if filters.get('from') and filters.get('to'):
         conditions += " and date BETWEEN DATE('{from}') and DATE('{to}')"
 
     if filters.get('vehicle'):
-        conditions += " and p.vehicle = '{vehicle}'"
+        conditions += " and vehicle = '{vehicle}'"
 
     if filters.get('type'):
-        conditions += " and p.type = '{type}'"
+        conditions += " and type = '{type}'"
 
     if filters.get('ref_name'):
-        conditions += " and c.ref_name = '{ref_name}'"
+        cconditions += " and ref_name = '{ref_name}'"
 
-    if filters.get('type') != "Operations":
-        data = frappe.db.sql("""select p.date, p.name, p.vehicle, p.type,p.daily_cost, p.total_amount, p.remark 
-        from `tabVehicle Schedule` as p JOIN `tabVehicle Schedule {type} Item` c 
-        WHERE (1=1) {c} GROUP BY name""".format(c=conditions.format(**filters), type=filters.get('type')), as_list=1)
+    # get all parents
+    parents = frappe.db.sql(
+        "SELECT name, date, vehicle, type, daily_cost ,'' as ref_name, total_amount amount from `tabVehicle Schedule` "
+        "where {0}".format(conditions.format(**filters)), as_dict=1)
 
-        for d in data:
-            _ = round(((d[4] / d[5]) * 100), 2)
-            d.append(_)
+    data = []
+    for parent in parents:
+        parent.update({"parent": None, "indent": 0, "has_value":True})
+        data.append(parent)
+        children = frappe.db.sql(
+            "SELECT ref_name name, '' date, '' vehicle,'' type, 0 daily_cost, ref_name, amount from `tabVehicle Schedule Outbound Item` where {0}"
+                .format(cconditions.format(**filters)), as_dict=1)
+        for child in children:
+            child.update({"parent": parent.name, "indent": 1, "has_value":True})
 
-        return data
-    else:
-        data = frappe.db.sql("""select p.date, p.name, p.vehicle, p.type,p.daily_cost, p.description, p.total_amount 
-                from `tabVehicle Schedule` as p WHERE (1=1) {c}""".format(c=conditions.format(**filters)), as_list=1)
-        frappe.errprint(data)
-        return data
+        data.append(child)
+
+    return get_columns(), data
 
 
-def get_columns(stype):
-    if stype != "Operations":
-        return [
-            "Date:Date:100",
-            "ID:Link/Vehicle Schedule:100",
-            "Vehicle:Link/Vehicle:100",
-            "Type:Data:100",
-            "Daily Cost:Currency:100",
-            "Amount:Currency:130",
-            "Remark:Data:260",
-            "Ratio:Float:120"
-        ]
-    else:
-        return [
-            "Date:Date:100",
-            "ID:Link/Vehicle Schedule:100",
-            "Vehicle:Link/Vehicle:100",
-            "Type:Data:100",
-            "Daily Cost:Currency:100",
-            "Description:Data:200",
-            "Amount:Currency:130"
-        ]
+def get_columns():
+    return [{
+        "fieldname": "name",
+        "label": _("ID"),
+        "fieldtype": "Link",
+        "options": "Vehicle Schedule",
+        "width": 120
+    }, {
+        "fieldname": "date",
+        "label": _("Date"),
+        "fieldtype": "Date",
+        "options": "",
+        "width": 120
+    }, {
+        "fieldname": "vehicle",
+        "label": _("Vehicle"),
+        "fieldtype": "Link",
+        "options": "",
+        "width": 120
+    }, {
+        "fieldname": "type",
+        "label": _("Type"),
+        "fieldtype": "Data",
+        "options": "",
+        "width": 80
+    }, {
+        "fieldname": "daily_cost",
+        "label": _("Daily Cost"),
+        "fieldtype": "Data",
+        "options": "",
+        "width": 120
+    }, {
+        "fieldname": "ref_name",
+        "label": _("Reference Name"),
+        "fieldtype": "Link",
+        "options": "Delivery Note",
+        "width": 120
+    }, {
+        "fieldname": "amount",
+        "label": _("Amount"),
+        "fieldtype": "Data",
+        "options": "",
+        "width": 140
+    }]

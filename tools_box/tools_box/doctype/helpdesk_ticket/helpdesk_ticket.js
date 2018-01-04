@@ -38,7 +38,6 @@ frappe.ui.form.on('Helpdesk Ticket', {
     onload: function (frm) {
         frm.set_query("raised_by", get_employees);
         frm.set_query("assigned_to", get_employees);
-        frm.cscript.add_buttons(frm);
 
     },
     refresh: function (frm) {
@@ -49,6 +48,8 @@ frappe.ui.form.on('Helpdesk Ticket', {
         cur_frm.set_df_property("subject", "read_only", assigned_on_hold_close);
         cur_frm.set_df_property("raised_by", "read_only", assigned_on_hold_close);
         cur_frm.set_df_property("description", "read_only", assigned_on_hold_close);
+
+        frm.cscript.add_buttons(frm);
 
         if (!frappe.user.has_role(['Helpdesk Admin'])) {
             cur_frm.set_df_property("status", "read_only", assigned_on_hold_close);
