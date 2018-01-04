@@ -80,7 +80,7 @@ def confirmation_notification():
         '''
 
         hr_users = ["sylvester.amanyi@graceco.com.ng", "dami.olawale@graceco.com.ng",
-                    "laolu.egunjobi@graceco.com.ng", "funmi.kalejaiye@graceco.com.ng"]
+                    "laolu.egunjobi@graceco.com.ng"]
         sendmail(recipients=hr_users, sender="erp@graceco.com.ng", subject=_("Employee Confirmation Notification"),
                  message=message, reply_to="erp@graceco.com.ng")
 

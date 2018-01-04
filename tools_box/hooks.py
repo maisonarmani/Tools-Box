@@ -101,7 +101,7 @@ scheduler_events = {
         "erpnext.stock.reorder_item.reorder_item"
     ],
     "daily":[
-        "tools_box.controller.api.confirmation_notification"
+        "tools_box.controllers.api.confirmation_notification"
     ]
 }
 
