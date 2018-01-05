@@ -5,6 +5,8 @@ from __future__ import unicode_literals
 import frappe
 from frappe import _
 
+import datetime
+from frappe import sendmail
 
 @frappe.whitelist()
 def get_active_employees(doctype, txt, searchfield, start, page_len, filters):
@@ -29,15 +31,21 @@ def get_directors(doctype, txt, searchfield, start, page_len, filters):
 
 @frappe.whitelist()
 def get_approver_authorizer(emp):
+    # check if the user reports to any one
+    reports_to = frappe.db.sql(""" SELECT reports_to from `tabEmployee` WHERE name="{0}" """.format(emp), as_dict=1)[0]
+    if reports_to.reports_to is None:
+        data = [dict(approver=emp, authorizer=emp)]
+    else:
+        data = frappe.db.sql(""" SELECT IFNULL(c.reports_to, '{0}') approver, IFNULL(p.reports_to, c.reports_to) authorizer from
+              tabEmployee c JOIN tabEmployee p  ON (c.reports_to = p.name) WHERE c.name="{0}" """.format(emp),
+                             as_dict=1)
+
     # first who the employee reports to
     # and up the ladder
-    data = frappe.db.sql(""" SELECT c.reports_to approver, IFNULL(p.reports_to, c.reports_to) authorizer from
-          tabEmployee c JOIN tabEmployee p  ON (c.reports_to = p.name) WHERE c.name="{0}" """.format(emp), as_dict=1)
-
-    authorizer = approver = ""
+    authorizer = approver = {}
     for datum in data:
-        approver = frappe.get_value("Employee", datum.approver, ["name", "user_id", "employee_name"])
-        authorizer = frappe.get_value("Employee", datum.authorizer, ["name", "user_id", "employee_name"])
+        approver = frappe.get_value("Employee", datum.get('approver'), ["name", "user_id", "employee_name"])
+        authorizer = frappe.get_value("Employee", datum.get('authorizer'), ["name", "user_id", "employee_name"])
 
     if not authorizer:
         authorizer = ["", "", ""]
@@ -59,8 +67,6 @@ def confirmation_notification():
     # get the list of employees that should be confirmed today
     # make sure it has not be confirmed
     # send bulk alert to all hr members
-    import datetime
-    from frappe import sendmail
     confirmees = frappe.get_list(doctype='Employee', filters=dict(final_confirmation_date=datetime.date.today()),
                                  fields=['employee_name', 'final_confirmation_date', 'date_of_joining'])
 

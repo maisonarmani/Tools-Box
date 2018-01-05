@@ -8,6 +8,7 @@ frappe.query_reports["Vehicle Schedule Report"] = {
             "fieldname": "from",
             "label": __("From Date"),
             "fieldtype": "Date",
+            "default":"2018-01-01",
             "width": "80",
             "reqd": 1
         },
@@ -58,31 +59,33 @@ frappe.query_reports["Vehicle Schedule Report"] = {
         // cell contains the index the current cell definition
         // columnDef contains information about the current cell
         // default_formatter is the default formatter
-        const _context = dataContext;
-        if (columnDef.df.fieldname == "name") {
-            value = _context[columnDef.df.fieldname];
-
-            //columnDef.df.link_onclick =
-                //"frappe.query_reports['Vehicle Schedule Report'].low(" + JSON.stringify(dataContext) + ")";
-            columnDef.df.is_tree = true;
-        }
-
-        value = default_formatter(row, cell, value, columnDef, dataContext);
-
-        if (!_context.parent) {
-            var $value = $(value).css("font-weight", "bold");
-            if (_context.warn_if_negative && _context[columnDef.df.fieldname] < 0) {
-                $value.addClass("text-danger");
+        if (true){
+            const _context = dataContext;
+            if (columnDef.df.fieldname == "name") {
+                value = _context[columnDef.df.fieldname];
+                //columnDef.df.link_onclick =
+                    //"frappe.query_reports['Vehicle Schedule Report'].low(" + JSON.stringify(dataContext) + ")";
+                columnDef.df.is_tree = true;
             }
 
-            value = $value.wrap("<p></p>").parent().html();
+            value = default_formatter(row, cell, value, columnDef, dataContext);
 
+            if (!_context.parent && columnDef.df.fieldname == "name") {
+                var $value = $(value).css("font-weight", "bold");
+                console.log($(value).html())
+                value = $value.html()
+                console.log(value)
+            }
         }
+
 
         return value;
     },
     "tree": true,
     "name_field": "name",
     "parent_field": "parent",
-    "initial_depth": 3
+    "initial_depth": 3,
+    "onload":function(report){
+        //console.log(report)
+    }
 }
