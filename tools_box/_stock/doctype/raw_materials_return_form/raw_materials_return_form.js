@@ -21,13 +21,6 @@ frappe.ui.form.on('Raw Materials Return Form', {
 	onload:function(frm){
 		frm.set_query('received_by',get_employees);
 		frm.set_query('returned_by',get_employees);
-		frm.set_query('production_order', function(){
-			return {
-				filters:{
-					status:"Completed",
-				}
-			}
-		})
 	},
 	refresh: function(frm) {
 		cur_frm.add_fetch("item_code","stock_uom","uom");
