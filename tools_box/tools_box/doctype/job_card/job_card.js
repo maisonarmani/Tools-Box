@@ -45,7 +45,7 @@ frappe.ui.form.on('Job Card', {
             });
         }
 
-        if ((cur_frm.doc.equipment_maintenance_log || cur_frm.doc.vendor) &&
+        if ((cur_frm.doc.equipment_maintenance_log || !cur_frm.doc.vendor) &&
             in_list(['Not Completed', 'IAD Cleared'], cur_frm.doc.status)) {
             cur_frm.add_custom_button('Make Expense Claim', function () {
                 frappe.model.open_mapped_doc({
