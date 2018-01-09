@@ -45,7 +45,7 @@ frappe.ui.form.on('Job Card', {
             });
         }
 
-        if (cur_frm.doc.equipment_maintenance_log &&
+        if ((cur_frm.doc.equipment_maintenance_log || cur_frm.doc.vendor) &&
             in_list(['Not Completed', 'IAD Cleared'], cur_frm.doc.status)) {
             cur_frm.add_custom_button('Make Expense Claim', function () {
                 frappe.model.open_mapped_doc({
@@ -118,10 +118,7 @@ frappe.ui.form.on('Job Card Material Detail', {
     no_of_units: function (frm, cdt, cdn) {
         frappe.model.set_value(cdt, cdn, "total", frappe.model.get_value(cdt, cdn, "no_of_units") * frappe.model.get_value(cdt, cdn, "unit_cost"));
     },
-
     unit_cost: function (frm, cdt, cdn) {
         frappe.model.set_value(cdt, cdn, "total", frappe.model.get_value(cdt, cdn, "no_of_units") * frappe.model.get_value(cdt, cdn, "unit_cost"));
-
-    },
-
+    }
 });
