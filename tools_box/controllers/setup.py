@@ -108,6 +108,13 @@ def get_account_section():
 def get_stock_section():
     return __default_item([{
         "type": "doctype",
+        "label": _("Stock Transfer"),
+        "name": "Stock Transfer",
+        "icon": "icon-sitemap",
+        "link": "List/Stock Transfer",
+        "description": _("Stock Transfer"),
+    },{
+        "type": "doctype",
         "label": _("Quality Control Material Acceptance Form"),
         "name": "Quality Control Material Acceptance Form",
         "icon": "icon-sitemap",

@@ -8,6 +8,7 @@ from frappe import _
 import datetime
 from frappe import sendmail
 
+
 @frappe.whitelist()
 def get_active_employees(doctype, txt, searchfield, start, page_len, filters):
     return _get(txt, start, page_len)
@@ -72,21 +73,18 @@ def confirmation_notification():
 
     message = "<div><ul style='list-style=none; margin:0; padding:0'>"
     for confirmee in confirmees:
-        message += "<li style=><b>{employee_name}</b> employeed on {date_of_joining} is due for confirmation today ({final_confirmation_date}) </li>".format(
-            **confirmee)
+        message += "<li style=><b>{employee_name}</b> employed on {date_of_joining} is due for confirmation today " \
+                   "({final_confirmation_date}) </li>".format(**confirmee)
 
     message += "</ul><h3>Please attend to this ASAP.</h3></div>"
 
     if confirmees:
         # get all HR Users
-        '''
-            hr_users = frappe.db.sql("""select u.name from tabUser u, `tabHas Role` r where u.name = r.parent and 
-                  r.role = 'HR User'and u.enabled = 1""", as_list=1)
-            hr_users = [x[0] for x in hr_users]
-        '''
+        hr_users = frappe.db.sql("""select u.name from tabUser u, `tabHas Role` r where u.name = r.parent and 
+              r.role = 'HR Staff'and u.enabled = 1""", as_list=1)
+        hr_users = [x[0] for x in hr_users]
 
-        hr_users = ["sylvester.amanyi@graceco.com.ng", "dami.olawale@graceco.com.ng",
-                    "laolu.egunjobi@graceco.com.ng"]
+        # hr_users = ["sylvester.amanyi@graceco.com.ng", "dami.olawale@graceco.com.ng","laolu.egunjobi@graceco.com.ng"]
         sendmail(recipients=hr_users, sender="erp@graceco.com.ng", subject=_("Employee Confirmation Notification"),
                  message=message, reply_to="erp@graceco.com.ng")
 
