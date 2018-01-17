@@ -11,7 +11,7 @@ frappe.ui.form.on('Stock Transfer', {
 			}
 		});
 
-        if (cur_frm.doc.docstatus = 1) {
+        if (cur_frm.doc.docstatus == 1) {
             frm.add_custom_button(__('General Ledger'), function () {
                 frappe.set_route('query-report', 'General Ledger');
             }, __("Accounting Report"));
