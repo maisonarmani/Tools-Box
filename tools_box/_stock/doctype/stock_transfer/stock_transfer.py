@@ -27,7 +27,7 @@ class StockTransfer(Document):
             '''
         for item in self.stock_transfer_item:
             make_stock_entry(item_code=item.item_code, qty=item.quantity, from_warehouse=item.default_warehouse,
-                             to_warehouse=self.destination_warehouse, posting_date=self.transfer_date,
+                             cost_center=item.cost_center, to_warehouse=self.destination_warehouse, posting_date=self.transfer_date,
                              location=self.location)
 
 

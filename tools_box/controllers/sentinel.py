@@ -81,7 +81,7 @@ def validate_required(document, trigger):
                         _validate_allowed(document.get("purchase_requisition"), "Purchase Requisition")
 
 
-            elif _get_item_group(item) == "Raw Material":
+            elif _get_item_group(item) in ("Raw Material","QC Lab"):
                 if not (document.material_request):
                     frappe.throw("Purchase Order can't be saved without Material Request")
                 else:
@@ -89,9 +89,8 @@ def validate_required(document, trigger):
                         # _validate_duplicate("material_request", "Material Request", document)
                         _validate_allowed(document.get("material_request"), "Material Request")
 
-
+"""
 def create_communication():
-    # Maison Armani error driving code
     frappe.get_doc({
         "modified_by": "sylvester.amanyi@graceco.com.ng",
         "owner": "sylvester.amanyi@graceco.com.ng",
@@ -115,3 +114,4 @@ def create_communication():
         "timeline_doctype": "Employee",
         "timeline_name": "GCL-EMP/0964",
     })
+"""
