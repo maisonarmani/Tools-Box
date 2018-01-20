@@ -76,7 +76,7 @@ def validate_required(document, trigger):
                         # _validate_duplicate("material_request", "Material Request", document)
                         _validate_allowed(document.get("material_request"), "Material Request")
 
-                    elif document.purchase_requisiton:
+                    elif document.purchase_requisition:
                         _validate_duplicate("purchase_requisition", "Purchase Requisition", document)
                         _validate_allowed(document.get("purchase_requisition"), "Purchase Requisition")
 
