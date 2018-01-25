@@ -41,7 +41,7 @@ frappe.ui.form.on('Purchase Requisition', {
     refresh: function (frm) {
         var status = frm.doc.status;
         var can_create_po = frappe.user_roles.includes("Purchase User");
-        if ((status == "Cleared" && can_create_po)) {
+        if ((status == "Authorized" && can_create_po)) {
             cur_frm.add_custom_button(
                 __("Make Purchase Order"), function () {
                     // do some kind of mapping and create a new purchase order
