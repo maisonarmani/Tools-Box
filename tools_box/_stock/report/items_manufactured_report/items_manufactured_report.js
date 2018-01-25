@@ -3,8 +3,13 @@
 /* eslint-disable */
 
 frappe.query_reports["Items Manufactured Report"] = {
-	"filters": [
-	{
+	"filters": [{
+            "fieldname": "warehouse",
+            "label": __("Warehouse"),
+            "fieldtype": "Link",
+            "options": "Warehouse"
+        },
+		{
 			"fieldname":"from_date",
 			"label": __("From Date"),
 			"fieldtype": "Date",

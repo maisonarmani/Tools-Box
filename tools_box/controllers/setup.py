@@ -659,6 +659,12 @@ def get_extra_stock_reports():
             "is_query_report": True,
             "name": "Stock Balance With Valuation",
             "doctype": "Stock Entry",
+        },
+        {
+            "type": "report",
+            "is_query_report": True,
+            "name": "Stock Balance Simplified",
+            "doctype": "Stock Entry",
         }
     ])
 

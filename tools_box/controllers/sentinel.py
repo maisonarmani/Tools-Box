@@ -5,6 +5,15 @@ from __future__ import unicode_literals
 import frappe
 
 
+def check_clean(document, trigger):
+    _ = frappe.db.sql("""select name from `tabProduction Order` where production_item != '{item}' 
+                      and status not in ("Completed", "Resolved","Cancelled") and name != '{name}' """
+                      .format(item=document.production_item, name=document.name), as_list=1)
+    if len(_):
+        frappe.throw("""Sorry, New production order for {1} cannot be created, since we have a different production order {0} that
+                     has not been completed or resolved""".format(_[0][0], document.production_item))
+
+
 def validate_required(document, trigger):
     def _validate_duplicate(field, doctype, document):
         if document.get(field):
@@ -30,13 +39,13 @@ def validate_required(document, trigger):
                 frappe.throw("{dt} attached has not been approved".format(dt=doctype))
 
     def _get_item_group(item):
-        item = frappe.db.sql("select item_group from `tabItem` where name='{name}'".format(name=item.item_code), as_list=1)
+        item = frappe.db.sql("select item_group from `tabItem` where name='{name}'".format(name=item.item_code),
+                             as_list=1)
         return item[0][0]
 
     def _is_fueling(item):
         item = frappe.db.sql("select name from `tabItem` where name='{name}' and (item_name LIKE 'Fueling%' or "
                              "item_name LIKE 'Fuelling%')".format(name=item.item_code), as_list=1)
-        frappe.errprint(item)
         return item != []
 
     def _is_new(name):
@@ -81,13 +90,14 @@ def validate_required(document, trigger):
                         _validate_allowed(document.get("purchase_requisition"), "Purchase Requisition")
 
 
-            elif _get_item_group(item) in ("Raw Material","QC Lab"):
+            elif _get_item_group(item) in ("Raw Material", "QC Lab"):
                 if not (document.material_request):
                     frappe.throw("Purchase Order can't be saved without Material Request")
                 else:
                     if document.material_request:
                         # _validate_duplicate("material_request", "Material Request", document)
                         _validate_allowed(document.get("material_request"), "Material Request")
+
 
 """
 def create_communication():

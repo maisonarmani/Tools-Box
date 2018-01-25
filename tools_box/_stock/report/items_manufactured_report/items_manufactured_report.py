@@ -12,7 +12,6 @@ def execute(filters=None):
 		"Qty:Link/Item:100",]
 
 	conditions = " AND (po.planned_start_date BETWEEN DATE({from_date}) and DATE({to_date})) "
-	conditions = ""
 
 	data = frappe.db.sql(
 		"SELECT i.name,i.item_name, i.stock_uom ,SUM(po.produced_qty) from `tabItem` i RIGHT OUTER JOIN `tabProduction Order` po "
