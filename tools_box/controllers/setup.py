@@ -358,6 +358,12 @@ def get_extra_hr_reports():
         },
         {
             "type": "report",
+            "name": "Employee Pay Summary",
+            "doctype": "Employee",
+            "is_query_report": True,
+        },
+        {
+            "type": "report",
             "name": "Employee Information",
             "doctype": "Employee"
         },

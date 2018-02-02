@@ -73,7 +73,7 @@ def add_desktop():
     # get all users
     # use admin icons to create icons for other user
     all_user = frappe.db.sql("select name from `tabUser` where enabled = 1 "
-                             "and name != 'Administrator'" , as_list=1)
+                             "and name != 'Administrator'", as_list=1)
     icons = frappe.get_all("Desktop Icon", {'owner': "Administrator"}, ["*"])
     for user in all_user:
         for icon in icons:
@@ -96,3 +96,57 @@ def add_desktop():
             new_icon._doctype = icon.get('_doctype')
             new_icon.db_insert()
         break
+
+
+from frappe.utils import flt, cint, cstr
+
+
+def check_credit_limit():
+    customer = "Adewunmi Abosede"
+    company = "Graceco Limited"
+    customer_outstanding = get_customer_outstanding(customer, company)
+    frappe.errprint(customer_outstanding)
+
+
+def get_customer_outstanding(customer, company):
+    # Outstanding based on GL Entries
+    outstanding_based_on_gle = frappe.db.sql("""select sum(debit) - sum(credit)
+        from `tabGL Entry` where party_type = 'Customer' and party = %s and company=%s""", (customer, company))
+
+    outstanding_based_on_gle = flt(outstanding_based_on_gle[0][0]) if outstanding_based_on_gle else 0
+    frappe.errprint(outstanding_based_on_gle)
+
+    # Outstanding based on Sales Order
+    outstanding_based_on_so = frappe.db.sql("""
+		select sum(base_grand_total*(100 - per_billed)/100)
+		from `tabSales Order`
+		where customer=%s and docstatus = 1 and company=%s
+		and per_billed < 100 and status != 'Closed'""", (customer, company))
+
+    outstanding_based_on_so = flt(outstanding_based_on_so[0][0]) if outstanding_based_on_so else 0.0
+
+    # Outstanding based on Delivery Note
+    unmarked_delivery_note_items = frappe.db.sql("""select
+			dn_item.name, dn_item.amount, dn.base_net_total, dn.base_grand_total
+		from `tabDelivery Note` dn, `tabDelivery Note Item` dn_item
+		where
+			dn.name = dn_item.parent
+			and dn.customer=%s and dn.company=%s
+			and dn.docstatus = 1 and dn.status not in ('Closed', 'Stopped')
+			and ifnull(dn_item.against_sales_order, '') = ''
+			and ifnull(dn_item.against_sales_invoice, '') = ''""", (customer, company), as_dict=True)
+
+    outstanding_based_on_dn = 0.0
+
+    for dn_item in unmarked_delivery_note_items:
+        si_amount = frappe.db.sql("""select sum(amount)
+			from `tabSales Invoice Item`
+			where dn_detail = %s and docstatus = 1""", dn_item.name)[0][0]
+
+        if flt(dn_item.amount) > flt(si_amount) and dn_item.base_net_total:
+            outstanding_based_on_dn += ((flt(dn_item.amount) - flt(si_amount)) \
+                                        / dn_item.base_net_total) * dn_item.base_grand_total
+
+    frappe.errprint(outstanding_based_on_dn)
+    frappe.errprint(outstanding_based_on_so)
+    return outstanding_based_on_gle + outstanding_based_on_so + outstanding_based_on_dn
