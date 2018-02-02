@@ -6,7 +6,8 @@ import frappe
 
 
 def check_clean(document, trigger):
-    _ = frappe.db.sql("""select name from `tabProduction Order` where production_item != '{item}' 
+    return True
+    _ = frappe.db.sql("""select name from `tabProduction Order` where production_item = '{item}' 
                       and status not in ("Completed", "Resolved","Cancelled") and name != '{name}' """
                       .format(item=document.production_item, name=document.name), as_list=1)
     if len(_):
@@ -59,15 +60,17 @@ def validate_required(document, trigger):
             # Spare parts needs job card
             # Consumable needs Purchase req or material request
             # Fixed Assets needs purchase requisition
-            if _get_item_group(item) == "Spares Parts":
-                if not (document.job_card):
-                    frappe.throw("Purchase Order can't be saved without Job Card")
+
+            item_grp = _get_item_group(item)
+            if item_grp in ("Spares Parts", "Spare Parts"):
+                if not document.job_card and not document.purchase_requisition and not document.material_request:
+                    frappe.throw(
+                        "Purchase Order can't be saved without Job Card,Purchase Requisition or Material Request")
                 else:
                     _validate_duplicate("job_card", "Job Card", document)
                     _validate_allowed(document.get("job_card"), "Job Card")
 
-
-            elif _get_item_group(item) == "Fixed Assets":
+            elif item_grp == "Fixed Assets":
                 if not document.purchase_requisition:
                     frappe.throw(
                         "Purchase Order can't be saved without Purchase Requisition")
@@ -75,8 +78,7 @@ def validate_required(document, trigger):
                     _validate_duplicate("purchase_requisition", "Purchase Requisition", document)
                     _validate_allowed(document.get("purchase_requisition"), "Purchase Requisition")
 
-
-            elif _get_item_group(item) == "Consumable" and not _is_fueling(item):
+            elif item_grp in ("Consumable", "QC Lab") and not _is_fueling(item):
                 if not (document.material_request or document.purchase_requisition):
                     frappe.throw(
                         "Purchase Order can't be saved without Material Request or Purchase Requisition")
@@ -89,39 +91,10 @@ def validate_required(document, trigger):
                         _validate_duplicate("purchase_requisition", "Purchase Requisition", document)
                         _validate_allowed(document.get("purchase_requisition"), "Purchase Requisition")
 
-
-            elif _get_item_group(item) in ("Raw Material", "QC Lab"):
+            elif item_grp in ("Raw Material", "QC Lab"):
                 if not (document.material_request):
                     frappe.throw("Purchase Order can't be saved without Material Request")
                 else:
                     if document.material_request:
                         # _validate_duplicate("material_request", "Material Request", document)
                         _validate_allowed(document.get("material_request"), "Material Request")
-
-
-"""
-def create_communication():
-    frappe.get_doc({
-        "modified_by": "sylvester.amanyi@graceco.com.ng",
-        "owner": "sylvester.amanyi@graceco.com.ng",
-        "docstatus": "0",
-        "idx": 0,
-        "sender": "sylvester.amanyi@graceco.com.ng",
-        "sent_or_recieved": "Sent",
-        "content": "Approved",
-        "user": "sylvester.amanyi@graceco.com.ng",
-        "communication_date": "2017-05-24 15:43:50.290693",
-        "subject": "Approved",
-        "ref_doctype": "Expense Claim",
-        "unread_notification_sent": 0,
-        "status": "Linked",
-        "reference_name": "GCL-EXP-17-01573",
-        "sender_fullname": "Maison Armani",
-        "comment_type": "Workflow",
-        "seen": 0,
-        "reference_owner": "adebimpe.dipe@graceco.com.ng",
-        "communication_type": "Comment",
-        "timeline_doctype": "Employee",
-        "timeline_name": "GCL-EMP/0964",
-    })
-"""

@@ -7,7 +7,7 @@
  "doctype": "Report", 
  "idx": 1, 
  "is_standard": "Yes", 
- "modified": "2017-05-25 12:30:46.684218", 
+ "modified": "2018-01-30 13:31:59.149740", 
  "modified_by": "Administrator", 
  "module": "Tools Box", 
  "name": "Stock Ledger Simplified", 
@@ -24,6 +24,12 @@
   }, 
   {
    "role": "Logistics Manager"
+  }, 
+  {
+   "role": "Auditor"
+  }, 
+  {
+   "role": "Sales User"
   }
  ]
 }
