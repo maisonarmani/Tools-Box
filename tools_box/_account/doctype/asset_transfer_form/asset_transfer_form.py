@@ -13,3 +13,8 @@ class AssetTransferForm(Document):
 		if self.status == "Returned":
 			self.returned_date = datetime.now()
 
+		if self.workflow_state == "Approved" and not self.approved_by:
+			frappe.throw("Please indicate the approver.")
+
+
+
