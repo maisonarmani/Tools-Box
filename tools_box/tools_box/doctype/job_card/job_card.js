@@ -66,7 +66,6 @@ frappe.ui.form.on('Job Card', {
             })
             cur_frm.set_df_property('job_completion_date', 'read_only', 0);
             cur_frm.set_df_property('job_completion_verified_by', 'read_only', 0);
-            //cur_frm.set_df_property('status','read_only',0);
             cur_frm.set_df_property('approval', 'read_only', 0);
         }
 
@@ -79,6 +78,7 @@ frappe.ui.form.on('Job Card', {
             frappe.call({
                 method: "tools_box.tools_box.doctype.job_card.job_card.get_requested_by",
                 args: {
+                    ticket_type:job_card.ticket_type,
                     ticket_number: job_card.ticket_number
                 },
                 callback: function (r) {
@@ -88,6 +88,7 @@ frappe.ui.form.on('Job Card', {
             frappe.call({
                 method: "tools_box.tools_box.doctype.job_card.job_card.get_employee_name",
                 args: {
+                    ticket_type:job_card.ticket_type,
                     ticket_number: job_card.ticket_number
                 },
                 callback: function (r) {
