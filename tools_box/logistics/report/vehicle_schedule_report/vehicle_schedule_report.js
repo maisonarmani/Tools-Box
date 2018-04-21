@@ -33,7 +33,7 @@ frappe.query_reports["Vehicle Schedule Report"] = {
             "reqd": 0,
             "default": "Outbound",
             "options": [
-                "Inbound", "Outbound", "Operations"
+                "Inbound", "Outbound"
             ],
         },
         {
@@ -72,9 +72,7 @@ frappe.query_reports["Vehicle Schedule Report"] = {
 
             if (!_context.parent && columnDef.df.fieldname == "name") {
                 var $value = $(value).css("font-weight", "bold");
-                console.log($(value).html())
                 value = $value.html()
-                console.log(value)
             }
         }
 

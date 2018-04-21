@@ -87,7 +87,7 @@ doc_events = {
         ]
     },
     "Production Order": {
-        "before_save": [
+        "before_insert": [
             "tools_box.controllers.sentinel.check_clean"
         ]
     },
