@@ -43,11 +43,10 @@ def get_sales_details(doctype):
 			cust.customer_name,
 			cust.territory,
 			cust.customer_group,
-			count(distinct(so.name)) as 'num_of_order',
-			sum(base_net_total) as 'total_order_value', {0}
-		from `tabCustomer` cust, `tab{1}` so
-		where cust.name = so.customer and so.docstatus = 1
-		group by cust.name
+			count(distinct(so.name)) 'num_of_order',
+			sum(base_net_total) 'total_order_value', {0}
+		from `tabCustomer` cust  right outer join `tab{1}` so on(cust.name = so.customer)
+		where so.docstatus = 1 group by cust.name
 		order by 'days_since_last_order' desc """.format(cond, doctype), as_list=1)
 
 

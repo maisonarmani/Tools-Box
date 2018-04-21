@@ -86,5 +86,4 @@ frappe.ui.form.on('Helpdesk Ticket', {
             });
         }
     },
-
 });

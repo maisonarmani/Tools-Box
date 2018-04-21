@@ -13,15 +13,15 @@ def execute(filters=None):
 
 
 def get_data(filters=None):
-    conditions, data = "SELECT e.employee, e.employee_name, e.employment_type, s.gross_pay , e.date_of_joining, " \
-                       "e.status  FROM `tabEmployee` e LEFT  JOIN `tabSalary Slip` s " \
-                       "ON(s.employee=e.employee) WHERE (1=1)", []
+    conditions, data = "SELECT e.employee, e.employee_name, e.employment_type, s.total_earning, ss.base , e.date_of_joining, " \
+                       "e.status  FROM `tabEmployee` e,`tabSalary Structure` s,`tabSalary Structure Employee` ss " \
+                       "WHERE (ss.parent = s.name) and (e.employee = ss.employee) and  s.is_active = 'Yes' ", []
 
     if filters.get("status") and filters.get("status") != "All":
         conditions += " AND e.status = '%(status)s'"
     if filters.get("employment_type") and filters.get("employment_type") != 'All':
         conditions += " AND e.employment_type = '%(employment_type)s'"
-    if filters.get("department") :
+    if filters.get("department"):
         conditions += " AND e.department = '%(department)s'"
 
     order_by = " ORDER BY e.employee_name,e.status ASC, s.creation ASC"
@@ -30,7 +30,9 @@ def get_data(filters=None):
         data = frappe.db.sql(conditions % filters + order_by, as_list=1)
         for datum in data:
             d_s = EmployeeSummary.get_number_of_days_spent_with_company(datum[0])
-            frappe.errprint(dir(datum))
+            if datum[3] == 0:
+                datum [3] = datum[4]
+            del datum[4]
             datum.append(d_s)
     return data
 
@@ -40,7 +42,7 @@ def get_columns(filters):
         _("Employee ID") + ":Link/Employee:120",
         _("Name") + ":Data:200",
         _("Employment Type") + ":Data:150",
-        _("Current Pay") + ":Currency:130",
+        _("Gross Pay") + ":Currency:130",
         _("Joined Date") + ":Date:130",
         _("Status") + ":Data:70",
         _("Been With Company ") + ":Data:190",
