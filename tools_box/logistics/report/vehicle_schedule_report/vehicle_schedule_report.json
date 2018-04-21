@@ -8,7 +8,7 @@
  "idx": 0, 
  "is_standard": "Yes", 
  "letter_head": "Standard Letterhead", 
- "modified": "2018-01-05 14:42:39.381469", 
+ "modified": "2018-02-15 09:16:52.976039", 
  "modified_by": "Administrator", 
  "module": "Logistics", 
  "name": "Vehicle Schedule Report", 
@@ -18,7 +18,10 @@
  "report_type": "Script Report", 
  "roles": [
   {
-   "role": "System Manager"
+   "role": "Logistics Manager"
+  }, 
+  {
+   "role": "Fleet Manager"
   }
  ]
 }
