@@ -30,6 +30,8 @@ cur_frm.cscript.add_buttons = function (frm) {
         jc.priority = cur_frm.doc.priority;
         jc.asset = cur_frm.doc.asset;
         jc.asset_category = cur_frm.doc.asset_category;
+	jc.requested_by = cur_frm.doc.raised_by;
+	jc.employee_name = cur_frm.doc.raised_by_name;
         frappe.set_route("Form", "Job Card", jc.name);
     });
 
