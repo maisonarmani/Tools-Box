@@ -706,6 +706,12 @@ def get_extra_stock_reports():
         {
             "type": "report",
             "is_query_report": True,
+            "name": "Failed Repack Report",
+            "doctype": "Stock Entry",
+        },
+        {
+            "type": "report",
+            "is_query_report": True,
             "name": "Stock Balance With Valuation",
             "doctype": "Stock Entry",
         },

@@ -13,7 +13,8 @@ def execute(filters=None):
     columns = get_columns()
     data = []
 
-    conditions = "posting_date BETWEEN DATE('{0}') AND DATE('{1}')".format(filters.get('from_date'),filters.get('to_date'))
+    conditions = "posting_date BETWEEN DATE('{0}') AND DATE('{1}')".format(filters.get('from_date'),
+                                                                           filters.get('to_date'))
 
     if filters.get('warehouse'):
         conditions += " AND warehouse ='{0}'".format(filters.get('warehouse'))
@@ -24,16 +25,15 @@ def execute(filters=None):
     for item in items:
         sle = frappe.db.sql(
             "SELECT name, valuation_rate, company, warehouse FROM `tabStock Ledger Entry` "
-             "WHERE item_code = '{0}' AND {1} ORDER BY posting_date DESC  LIMIT 1 ".format(item.name, conditions),
+            "WHERE item_code = '{0}' AND {1} ORDER BY posting_date DESC  LIMIT 1 ".format(item.name, conditions),
             as_dict=1)
 
-
-        if sle:
-            mp = (
-                item.name, item.item_name, item.item_group, item.description, sle[0].get('warehouse'),
-                item.stock_uom,sle[0].get('valuation_rate'),sle[0].get('name'), sle[0].get('company'),
-            )
-            data.append(mp)
+    if sle:
+        mp = (
+            item.name, item.item_name, item.item_group, item.description, sle[0].get('warehouse'),
+            item.stock_uom, sle[0].get('valuation_rate'), sle[0].get('name'), sle[0].get('company'),
+        )
+    data.append(mp)
 
     return columns, data
 
@@ -53,5 +53,3 @@ def get_columns():
     ]
 
     return columns
-
-
