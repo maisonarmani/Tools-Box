@@ -13,19 +13,37 @@ def execute(filters=None):
     days_since_last_order = filters.get("days_since_last_order")
     doctype = filters.get("doctype")
 
-    if cint(days_since_last_order) <= 0:
+    if cint(days_since_last_order) <= 0 and cint(days_since_last_order) != -1:
         frappe.throw(_("'Days Since Last Order' must be greater than or equal to zero"))
 
     columns = get_columns(filters.doctype)
-    customers = get_sales_details(doctype)
 
     data = []
-    for cust in customers:
-        if cint(cust[8]) >= cint(days_since_last_order):
-            cust.insert(7, get_last_sales_amt(cust[0], doctype))
-            data.append(cust)
+    if cint(days_since_last_order) is not -1:
+        customers = get_sales_details(doctype)
+        for cust in customers:
+            if cint(cust[8]) >= cint(days_since_last_order):
+                cust.insert(7, get_last_sales_amt(cust[0], doctype))
+                data.append(cust)
+    else:
+        customers = get_dead_customers(doctype)
+        for cust in customers:
+            if cint(cust[8]) >= cint(days_since_last_order):
+                cust.insert(7, get_last_sales_amt(cust[0], doctype))
+                data.append(cust)
+
     return columns, data
 
+
+def get_dead_customers(doctype):
+    return frappe.db.sql("""select
+ 			cust.name,
+ 			cust.customer_name,
+ 			cust.territory,
+ 			cust.customer_group,
+ 			0,0, 0, 0, "00-00-000",-1
+ 		from `tabCustomer` cust  left join `tab{0}` so on(cust.name = so.customer)
+ 		where so.name IS NULL and cust.disabled = 0""".format(doctype), as_list=1)
 
 
 def get_sales_details(doctype):
@@ -46,7 +64,7 @@ def get_sales_details(doctype):
  			cust.customer_group,
  			count(distinct(so.name)) 'num_of_order',
  			sum(base_net_total) 'total_order_value', {0}
- 		from `tabCustomer` cust  right outer join `tab{1}` so on(cust.name = so.customer)
+ 		from `tabCustomer` cust  left outer join `tab{1}` so on(cust.name = so.customer)
  		where so.docstatus = 1 group by cust.name
  		order by 'days_since_last_order' desc """.format(cond, doctype), as_list=1)
 
