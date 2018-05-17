@@ -43,8 +43,7 @@ class FinishedGoodsTransferForm(Document):
                                            fields=['default_warehouse', 'standard_rate'])
                 if index == 0:
                     se.to_warehouse = cur_item[0].default_warehouse
-                    # se.manufactured_qty = value.qty
-                    # se.fg_completed_qty = value.qty
+
 
                 if len(se.to_warehouse) <= 0:
                     frappe.throw("Item {0} does not have default warehouse required for stock entry".format(
@@ -73,7 +72,7 @@ class FinishedGoodsTransferForm(Document):
                 )
                 se.append('items', item)
                 se.fg_completed_qty += value.qty
-
+            
             se.insert()
             se.submit()
             update_me(self.name, se.name)
@@ -82,7 +81,7 @@ class FinishedGoodsTransferForm(Document):
 def update_me(me, se):
     try:
         frappe.db.sql(
-            "UPDATE `tabFinished Goods Transfer Form` SET stock_entry = '{0}' WHERE name = '{1}' AND".format(se, me))
+            "UPDATE `tabFinished Goods Transfer Form` SET stock_entry = '{0}' WHERE name = '{1}'".format(se, me))
     except Exception as e:
         return False
 
