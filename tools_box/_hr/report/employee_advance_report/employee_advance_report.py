@@ -27,7 +27,7 @@ def execute(filters=None):
     if filters.get("status") and filters.get('status') != "Retired":
         conditions += " AND d.status = '{status}'"
     else:
-        conditions += " AND d.claimed_amount = d.advance_amount or  AND d.refunded = d.advance_amount "
+        conditions += " AND d.claimed_amount = d.advance_amount OR d.refund_amount = d.advance_amount "
 
     data = frappe.db.sql("SELECT d.posting_date, d.employee, d.employee_name , d.advance_amount, d.paid_amount, "
                          "d.claimed_amount, d.refund_amount, (d.refund_amount + d.claimed_amount - d.paid_amount) FROM "
