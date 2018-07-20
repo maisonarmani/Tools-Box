@@ -24,32 +24,24 @@ class FinishedGoodsTransferForm(Document):
             update_production_order(self.production_order, "Completed")
 
         if self.workflow_state == "Received":
-            # get production details
-            production_order_doc = frappe.db.sql(
-                "SELECT name , fg_warehouse, wip_warehouse FROM `tabProduction Order` WHERE name = '%s'"
-                % (self.production_order,), as_dict=1)
+            nmrf = frappe.new_doc("Stock Entry")
+            nmrf.purpose = "Material Receipt"
+            nmrf.title = "Excess Material Receipt from {0}".format(self.production_order)
+            nmrf.from_warehouse = ""
 
-            se = frappe.new_doc("Stock Entry")
-            se.purpose = "Manufacture"
-            se.title = "Excess Manufacture from " + self.production_order
-            se.from_warehouse = production_order_doc[0].wip_warehouse
-            se.to_warehouse = production_order_doc[0].fg_warehouse
-            se.production_order = self.production_order
-            se.fg_completed_qty = 0
+            nmrf.production_order = self.production_order
 
             for index, value in enumerate(self.items):
                 # Get items default warehouse
                 cur_item = frappe.get_list(doctype="Item", filters={"name": value.item_code},
-                                           fields=['default_warehouse', 'standard_rate'])
+                                           fields=['default_warehouse'])
+
                 if index == 0:
-                    se.to_warehouse = cur_item[0].default_warehouse
-                    # se.manufactured_qty = value.qty
-                    # se.fg_completed_qty = value.qty
+                    nmrf.to_warehouse = cur_item[0].default_warehouse
 
-                if len(se.to_warehouse) <= 0:
-                    frappe.throw("Item {0} does not have default warehouse required for stock entry".format(
+                if nmrf.to_warehouse == "":
+                    frappe.throw("Item {0} does not have default warehouse required for material receipt".format(
                         value.item_code))
-
                 # using the latest cost center for item
                 last_cost_center = frappe.get_list(doctype="Stock Entry Detail",
                                                    filters={"item_code": value.item_code}, fields=['cost_center'],
@@ -61,30 +53,27 @@ class FinishedGoodsTransferForm(Document):
 
                 # set new item
                 item = dict(
-                    t_warehouse=production_order_doc[0].fg_warehouse,
+                    t_warehouse=cur_item[0].default_warehouse,
                     qty=value.qty,
                     item_code=value.item_code,
                     item_name=value.item_name,
                     uom=value.uom,
-                    cost_center=d_cost_center,
-                    basic_rate=cur_item[0].standard_rate,
-                    amount=cur_item[0].standard_rate * value.qty,
-                    valuation_rate=cur_item[0].standard_rate
+                    cost_center=d_cost_center
                 )
-                se.append('items', item)
-                se.fg_completed_qty += value.qty
+                nmrf.append('items', item)
 
-            se.insert()
-            se.submit()
-            update_me(self.name, se.name)
+            nmrf.insert()
+            nmrf.submit()
+            update_me(self.name, nmrf.name, self.production_order)
 
+def update_me(me, se, po):
+    frappe.db.sql(
+        "UPDATE `tabFinished Goods Transfer Form` SET stock_entry = '{0}' WHERE name = '{1}'".format(se, me))
 
-def update_me(me, se):
-    try:
-        frappe.db.sql(
-            "UPDATE `tabFinished Goods Transfer Form` SET stock_entry = '{0}' WHERE name = '{1}' AND".format(se, me))
-    except Exception as e:
-        return False
+    # stamp raw material form on production order
+    frappe.db.sql(
+        "UPDATE `tabProduction Order` SET has_excess = 1, excess_ref = '{0}' WHERE name = '{1}'"
+            .format(me, po))
 
 
 def update_production_order(name,status):

@@ -22,8 +22,9 @@ class PurchaseRequisition(Document):
 @frappe.whitelist()
 def make_purchase_order(docname):
     def check_purchase_order():
-        p = frappe.db.sql("""select name from `tabPurchase Order` where purchase_requisition='%s'""" % pr.name)
-        return p[0][0] if p else ""
+        return False
+        p = frappe.db.sql("""select count(name) from `tabPurchase Order` where purchase_requisition='%s'""" % pr.name)
+        return p[0][0] > 3 if p else ""
 
     pr = frappe.get_doc("Purchase Requisition", docname)
     po = check_purchase_order()

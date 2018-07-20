@@ -359,6 +359,12 @@ def get_extra_hr_reports():
         },
         {
             "type": "report",
+            "name": "Employee Advance Report",
+            "doctype": "Employee Advance",
+            "is_query_report": True,
+        },
+        {
+            "type": "report",
             "is_query_report": True,
             "name": "Employee Leave Balance",
             "doctype": "Leave Application"
@@ -430,6 +436,12 @@ def get_extra_waste_reports():
 
 def get_extra_production_reports():
     return __default_rep_items([
+        {
+            "type": "report",
+            "is_query_report": True,
+            "name": "Items Flow Report",
+            "doctype": "Stock Entry",
+        },
         {
             "type": "report",
             "name": "Finished Goods Transfer Report",
@@ -676,6 +688,12 @@ def get_extra_stock_reports():
         {
             "type": "report",
             "is_query_report": True,
+            "name": "Stock Ledger v2",
+            "doctype": "Stock Ledger Entry",
+        },
+        {
+            "type": "report",
+            "is_query_report": True,
             "name": "Stock Ledger Simplified",
             "doctype": "Stock Ledger Entry",
         },
@@ -713,6 +731,12 @@ def get_extra_stock_reports():
             "type": "report",
             "is_query_report": True,
             "name": "Stock Balance With Valuation",
+            "doctype": "Stock Entry",
+        },
+        {
+            "type": "report",
+            "is_query_report": True,
+            "name": "Items Flow Report",
             "doctype": "Stock Entry",
         },
         {

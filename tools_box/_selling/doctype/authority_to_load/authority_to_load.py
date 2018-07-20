@@ -15,7 +15,13 @@ class AuthoritytoLoad(Document):
             res = frappe.get_all('Sales Order', filters={"atl": 1, "name": self.sales_order})
             if res:
                 frappe.throw(_("Authority to load has previously been generated for this Sales order [{so}]".format(
-                    so=self.get_so_title())))
+                    so=self.name)))
+            res = frappe.get_all('Authority to Load', filters={"sales_order": self.sales_order})
+            if res and res[0].name != self.name:
+                frappe.throw(_("Authority to load [{atl}] has previously been generated for this Sales order [{so}]".format(
+                    so=self.name, atl=res[0].name)))
+
+
 
     def on_submit(self):
         if self.has_sales_order():

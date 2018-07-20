@@ -121,6 +121,9 @@ def make_purchase_order(source_name, target_doc=None):
     return target_doc
 
 
+
+
+
 @frappe.whitelist()
 def make_expense_claim(source_name, target_doc=None):
     def set_missing_values(source, target):
@@ -154,6 +157,27 @@ def make_expense_claim(source_name, target_doc=None):
             }
         }
 
+    }, target_doc, set_missing_values)
+
+    return target_doc
+
+@frappe.whitelist()
+def make_employee_advance(source_name, target_doc=None):
+    def set_missing_values(source, target):
+        target.run_method("set_missing_values")
+        # set missing values for the child table
+        target.purpose = "%s - %s" % (source.job_description, source.job_card_date)
+        target.advance_amount = source.job_card_total
+        target.ref_doctype = "Job Card"
+        target.reference_name = source.name
+
+    target_doc = get_mapped_doc("Job Card", source_name, {
+        "Job Card": {
+            "doctype": "Employee Advance",
+            "field_map": {
+                "job_card_date": "posting_date",
+            }
+        },
     }, target_doc, set_missing_values)
 
     return target_doc
