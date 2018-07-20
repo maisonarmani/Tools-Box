@@ -24,7 +24,7 @@ def execute(filters=None):
 
     # get all parents
     parents = frappe.db.sql(
-        "SELECT name, date, vehicle, type, daily_cost ,'None' ref_name, total_amount amount  from `tabVehicle Schedule` "
+        "SELECT name, date, vehicle, type, daily_cost ,'' ref_name, total_amount amount  from `tabVehicle Schedule` "
         "where {0}".format(conditions.format(**filters)), as_dict=1)
     data = []
     for index, parent in enumerate(parents):
@@ -34,23 +34,25 @@ def execute(filters=None):
 
         if filters.get('type') != "Operations":
             children = frappe.db.sql(
-                "SELECT ref_name , amount from `tabVehicle Schedule {2} Item` where {0} and parent = '{1}' "
+                "SELECT name, ref_name , amount from `tabVehicle Schedule {2} Item` where {0} and parent = '{1}' "
                     .format(cconditions.format(**filters), parent.name, filters.get('type')), as_dict=1)
 
             for child in children:
-                frappe.errprint(child)
                 data.append(
-                    dict(name=child.get('ref_name'), date=parent.date, vehicle=parent.vehicle,
-                         type=parent.get('type'), daily_cost=parent.get('daily_cost'),
-                         ref_name=child.get('ref_name'), indent=1, amount=child.get('amount'),
-                         ratio=(parent.get('daily_cost') / child.get('amount')) * 100,
+                    dict(name=child.get('name'), date="", vehicle="",
+                         type="", daily_cost="",ref_name=child.get('ref_name'),
+                         indent=1, amount=child.get('amount'),ratio=0,
                          parent=parent.get('name'), has_value=True)
                 )
 
-    return get_columns(), data
+    doc = "Delivery Note"
+    if filters.get('type') == "Inbound":
+        doc = "Purchase Order"
+
+    return get_columns(doc), data
 
 
-def get_columns():
+def get_columns(doc):
     return [{
         "fieldname": "name",
         "label": _("ID"),
@@ -83,9 +85,9 @@ def get_columns():
         "width": 120
     }, {
         "fieldname": "ref_name",
-        "label": _("Reference Name"),
+        "label": _(doc),
         "fieldtype": "Link",
-        "options": "Delivery Note",
+        "options": doc,
         "width": 120
     }, {
         "fieldname": "amount",

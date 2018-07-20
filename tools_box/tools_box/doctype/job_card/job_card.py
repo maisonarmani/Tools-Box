@@ -49,16 +49,17 @@ def get_job_card_approver(doctype, txt, searchfield, start, page_len, filters):
 
 
 @frappe.whitelist()
-def get_requested_by(ticket_number):
-    ticket = frappe.get_doc("Helpdesk Ticket", ticket_number)
+def get_requested_by(ticket_type, ticket_number):
+
+    ticket = frappe.get_doc(ticket_type, ticket_number)
     employee = frappe.get_doc("Employee", ticket.raised_by)
 
     return employee.name
 
 
 @frappe.whitelist()
-def get_employee_name(ticket_number):
-    ticket = frappe.get_doc("Helpdesk Ticket", ticket_number)
+def get_employee_name(ticket_type, ticket_number):
+    ticket = frappe.get_doc(ticket_type, ticket_number)
     employee = frappe.get_doc("Employee", ticket.raised_by)
 
     return employee.employee_name

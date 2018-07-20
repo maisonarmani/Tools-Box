@@ -10,9 +10,6 @@ from tools_box._stock.doctype.finished_goods_transfer_form.finished_goods_transf
 
 class RawMaterialsReturnForm(Document):
     def validate(self):
-        if self.completed_po and self._validate_fields():
-            frappe.throw("Raw materials return form already created for " + self.production_order)
-
         if self.is_new():
             self.returned_by = _get_employee_fullname(frappe.session.data.user)
 
@@ -23,11 +20,16 @@ class RawMaterialsReturnForm(Document):
         return len(d) > 0
 
     def on_change(self):
+        if self.workflow_state == "Completed":
+            update_production_order(self.production_order, "Completed")
+
+
         if self.workflow_state == "Received":
             nmrf = frappe.new_doc("Stock Entry")
             nmrf.purpose = "Material Receipt"
             nmrf.title = "Material Receipt"
             nmrf.from_warehouse = ""
+
             nmrf.production_order = self.production_order
 
             for index, value in enumerate(self.items):
@@ -63,7 +65,33 @@ class RawMaterialsReturnForm(Document):
 
             nmrf.insert()
             nmrf.submit()
+            update_me(self.name, nmrf.name, self.production_order)
 
+
+def update_me(me, se, po):
+    try:
+        frappe.db.sql(
+            "UPDATE `tabRaw Materials Return Form` SET stock_entry = '{0}' WHERE name = '{1}'".format(se, me))
+
+        # stamp raw material form on production order
+        frappe.db.sql(
+            "UPDATE `tabProduction Order` SET has_raw_returned = 1, raw_material_return = '{0}' WHERE name = '{1}'"
+                .format(me, po))
+
+    except Exception as e:
+        return False
+
+
+def update_production_order(name,status):
+    _ = frappe.db.sql("SELECT qty, produced_qty FROM `tabProduction Order` WHERE name = '%s' AND status != 'Stopped' "
+                      % name)
+    if len(_) and (_[0].qty < _[0].produced_qty):
+        frappe.errprint("Production Manufactured Quantity is less than expected quantity, "
+                        "Sorry you have to continue the production or manually stop it.")
+
+    else:
+        frappe.db.sql("UPDATE `tabProduction Order` SET status = '%s', docstatus =1 WHERE name = '%s' AND status != 'Stopped'"
+              % (status, name))
 
 @frappe.whitelist(False)
 def get_production_items(production_order=None):

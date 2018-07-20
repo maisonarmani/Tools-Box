@@ -8,10 +8,10 @@ import frappe
 def check_clean(document, trigger):
     return True
     _ = frappe.db.sql("""select name from `tabProduction Order` where production_item = '{item}' 
-                      and status not in ("Completed", "Resolved","Cancelled") and name != '{name}' """
+                      and status not in ("Completed", "Resolved","Cancelled","Stopped") and docstatus = 1 and name != '{name}' """
                       .format(item=document.production_item, name=document.name), as_list=1)
     if len(_):
-        frappe.throw("""Sorry, New production order for {1} cannot be created, since we have a different production order {0} that
+        frappe.throw("""Sorry, new production order for {1} cannot be created, since we have a different production order {0} that
                      has not been completed or resolved""".format(_[0][0], document.production_item))
 
 

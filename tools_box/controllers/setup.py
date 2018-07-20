@@ -199,6 +199,30 @@ def get_maintenance_section():
     return __default_item([
         {
             "type": "doctype",
+            "label": _("Equipment Support"),
+            "name": "Equipment Support",
+            "icon": "icon-sitemap",
+            "link": "List/Equipment Support",
+            "description": _("Equipment Support"),
+        },
+        {
+            "type": "doctype",
+            "label": _("Work Order"),
+            "name": "Work Order",
+            "icon": "icon-sitemap",
+            "link": "List/Work Order",
+            "description": _("Work Order"),
+        },
+        {
+            "type": "doctype",
+            "label": _("Job Card"),
+            "name": "Job Card",
+            "icon": "icon-sitemap",
+            "link": "List/Job Card",
+            "description": _("Job Card"),
+        },
+        {
+            "type": "doctype",
             "label": _("Equipment Maintenance Log"),
             "name": "Equipment Maintenance Log",
             "icon": "icon-sitemap",
@@ -237,7 +261,7 @@ def get_maintenance_section():
             "link": "List/Daily Generator Activity Log",
             "description": _("Daily Generator Activity Log"),
         }
-    ], label = "Maintenance")
+    ], label = "Extras")
 
 
 def get_purchasing_section():
@@ -250,7 +274,7 @@ def get_purchasing_section():
             "link": "List/Purchase Requisition",
             "description": _("Purchase Requisition"),
         }
-    ], label="Additionals")
+    ], label = "Additionals")
 
 
 def get_hr_section():
@@ -463,6 +487,12 @@ def get_extra_maintenance_reports():
             "name": "Equipment Maintenance Log Report",
             "doctype": "Equipment Maintenance Log Report",
             "is_query_report": True,
+        },
+        {
+            "type": "report",
+            "name": "Work Order Completion Report",
+            "doctype": "Work Order Completion Report",
+            "is_query_report": True,
         }
     ])
 
@@ -666,6 +696,18 @@ def get_extra_stock_reports():
             "is_query_report": True,
             "name": "Material Receipt List Report",
             "doctype": "Purchase Receipt",
+        },
+        {
+            "type": "report",
+            "is_query_report": True,
+            "name": "Stock Valuation Report",
+            "doctype": "Stock Ledger Entry",
+        },
+        {
+            "type": "report",
+            "is_query_report": True,
+            "name": "Failed Repack Report",
+            "doctype": "Stock Entry",
         },
         {
             "type": "report",
