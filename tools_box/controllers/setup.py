@@ -256,6 +256,13 @@ def get_purchasing_section():
 def get_hr_section():
     return __default_item([{
         "type": "doctype",
+        "label": _("Requisition"),
+        "name": "Requisition",
+        "icon": "icon-sitemap",
+        "link": "List/Requisition",
+        "description": _("Requisition"),
+    },{
+        "type": "doctype",
         "label": _("Staff Requisition Form"),
         "name": "Staff Requisition Form",
         "icon": "icon-sitemap",
