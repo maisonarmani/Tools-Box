@@ -79,9 +79,6 @@ standard_portal_menu_items = [
 
 doc_events = {
     "Purchase Order": {
-        "before_save": [
-            "tools_box.controllers.sentinel.validate_required"
-        ],
         "on_change": [
             "tools_box.logistics.doctype.vehicle_schedule.vehicle_schedule.update_status"
         ]
@@ -105,9 +102,6 @@ scheduler_events = {
     "hourly": [
         "erpnext.stock.reorder_item.reorder_item"
     ],
-    "daily":[
-        "tools_box.controllers.api.confirmation_notification"
-    ]
 }
 
 # Testing

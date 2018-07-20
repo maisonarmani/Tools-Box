@@ -31,11 +31,5 @@ frappe.query_reports["Sales By Product Report Adjusted"] = {
             fieldtype: "Link",
             options: "Territory",
         },
-        {
-            fieldname: "brand",
-            label: __("Brand"),
-            fieldtype: "Link",
-            options: "Brand",
-        },
     ]
 }
