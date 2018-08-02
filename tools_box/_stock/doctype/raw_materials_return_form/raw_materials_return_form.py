@@ -25,10 +25,12 @@ class RawMaterialsReturnForm(Document):
 
 
         if self.workflow_state == "Received":
+            # do a transfer instead
+            # get the wip warehouse from the production order
             nmrf = frappe.new_doc("Stock Entry")
-            nmrf.purpose = "Material Receipt"
-            nmrf.title = "Material Receipt"
-            nmrf.from_warehouse = ""
+            nmrf.purpose = "Material Transfer"
+            nmrf.title = "Raw Material Return from ".format(self.production_order)
+            nmrf.from_warehouse = get_wip(self.production_order)
 
             nmrf.production_order = self.production_order
 
@@ -41,7 +43,7 @@ class RawMaterialsReturnForm(Document):
                     nmrf.to_warehouse = cur_item[0].default_warehouse
 
                 if nmrf.to_warehouse == "":
-                    frappe.throw("Item {0} does not have default warehouse required for material receipt".format(
+                    frappe.throw("Item {0} does not have default warehouse required for material transsfer".format(
                         value.item_code))
                 # using the latest cost center for item
                 last_cost_center = frappe.get_list(doctype="Stock Entry Detail",
@@ -80,6 +82,15 @@ def update_me(me, se, po):
 
     except Exception as e:
         return False
+
+
+def get_wip(name):
+    _ = frappe.db.sql("SELECT wip_warehouse FROM `tabProduction Order` WHERE name = '%s'"
+                      % name)
+    if len(_):
+        return _[0].wip_warehouse
+
+    return  ""
 
 
 def update_production_order(name,status):

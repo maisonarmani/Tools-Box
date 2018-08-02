@@ -676,6 +676,12 @@ def get_extra_stock_reports():
         {
             "type": "report",
             "is_query_report": True,
+            "name": "Stock Ledger v2",
+            "doctype": "Stock Ledger Entry",
+        },
+        {
+            "type": "report",
+            "is_query_report": True,
             "name": "Stock Ledger Simplified",
             "doctype": "Stock Ledger Entry",
         },

@@ -60,7 +60,11 @@ app_license = "MIT"
 # Permissions evaluated in scripted ways
 
 permission_query_conditions = {
-    # 	"File": "tools_box._selling.doctype.client.client.get_permission_query_conditions_for_file",
+    "Sales Invoice" : "tools_box.tools_box.doctype.administrative_zone_setup.administrative_zone_setup.get_permission_query_conditions_for_sales_invoice",
+    "Sales Order" : "tools_box.tools_box.doctype.administrative_zone_setup.administrative_zone_setup.get_permission_query_conditions_for_sales_order",
+    "Delivery Note" : "tools_box.tools_box.doctype.administrative_zone_setup.administrative_zone_setup.get_permission_query_conditions_for_del_note",
+    "Authority to Load" : "tools_box.tools_box.doctype.administrative_zone_setup.administrative_zone_setup.get_permission_query_conditions_for_atl",
+    "Customer" : "tools_box.tools_box.doctype.administrative_zone_setup.administrative_zone_setup.get_permission_query_conditions_for_customer",
 }
 
 standard_portal_menu_items = [
@@ -79,9 +83,7 @@ standard_portal_menu_items = [
 
 doc_events = {
     "Purchase Order": {
-        "before_save": [
-            "tools_box.controllers.sentinel.validate_required"
-        ],
+   
         "on_change": [
             "tools_box.logistics.doctype.vehicle_schedule.vehicle_schedule.update_status"
         ]
