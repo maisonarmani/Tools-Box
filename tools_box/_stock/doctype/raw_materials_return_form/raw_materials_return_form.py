@@ -85,8 +85,7 @@ def update_me(me, se, po):
 
 
 def get_wip(name):
-    _ = frappe.db.sql("SELECT wip_warehouse FROM `tabProduction Order` WHERE name = '%s'"
-                      % name)
+    _ = frappe.db.sql("SELECT wip_warehouse FROM `tabProduction Order` WHERE name = '%s'" % name , as_dict=1)
     if len(_):
         return _[0].wip_warehouse
 
@@ -95,7 +94,7 @@ def get_wip(name):
 
 def update_production_order(name,status):
     _ = frappe.db.sql("SELECT qty, produced_qty FROM `tabProduction Order` WHERE name = '%s' AND status != 'Stopped' "
-                      % name)
+                      % name, as_dict=1)
     if len(_) and (_[0].qty < _[0].produced_qty):
         frappe.errprint("Production Manufactured Quantity is less than expected quantity, "
                         "Sorry you have to continue the production or manually stop it.")
@@ -117,5 +116,4 @@ def get_production_items(production_order=None):
             stock_entry_details = frappe.get_list(doctype="Stock Entry Detail", filters={
                 "parent": stock_entry[0].get('name')
             }, fields=['item_code', 'item_name', 'qty', 'uom'])
-            return stock_entry_details
-    return []
+            r

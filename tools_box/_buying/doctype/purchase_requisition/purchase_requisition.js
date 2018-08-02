@@ -63,7 +63,7 @@ frappe.ui.form.on('Purchase Requisition', {
 
     },
     requested_by: function (frm) {
-        if (frm.doc.requested_by != "") {
+        if (frm.doc.requested_by && frm.doc.requested_by != "") {
             frappe.call({
                 method: "tools_box.controllers.api.get_approver_authorizer",
                 args: {
@@ -72,7 +72,7 @@ frappe.ui.form.on('Purchase Requisition', {
                 callback: function approver(ret) {
                     if (ret.message != undefined) {
                         // Reset value for vehicle and throw exception
-                        if (ret.message[0].authorizer){
+                        if (ret.message[0].authorizer && !ret.message[0].approver){
                             frappe.model.set_value(cur_frm.doctype, cur_frm.docname, "approved_by", ret.message[0].authorizer);
                             frappe.model.set_value(cur_frm.doctype, cur_frm.docname, "approved_by_name", ret.message[0].authorizer_name);
                             frappe.model.set_value(cur_frm.doctype, cur_frm.docname, "approver_id", ret.message[0].authorizer_user_id);

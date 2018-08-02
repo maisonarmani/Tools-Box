@@ -67,11 +67,6 @@ def get_data(ps, pe, territory=None, customer=None, status="Pending", inc_itm_qt
         sel += ", ch.item_code, ch.item_name,ch.qty "
         join += " INNER JOIN`tabSales Order Item` ch ON(so.name=ch.parent)"
 
-    frappe.errprint(
-        "SELECT so.name,so.customer %s ,so.transaction_date, DATE_ADD(atl.transaction_date,INTERVAL 2 DAY), so.territory  from "
-        "`tabSales Order` so %s INNER JOIN `tabAuthority to Load` atl WHERE  so.docstatus = 1 AND DATE_ADD(so.transaction_date,INTERVAL 2 DAY) "
-        "BETWEEN DATE('%s') AND DATE('%s')  %s ORDER BY so.territory " % (sel, join, ps, pe, conds)
-    )
 
     return frappe.db.sql(
         "SELECT so.name,so.customer %s ,so.transaction_date, DATE_ADD(atl.transaction_date,INTERVAL 2 DAY), so.territory  from "

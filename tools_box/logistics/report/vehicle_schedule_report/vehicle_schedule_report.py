@@ -21,27 +21,26 @@ def execute(filters=None):
     if filters.get('ref_name'):
         cconditions += " and ref_name = '{ref_name}'"
 
-
     # get all parents
     parents = frappe.db.sql(
-        "SELECT name, date, vehicle, type, daily_cost ,'' ref_name, total_amount amount  from `tabVehicle Schedule` "
+        "SELECT name, '' customer, date,vehicle, type, daily_cost ,'' ref_name, total_amount amount  from `tabVehicle Schedule` "
         "where {0}".format(conditions.format(**filters)), as_dict=1)
     data = []
     for index, parent in enumerate(parents):
-        rat =(parent.daily_cost / parent.amount) * 100
-        parent.update({"parent": None, "indent": 0, "has_value": True, "ratio" : rat })
+        rat = (parent.daily_cost / parent.amount) * 100
+        parent.update({"parent": None, "indent": 0, "has_value": True, "ratio": rat})
         data.append(parent)
 
         if filters.get('type') != "Operations":
             children = frappe.db.sql(
-                "SELECT name, ref_name , amount from `tabVehicle Schedule {2} Item` where {0} and parent = '{1}' "
+                "SELECT name, ref_name , party, amount from `tabVehicle Schedule {2} Item` where {0} and parent = '{1}' "
                     .format(cconditions.format(**filters), parent.name, filters.get('type')), as_dict=1)
 
             for child in children:
                 data.append(
-                    dict(name=child.get('name'), date="", vehicle="",
-                         type="", daily_cost="",ref_name=child.get('ref_name'),
-                         indent=1, amount=child.get('amount'),ratio=0,
+                    dict(name="", customer=child.get('party'), date="", vehicle="",
+                         type="", daily_cost="", ref_name=child.get('ref_name'),
+                         indent=1, amount=child.get('amount'), ratio=0,
                          parent=parent.get('name'), has_value=True)
                 )
 
@@ -60,10 +59,14 @@ def get_columns(doc):
         "options": "Vehicle Schedule",
         "width": 160
     }, {
+        "fieldname": "customer",
+        "label": _("Customer"),
+        "fieldtype": "data",
+        "width": 160
+    }, {
         "fieldname": "date",
         "label": _("Date"),
         "fieldtype": "Date",
-        "options": "date",
         "width": 120
     }, {
         "fieldname": "vehicle",
@@ -95,7 +98,7 @@ def get_columns(doc):
         "fieldtype": "Currency",
         "options": "currency",
         "width": 140
-    },{
+    }, {
         "fieldname": "ratio",
         "label": _("Ratio"),
         "fieldtype": "Float",

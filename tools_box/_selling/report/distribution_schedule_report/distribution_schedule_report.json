@@ -1,14 +1,14 @@
 {
  "add_total_row": 1, 
- "apply_user_permissions": 1, 
- "creation": "2018-07-26 09:39:46.081837", 
+ "apply_user_permissions": 1,
+ "creation": "2018-07-26 09:39:46.081837",
  "disabled": 0, 
  "docstatus": 0, 
  "doctype": "Report", 
  "idx": 0, 
  "is_standard": "Yes", 
- "letter_head": "Standard Letterhead", 
- "modified": "2018-07-26 09:40:23.360442", 
+ "letter_head": "Standard Letterhead",
+ "modified": "2018-07-25 13:55:46.974172",
  "modified_by": "Administrator", 
  "module": "_Selling", 
  "name": "Distribution Schedule Report", 
@@ -19,6 +19,9 @@
  "roles": [
   {
    "role": "Sales User"
+  },
+  {
+   "role": "Logistics User"
   }
  ]
 }

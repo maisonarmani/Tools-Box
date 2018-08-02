@@ -12,9 +12,8 @@ def execute(filters=None):
     # get all customers and last invoice date
     if filters.get('to') and filters.get('from'):
         customers = frappe.db.sql(
-            "SELECT DISTINCT c.name,  c.customer_name, c.customer_group, i.posting_date lpd, i.name invoice FROM `tabCustomer` AS c "
-            "INNER JOIN `tabSales Invoice` AS i ON(c.name=i.customer)  GROUP BY c.name ORDER BY  i.posting_date DESC" ,
-            as_dict=1)
+            "SELECT DISTINCT customer, name invoice ,territory, posting_date lpd FROM `tabSales Invoice` "
+            "WHERE docstatus = 1 ORDER BY posting_date DESC ", as_dict=1)
 
         columns, data = get_cols(), []
 
@@ -24,10 +23,15 @@ def execute(filters=None):
         class_diff = diff / 5.0
 
         ranges = []
+        _customers = []
         for n in range(1, 6):
             ranges.append(class_diff * n)
 
         for cust in customers:
+            if cust.customer not in _customers:
+                _customers.append(cust.customer)
+            else:
+                continue
             lpd = datetime.strptime(str(cust.get('lpd')), '%Y-%m-%d')
             cust_diff = (lpd - _from).days
             if cust_diff <= ranges[0]:
@@ -50,26 +54,27 @@ def execute(filters=None):
                 cust.update({"rank": 5})
                 data.append(cust)
 
+        del _customers
         return columns, data
 
 
 def get_cols():
     return [{
-        "fieldname": "name",
-        "label": _("Customer"),
+        "fieldname": "invoice",
+        "label": _("Reference Document"),
         "fieldtype": "Link",
-        "options": "Customer",
-        "width": 160
+        "options": "Sales Invoice",
+        "width": 150
     }, {
-        "fieldname": "customer_name",
+        "fieldname": "customer",
         "label": _("Customer Name"),
         "fieldtype": "Data",
-        "width": 120
+        "width": 160
     }, {
-        "fieldname": "customer_group",
-        "label": _("Customer Group"),
+        "fieldname": "territory",
+        "label": _("Territory"),
         "fieldtype": "Link",
-        "options": "Customer Group",
+        "options": "Territory",
         "width": 120
     }, {
         "fieldname": "lpd",
@@ -77,14 +82,8 @@ def get_cols():
         "fieldtype": "Date",
         "width": 120
     }, {
-        "fieldname": "invoice",
-        "label": _("Reference Document"),
-        "fieldtype": "Link",
-        "options": "Sales Invoice",
-        "width": 150
-    }, {
         "fieldname": "rank",
         "label": "Rank",
         "fieldtype": "Int",
         "width": 40
-    }, ]
+    }]

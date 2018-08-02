@@ -5,6 +5,7 @@ from __future__ import unicode_literals
 import frappe
 from frappe import _
 
+
 import datetime
 from frappe import sendmail
 
@@ -23,10 +24,10 @@ def _get(text=None, start=0, page_len=5):
 @frappe.whitelist()
 def get_directors(doctype, txt, searchfield, start, page_len, filters):
     return frappe.db.sql("""
-		select u.name, concat(u.first_name, ' ', u.last_name)
-		from tabUser u, `tabHas Role` r
-		where u.name = r.parent and r.role = 'Directors' 
-		and u.enabled = 1 and u.name like %s
+		SELECT u.name, concat(u.first_name, ' ', u.last_name)
+		FROM tabUser u, `tabHas Role` r
+		WHERE u.name = r.parent AND r.role = 'Directors' 
+		AND u.enabled = 1 AND u.name LIKE %s
 	""", ("%" + txt + "%"))
 
 
@@ -50,7 +51,6 @@ def get_approver_authorizer(emp):
 
     if not authorizer:
         authorizer = ["", "", ""]
-
     if not approver:
         approver = ["", "", ""]
 
@@ -64,33 +64,19 @@ def get_approver_authorizer(emp):
     }]
 
 
-def confirmation_notification():
-    # get the list of employees that should be confirmed today
-    # make sure it has not be confirmed
-    # send bulk alert to all hr members
-    confirmees = frappe.get_list(doctype='Employee', filters=dict(final_confirmation_date=datetime.date.today()),
-                                 fields=['employee_name', 'final_confirmation_date', 'date_of_joining'])
-
-    message = "<div><ul style='list-style=none; margin:0; padding:0'>"
-    for confirmee in confirmees:
-        message += "<li style=><b>{employee_name}</b> employed on {date_of_joining} is due for confirmation today " \
-                   "({final_confirmation_date}) </li>".format(**confirmee)
-
-    message += "</ul><h3>Please attend to this ASAP.</h3></div>"
-
-    if confirmees:
-        # get all HR Users
-        hr_users = frappe.db.sql("""select u.name from tabUser u, `tabHas Role` r where u.name = r.parent and 
-              r.role = 'HR Staff'and u.enabled = 1""", as_list=1)
-        hr_users = [x[0] for x in hr_users]
-
-        # hr_users = ["sylvester.amanyi@graceco.com.ng", "dami.olawale@graceco.com.ng","laolu.egunjobi@graceco.com.ng"]
-        sendmail(recipients=hr_users, sender="erp@graceco.com.ng", subject=_("Employee Confirmation Notification"),
-                 message=message, reply_to="erp@graceco.com.ng")
-
-
 @frappe.whitelist()
-def resolve_production_order(doctype, docname):
+def resolve_production_order(docname):
     # update without checking permissions
-    frappe.db.sql("update `tab%s` set status = 'Resolved', skip_transfer=1 where name = '%s'" % (doctype, docname))
+    """ Called from client side on Stop/Unstop event"""
+    status = 'Resolved'
+    if not frappe.has_permission("Production Order", "write"):
+        frappe.throw(_("Not permitted"), frappe.PermissionError)
+
+    #pro_order = frappe.get_doc("Production Order", docname)
+    #pro_order.update_status(status)
+    #pro_order.update_planned_qty()
+    #pro_order.notify_update()
+    frappe.db.sql("update `tabProduction Order` set status = 'Resolved', modified='%s',modified_by='%s' , skip_transfer=1"
+                  " where name = '%s'" % (datetime.datetime.now(), frappe.session.user,docname))
+    frappe.msgprint(_("Production Order has been {0}").format(status))
     return True

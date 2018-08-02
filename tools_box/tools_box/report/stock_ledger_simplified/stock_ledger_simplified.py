@@ -19,8 +19,11 @@ def execute(filters=None):
 
 	for sle in sl_entries:
 		item_detail = item_details[sle.item_code]
-
-		data.append([sle.date, 
+		sku = ""
+		if sle.voucher_type == "Stock Entry":
+			sku = get_sku(sle.voucher_no)
+		frappe.errprint(sku)
+		data.append([sle.date,
 			sle.item_code, 
 			item_detail.item_name, 
 			item_detail.item_group,
@@ -30,7 +33,7 @@ def execute(filters=None):
 			flt(sle.actual_qty,2), 
 			flt(sle.qty_after_transaction,2),
 			sle.voucher_type, 
-			sle.voucher_no])
+			sle.voucher_no, sku])
 			
 	return columns, data
 
@@ -45,14 +48,24 @@ def get_columns():
 		_("Qty") + ":Float:50", 
 		_("Balance Qty") + ":Float:100",
 		_("Voucher Type") + "::110", 
-		_("Voucher #") + ":Dynamic Link/"+_("Voucher Type")+":100"
+		_("Voucher #") + ":Dynamic Link/"+_("Voucher Type")+":100",
+		_("SKU") + ":Link/Item"+":100"
 	]
+
+def get_sku(voucher):
+	stock_entry = frappe.db.sql("""SELECT bom_no FROM `tabStock Entry`  WHERE name = '%s' """ % voucher  , as_dict=1)
+	if stock_entry and stock_entry[0].get('bom_no') != "None" and stock_entry[0].get('bom_no') != None:
+		return str(stock_entry[0].bom_no).split("-")[1]
+	else: return ""
+
+
+
 
 def get_stock_ledger_entries(filters):
 	return frappe.db.sql("""select concat_ws(" ", posting_date, posting_time) as date,
 			item_code, warehouse, actual_qty, qty_after_transaction, incoming_rate, valuation_rate,
 			stock_value, voucher_type, voucher_no
-		from `tabStock Ledger Entry` sle
+		from `tabStock Ledger Entry` sle   
 		where 
 			posting_date between %(from_date)s and %(to_date)s
 			{sle_conditions}

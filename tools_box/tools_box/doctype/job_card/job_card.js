@@ -56,6 +56,12 @@ frappe.ui.form.on('Job Card', {
                     frm: cur_frm
                 });
             });
+            cur_frm.add_custom_button('Make Employee Advance', function () {
+                frappe.model.open_mapped_doc({
+                    method: "tools_box.tools_box.doctype.job_card.job_card.make_employee_advance",
+                    frm: cur_frm
+                });
+            });
         }
 
         if (!frappe.user.has_role(['Helpdesk Admin'])) {
@@ -121,8 +127,18 @@ frappe.ui.form.on('Job Card', {
 frappe.ui.form.on('Job Card Material Detail', {
     no_of_units: function (frm, cdt, cdn) {
         frappe.model.set_value(cdt, cdn, "total", frappe.model.get_value(cdt, cdn, "no_of_units") * frappe.model.get_value(cdt, cdn, "unit_cost"));
+        recalculate_total(frm.doctype,frm.docname)
     },
     unit_cost: function (frm, cdt, cdn) {
         frappe.model.set_value(cdt, cdn, "total", frappe.model.get_value(cdt, cdn, "no_of_units") * frappe.model.get_value(cdt, cdn, "unit_cost"));
+        recalculate_total(frm.doctype,frm.docname)
+
     }
 });
+
+function recalculate_total(cdt,cdn){
+        var _total = 0;
+        cur_frm.doc.job_card_material_detail.forEach(function(v){ _total += v.total; });
+        frappe.model.set_value(cdt, cdn, "job_card_total", frappe.model.get_value(cdt, cdn, "job_card_total") +  _total);
+        frappe.model.set_value(cdt, cdn, "balance_due_upon_job_completion", frappe.model.get_value(cdt, cdn, "job_card_total") - frappe.model.get_value(cdt, cdn, "job_advance"));
+}

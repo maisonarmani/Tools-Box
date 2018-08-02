@@ -33,3 +33,16 @@ def create_new_folder(file_name, folder=None):
     file.is_folder = 1
     file.folder = folder
     file.insert()
+
+
+
+def update_shared():
+    import frappe.share
+    # every user must have access to his / her own detail
+    employees = frappe.get_all("Employee", filters={"status": "Active"})
+    emps = [emp.name for emp in employees]
+    users = [emp.user_id for emp in employees]
+
+    for index, user in enumerate(users):
+        frappe.share.add("Employee", emps[index], user, read=1, share=1)
+
