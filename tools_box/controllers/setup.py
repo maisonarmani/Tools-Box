@@ -592,6 +592,12 @@ def get_extra_selling_reports():
         {
             "type": "report",
             "is_query_report": True,
+            "name": "Distribution Schedule Report",
+            "doctype": "Sales Order"
+        },
+        {
+            "type": "report",
+            "is_query_report": True,
             "name": "Sales By Product Report",
             "doctype": "Sales Invoice"
         },
