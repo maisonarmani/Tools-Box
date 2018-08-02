@@ -1,0 +1,53 @@
+
+{%
+	if (report.columns.length > 10) {
+		frappe.throw(__("Too many columns. Export the report and print it using a spreadsheet application."));
+	}
+%}
+
+<style>
+</style>
+
+<h1>{%= __(report.report_name) %}</h1>
+{% if (filters.from) { %}
+<p><b>From Date:</b> {%= filters.from %}</p>
+{% } %}
+{% if (filters.to) { %}
+<p><b>To Date:</b> {%= filters.to %}</p>
+{% } %}
+{% } %}
+{% if (filters.customer) { %}
+<p><b>Customer:</b> {%= filters.customer %}</p>
+{% } %}
+{% if (filters.territory) { %}
+<p><b>Territory:</b> {%= filters.territory %}</p>
+{% } %}
+<hr>
+<table class="table">
+	<thead>
+		<tr>
+			{%
+			for(var i=1, l=report.columns.length; i < l; i++) { %}
+				<th class="text-left">{%= report.columns[i].label %}</th>
+			{% } %}
+		</tr>
+	</thead>
+	<tbody>
+		{% for(var j=0, k=data.length; j<k; j++) { %}
+			{% var row = data[j]; %}
+			<tr >
+				{% for(var i=1, l=report.columns.length; i<l; i++) { %}
+					<td class="text-left">
+						{% var fieldname = report.columns[i].field; %}
+                        {% if (fieldname == "Total"){ %}
+                        {%= format_currency(row[fieldname])  %}
+                        {%} else{ %}
+                        {%= row[fieldname] %}
+                        {% } %}
+					</td>
+				{% } %}
+			</tr>
+		{% } %}
+	</tbody>
+</table>
+<p class="text-right text-muted">Printed On {%= dateutil.str_to_user(dateutil.get_datetime_as_string()) %}</p>

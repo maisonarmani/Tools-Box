@@ -116,5 +116,4 @@ def get_production_items(production_order=None):
             stock_entry_details = frappe.get_list(doctype="Stock Entry Detail", filters={
                 "parent": stock_entry[0].get('name')
             }, fields=['item_code', 'item_name', 'qty', 'uom'])
-            return stock_entry_details
-    return []
+            r

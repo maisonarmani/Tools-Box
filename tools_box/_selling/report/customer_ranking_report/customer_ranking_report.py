@@ -11,8 +11,9 @@ from frappe import _
 def execute(filters=None):
     # get all customers and last invoice date
     if filters.get('to') and filters.get('from'):
-        customers = frappe.db.sql("SELECT DISTINCT customer, name invoice , territory, posting_date lpd FROM `tabSales Invoice` "
-                                  "WHERE docstatus = 1 ORDER BY posting_date DESC ", as_dict=1)
+        customers = frappe.db.sql(
+            "SELECT DISTINCT customer, name invoice ,territory, posting_date lpd FROM `tabSales Invoice` "
+            "WHERE docstatus = 1 ORDER BY posting_date DESC ", as_dict=1)
 
         columns, data = get_cols(), []
 
@@ -25,7 +26,6 @@ def execute(filters=None):
         _customers = []
         for n in range(1, 6):
             ranges.append(class_diff * n)
-
 
         for cust in customers:
             if cust.customer not in _customers:

@@ -60,7 +60,11 @@ app_license = "MIT"
 # Permissions evaluated in scripted ways
 
 permission_query_conditions = {
-    # 	"File": "tools_box._selling.doctype.client.client.get_permission_query_conditions_for_file",
+    "Sales Invoice" : "tools_box.tools_box.doctype.administrative_zone_setup.administrative_zone_setup.get_permission_query_conditions_for_sales_invoice",
+    "Sales Order" : "tools_box.tools_box.doctype.administrative_zone_setup.administrative_zone_setup.get_permission_query_conditions_for_sales_order",
+    "Delivery Note" : "tools_box.tools_box.doctype.administrative_zone_setup.administrative_zone_setup.get_permission_query_conditions_for_del_note",
+    "Authority to Load" : "tools_box.tools_box.doctype.administrative_zone_setup.administrative_zone_setup.get_permission_query_conditions_for_atl",
+    "Customer" : "tools_box.tools_box.doctype.administrative_zone_setup.administrative_zone_setup.get_permission_query_conditions_for_customer",
 }
 
 standard_portal_menu_items = [
@@ -78,21 +82,7 @@ standard_portal_menu_items = [
 # Hook on document methods and events
 
 doc_events = {
-    "Purchase Order": {
-        "on_change": [
-            "tools_box.logistics.doctype.vehicle_schedule.vehicle_schedule.update_status"
-        ]
-    },
-    "Production Order": {
-        "before_insert": [
-            "tools_box.controllers.sentinel.check_clean"
-        ]
-    },
-    ("Finished Goods Transfer Form", "Raw Materials Return Form"): {
-        "on_change": [
-            "tools_box._stock.doctype.finished_goods_transfer_form.finished_goods_transfer_form.update_receivers"
-        ]
-    }
+
 }
 
 # Scheduled Tasks

@@ -29,6 +29,7 @@ def execute(filters=None):
     else:
         conditions += " AND d.claimed_amount = d.advance_amount or  AND d.refunded = d.advance_amount "
 
+
     data = frappe.db.sql("SELECT d.posting_date, d.employee, d.employee_name , d.advance_amount, d.paid_amount, "
                          "d.claimed_amount, d.refund_amount, (d.refund_amount + d.claimed_amount - d.paid_amount) FROM "
                          "`tabEmployee Advance` d WHERE {0} ".format(conditions.format(**filters)), as_list=1)
